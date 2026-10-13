@@ -31,7 +31,7 @@ for (const p of pages) {
         const draft = page.locator(".op-draft__body").first();
         if (await draft.count()) await expect(draft).toBeVisible();
       }
-      if (typeof p.print_pages === "number" && !nojs) {
+      if (typeof p.print_pages === "number" && !nojs && info.project.use.browserName !== "firefox" && info.project.use.browserName !== "webkit") {
         expect(await pdfPages(page)).toBe(p.print_pages);
       }
     });

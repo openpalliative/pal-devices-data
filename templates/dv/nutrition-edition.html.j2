@@ -1,0 +1,49 @@
+{% extends "op/base.html.j2" %}
+{% import "partials/dv.html.j2" as dv with context %}
+{% set draft = "legal" %}
+{% set n = edition %}
+{% set amends = site.dv.nutrition_by_id.get(n.amends) if n.amends else none %}
+{% block title %}{{ dv.ed_req(n) }}{% endblock %}
+{% block description %}Редакция перечня специализированных продуктов лечебного питания для детей-инвалидов: реквизиты, первая фраза и ссылка на официальную публикацию{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url('assets/css/dv-print.css') }}" media="print">
+<link rel="stylesheet" href="{{ url('assets/css/dv-text.css') }}">
+<link rel="stylesheet" href="{{ url('assets/css/dv-info.css') }}">
+{% endblock %}
+{% block main %}
+<div class="op-wrap op-page dv-edition">
+  {{ op.crumbs([("openpalliative", hub('')), (site.title, url('')), ("Лечебное питание", url('nutrition/')), ("Распоряжение от " ~ (n.date | ru_date), "")]) }}
+  <p class="dv-ed__kind">{{ icon("file-text") }}<span>{{ "Перечень утверждён" if n.kind == "base" else "Изменения в перечень" }}</span></p>
+  <h1>{{ dv.ed_req(n) }}</h1>
+  {{ dv.ed_change(n) }}
+  {% if not n.verified %}
+  {% call op.status("unverified") %}Реквизиты этой редакции ещё не сверены с изображением первой страницы. Сверьте по ссылке{% endcall %}
+  {% endif %}
+  <dl class="op-dl dv-req">
+    <div><dt>Номер</dt><dd>{{ n.number }}</dd></div>
+    <div><dt>Дата</dt><dd>{{ n.date | ru_date }}</dd></div>
+    <div><dt>Что это</dt><dd>{% if n.kind == "base" %}Утверждает перечень{% elif amends %}Вносит изменения в перечень от {{ amends.date | ru_date }} (<a href="{{ url('nutrition/' ~ amends.id ~ '/') }}">редакция</a>){% else %}Вносит изменения в перечень{% endif %}</dd></div>
+    <div><dt>Действует с</dt><dd>{% if n.in_force_from %}{{ n.in_force_from | ru_date }}{% else %}{{ dv.nv() }} дата пока не сверена{% endif %}</dd></div>
+    <div><dt>Страниц</dt><dd>{{ n.pages }}</dd></div>
+    <div><dt>Номер публикации</dt><dd><span class="dv-code">{{ n.id }}</span></dd></div>
+  </dl>
+  {% if n.first_sentence %}
+  <figure class="op-quote">
+    <p class="dv-quote__head">Первая фраза дословно</p>
+    <blockquote data-verbatim>{{ n.first_sentence }}</blockquote>
+    <figcaption>{{ op.cite({"title": dv.ed_req(n), "point": "стр. 1", "eoNumber": n.id, "url": n.url, "verified_at": n.verified_at, "verified": n.verified}) }}</figcaption>
+  </figure>
+  {% endif %}
+  {% if n.sha256 %}
+  <p class="dv-hash">Контрольная сумма скачанного файла PDF (sha256): <span class="op-code">{{ n.sha256 }}</span></p>
+  {% endif %}
+  {% call op.status("info") %}Список продуктов смотрите в приложении к официальной публикации. Мы его не переносим, потому что в нём торговые наименования{% endcall %}
+  <div class="op-actions">
+    {{ op.btn("Открыть официальную публикацию", n.url, "secondary", "external-link") }}
+    {{ op.btn("Отказали в питании", xurl('obrashchenie-kit', 'case/', {'new': 1, 's': 'oral-refusal', 'nut': n.id}), "primary", "file-text") }}
+  </div>
+  <p class="dv-uplink">{{ icon("arrow-left") }} <a href="{{ url('nutrition/') }}">Все редакции перечня</a></p>
+  {% set nenv = data["nutrition-3551r"] %}
+  <div class="dv-dates">{{ op.data_date(nenv.data_date, nenv.stale_after_days, true, "Сверено с официальными публикациями") }}</div>
+</div>
+{% endblock %}

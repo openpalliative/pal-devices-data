@@ -1,0 +1,105 @@
+{% extends "op/base.html.j2" %}
+{% import "partials/dv.html.j2" as dv with context %}
+{% set draft = "legal" %}
+{% set env = site.dv.env %}
+{% block title %}Весь перечень{% endblock %}
+{% block description %}Все позиции перечня медицинских изделий для паллиативной помощи на дому: вид, код, кто выдаёт. Лист «что просить» для печати{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url('assets/css/dv-print.css') }}" media="print">
+<link rel="stylesheet" href="{{ url('assets/css/dv-list-print.css') }}" media="print">
+<link rel="stylesheet" href="{{ url('assets/css/dv-list.css') }}">
+{% endblock %}
+{% block main %}
+<div class="op-wrap op-page dv-listpage">
+  {{ op.crumbs([("openpalliative", hub('')), (site.title, url('')), ("Весь перечень", "")]) }}
+  <h1>Весь перечень</h1>
+  <p class="op-lead">{{ site.dv.devices | length | plural("позиция", "позиции", "позиций") }} в {{ site.dv.groups | length | plural("группе", "группах", "группах") }}.{% if env %} Сверено с официальной публикацией {{ env.data_date | ru_date }}{% endif %}</p>
+  {% if site.dv.unverified_count %}
+  <p class="dv-nvline">{{ dv.nv() }} <span>{{ site.dv.unverified_count | plural("строка ещё проверяется", "строки ещё проверяются", "строк ещё проверяются") }} и в лист «что просить» не попадает</span></p>
+  {% endif %}
+
+  <dv-list class="dv-list" data-repo="{{ site.repo }}">
+    <section class="dv-filters" aria-labelledby="dv-filters-title" hidden>
+      <h2 id="dv-filters-title" class="op-visually-hidden">Фильтры</h2>
+      <div class="dv-filters__row">
+        <div class="op-field dv-filters__find">
+          <label class="op-field__label" for="dv-find">Найти в перечне</label>
+          <input class="op-input" id="dv-find" type="search" autocomplete="off" spellcheck="false" aria-describedby="dv-count">
+        </div>
+        <fieldset class="dv-filters__checks">
+          <legend class="op-visually-hidden">Показать только</legend>
+          <label class="dv-check"><input type="checkbox" id="dv-only-fn2"><span>Только со сноской о Соцфонде</span></label>
+          <label class="dv-check"><input type="checkbox" id="dv-only-new"><span>Только новое по сравнению со старым перечнем</span></label>
+        </fieldset>
+      </div>
+      <p class="dv-filters__count" id="dv-count" aria-live="polite"></p>
+    </section>
+
+    <section class="dv-tray" aria-labelledby="dv-tray-title" hidden>
+      <div class="dv-tray__text">
+        <h2 id="dv-tray-title" class="dv-tray__title">Лист «что просить»</h2>
+        <p class="dv-tray__count" aria-live="polite" data-count>Отметьте изделия в таблице, и мы соберём лист для печати</p>
+        <p class="dv-tray__note">Выбор не сохраняется: после закрытия страницы он пропадёт</p>
+      </div>
+      <div class="dv-tray__actions">
+        {{ op.print_btn() }}
+        <button class="op-btn op-btn--link dv-tray__clear" type="button" data-clear disabled><span>Очистить выбор</span></button>
+      </div>
+    </section>
+
+    <p class="dv-list__loading" data-loading hidden>Загружаем перечень</p>
+    {% for g in site.dv.groups %}
+    <details class="dv-grp" open data-group="{{ g.no }}">
+      <summary><span class="dv-grp__no">{{ g.no }}</span><span class="dv-grp__title">{{ g.title }}</span><span class="dv-grp__n">{{ g["items"] | length }}</span></summary>
+      <p class="dv-grp__open" data-nojs><a href="{{ url('list/' ~ g.no ~ '/') }}">Открыть таблицу группы: {{ g["items"] | length | plural("позиция", "позиции", "позиций") }}</a></p>
+      <div class="op-table-wrap" hidden><table class="op-table dv-table"><tbody></tbody></table></div>
+    </details>
+    {% endfor %}
+    <p class="dv-list__none" data-none hidden>{{ icon("info") }}<span>По этим условиям ничего не нашлось. Снимите флажки или сотрите слово в поле</span></p>
+
+    <section class="dv-sheet" aria-hidden="true">
+      <aside class="op-draft" aria-label="Черновик"><p class="op-draft__print">{{ icon("file-warning", "op-draft__icon") }}<span><strong>Черновик.</strong> {{ op.DRAFT.legal }}.</span></p></aside>
+      <h2 class="dv-sheet__title">Что просить: медицинские изделия для паллиативной помощи на дому</h2>
+      {% set r398 = site.dv.req.get("398n", {}) %}
+      <p class="dv-sheet__lead">Основание: {% if r398 %}{{ r398.line }}{% if r398.title %} «{{ r398.title }}»{% endif %}{% if r398.eoNumber %}, номер официальной публикации {{ r398.eoNumber }}{% endif %}{% else %}{{ site.dv.norms.get("398n", {}).get("title", "перечень изделий для дома") }}{% endif %}. По каждому изделию запишите, куда обратились, когда и что ответили</p>
+      <div class="dv-sheet__items" data-sheet></div>
+      {% if env %}
+      {{ op.sheet_footer(env.data_date, site.dv.check_until, "Перечень и основания: openpalliative.github.io" ~ site.base ~ "list/") }}
+      {% endif %}
+    </section>
+    <template id="dv-tpl-thead"><thead><tr><th scope="col" class="dv-col-pick">В лист</th><th scope="col">Вид по справочнику</th><th scope="col">Код</th><th scope="col">Кто выдаёт</th><th scope="col">В старом перечне</th></tr></thead></template>
+    <template id="dv-tpl-row"><tr><td class="dv-col-pick"><label class="dv-pick"><input type="checkbox" data-pick><span class="op-visually-hidden">Добавить в лист: <span data-name></span></span></label></td><td><a href=""></a> <span class="dv-nv" data-u hidden>Не проверено</span></td><td class="dv-k"></td><td class="dv-c"></td><td class="dv-o"></td></tr></template>
+    <template id="dv-tpl-sheet">
+      <article class="dv-sheet__item">
+        {% set mo = site.dv.channels.get("mo-398n", {}) %}
+        <h3 class="dv-sheet__name"><span data-name></span>, код <span data-code></span></h3>
+        <p class="dv-sheet__who" data-ch="mo"><strong>Кто выдаёт:</strong> {{ mo.get("sentence", "") | replace("Выдаёт ", "", 1) }}</p>
+        <p class="dv-sheet__who" data-ch="both"><strong>Кто выдаёт:</strong> {{ mo.get("sentence", "") | replace("Выдаёт ", "", 1) }}. {{ site.dv.channels.get("sfr-pp240", {}).get("sentence", "") }}</p>
+        <p class="dv-sheet__basis">Строка перечня на стр. <span data-page></span> официальной публикации</p>
+        <div class="dv-sheet__write">
+          <p>Куда обратились</p>
+          <p>Дата</p>
+          <p>Что ответили</p>
+        </div>
+      </article>
+    </template>
+    <template id="dv-tpl-sheet-skip">
+      <p class="op-unverified dv-sheet__skip">{{ icon("circle-help") }}<span>Пункт не проверен и в лист не включён: <span data-name></span></span></p>
+    </template>
+  </dv-list>
+
+  <section aria-labelledby="dv-dl-title">
+    <h2 id="dv-dl-title">Скачать перечень</h2>
+    <ul class="dv-links dv-links--row">
+      <li><a href="{{ url('data/v1/devices-398n.csv') }}" download>{{ icon("download") }}<span>Таблица CSV</span></a></li>
+      <li><a href="{{ url('data/v1/devices-398n.json') }}" download>{{ icon("download") }}<span>Данные JSON</span></a></li>
+      <li><a href="{{ url('data/') }}">Что в файлах и откуда они</a></li>
+    </ul>
+  </section>
+  {{ dv.back(true) }}
+  {{ dv.dates() }}
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="module" src="{{ url('assets/js/dv-list.js') }}"></script>
+{% endblock %}

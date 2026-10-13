@@ -1,0 +1,39 @@
+<header class="op-header"{% if lang != "ru" %} lang="ru"{% endif %}>
+  <div class="op-wrap op-header__bar">
+    <a class="op-brand" href="{{ hub('') }}">
+      {% include "op/mark.svg.j2" %}
+      <span class="op-brand__word">openpalliative</span>
+      <span class="op-visually-hidden">, на главную</span>
+    </a>
+    <a class="op-header__now" href="{{ hub('now/') }}"{% if site.is_hub and nav_current == "now/" %} aria-current="page"{% endif %}>{{ icon("phone") }}<span>Если помощь нужна прямо сейчас</span></a>
+    <op-prefs class="op-prefs" hidden data-icons="{{ url('ui/icons-all.svg' if icon_sprite == 'all' else 'ui/icons.svg') }}">
+      <details class="op-prefs__details">
+        <summary class="op-prefs__summary">{{ icon("type") }}<span>Вид</span>{{ icon("chevron-down", "op-prefs__chev") }}</summary>
+        <div class="op-prefs__panel"></div>
+      </details>
+    </op-prefs>
+  </div>
+  <nav class="op-header__nav" aria-label="Инструменты">
+    <ul class="op-wrap op-nav">
+      {% for t in opdata.tools %}
+      <li><a href="{{ xurl(t.repo, '') }}"{% if t.repo == site.repo %} aria-current="{{ 'page' if nav_current == '' else 'true' }}"{% endif %}>{{ icon(t.icon) }}<span>{{ t.title }}</span></a></li>
+      {% endfor %}
+    </ul>
+  </nav>
+  {% if not site.is_hub %}
+  {% set tool = opdata.tools | selectattr("repo", "equalto", site.repo) | first | default(none) %}
+  {% set items = site.nav | rejectattr("path", "equalto", "") | list %}
+  <nav class="op-subnav" aria-label="{{ site.title }}">
+    <div class="op-wrap op-subnav__scroll">
+      <ul class="op-subnav__list">
+        <li class="op-subnav__tool"><a href="{{ url('') }}"{% if nav_current == "" %} aria-current="page"{% endif %}>{% if tool %}{{ icon(tool.icon) }}{% endif %}<span>{{ site.title }}</span></a></li>
+        {% for item in items %}
+        {% set exact = nav_current == item.path %}
+        {% set within = not exact and nav_current.startswith(item.path) %}
+        <li><a href="{{ url(item.path) }}"{% if exact %} aria-current="page"{% elif within %} aria-current="true"{% endif %}>{{ item.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </nav>
+  {% endif %}
+</header>

@@ -1,0 +1,75 @@
+{% extends "op/base.html.j2" %}
+{% import "partials/dv.html.j2" as dv with context %}
+{% set draft = "legal" %}
+{% set x = site.dv.diff %}
+{% block title %}Что изменилось в перечне{% endblock %}
+{% block description %}Чем новый перечень изделий для дома отличается от старого: новые позиции и коды, которых больше нет{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url('assets/css/dv-print.css') }}" media="print">
+<link rel="stylesheet" href="{{ url('assets/css/dv-changes.css') }}">
+{% endblock %}
+{% block main %}
+<div class="op-wrap op-page dv-changes">
+  {{ op.crumbs([("openpalliative", hub('')), (site.title, url('')), ("Что изменилось", "")]) }}
+  <h1>Что изменилось в перечне</h1>
+  <p class="op-lead">Новый перечень изделий для дома заменил старый. Здесь видно, что добавили и каких кодов больше нет</p>
+
+  <ul class="dv-stats">
+    <li><span class="dv-stats__n">{{ x.old_total }}</span><span class="dv-stats__l">позиций в старом перечне{% if x.unchecked %} (сверенных){% endif %}</span></li>
+    <li><span class="dv-stats__n">{{ x.new_total }}</span><span class="dv-stats__l">позиций в новом перечне</span></li>
+    <li><span class="dv-stats__n">{{ x.kept }}</span><span class="dv-stats__l">кодов совпадают</span></li>
+    <li><span class="dv-stats__n">{{ x.added | length }}</span><span class="dv-stats__l">новых кодов</span></li>
+    <li><span class="dv-stats__n">{{ x.removed | length }}</span><span class="dv-stats__l">кодов больше нет</span></li>
+  </ul>
+  {% if x.unchecked %}
+  {% call op.status("unverified") %}Старый перечень сверен не полностью: {{ x.unchecked | plural("строка ещё проверяется", "строки ещё проверяются", "строк ещё проверяются") }} из {{ x.old_rows }}. В числа выше такие строки не входят{% endcall %}
+  {% else %}
+  <p class="dv-checked">{{ icon("circle-check") }}<span>Старый перечень сверен со сканом официальной публикации полностью: {{ x.old_rows }} из {{ x.old_rows }} строк</span></p>
+  {% endif %}
+
+  <section aria-labelledby="added">
+    <h2 id="added">Новое в перечне</h2>
+    {% if x.added %}
+    <ul class="dv-gone dv-added">
+{% for d in x.added %}<li><a href="{{ url('devices/' ~ d.code ~ '/') }}">{{ d.nkmi_name }}</a> <i>{{ d.code }}</i>{% if d._renamed %} <em class="dv-mark">Росздравнадзор позже сменил название вида под этим кодом</em>{% endif %}{% if not d.verified %} {{ dv.nv() }}{% endif %}</li>
+{% endfor %}
+    </ul>
+    {% else %}
+    {% call op.status("info") %}Новых позиций среди сверенных строк пока нет{% endcall %}
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="gone">
+    <h2 id="gone">Нет в новом перечне</h2>
+    {% if x.removed %}
+    <p>Этих кодов нет в новом перечне. Возможно, вид переименован, это проверяется. Если кода нет и в справочнике Росздравнадзора, мы так и пишем</p>
+    <ul class="dv-gone">
+{% for g in x.removed %}
+<li id="c-{{ g.code }}"><i>{{ g.code }}</i> {{ g.name_348n }}{% if g.retired %} <em>Этого вида больше нет в справочнике Росздравнадзора</em>{% elif g.nkmi_name_now and g.nkmi_name_now != g.name_348n %} <em>Сейчас в справочнике под этим кодом: {{ g.nkmi_name_now }}</em>{% endif %}</li>
+{% endfor %}
+    </ul>
+    {% else %}
+    {% call op.status("info") %}Среди сверенных строк нет кодов, которые исчезли из перечня{% endcall %}
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="recode">
+    <h2 id="recode">Если отказывают из-за «пересмотра кодов»</h2>
+    <p>Новый перечень действует с даты вступления в силу, коды изделий в нём указаны. Найдите своё изделие на этом сайте и покажите строку перечня с кодом и ссылкой на официальную публикацию</p>
+    <div class="op-actions">
+      {{ op.btn("Попросить ответ на бумаге", xurl('obrashchenie-kit', 'case/', {'new': 1, 's': 'oral-refusal'}), "primary", "file-text") }}
+      {{ op.btn("Найти изделие", url(''), "secondary", "search") }}
+    </div>
+  </section>
+
+  {% if x.amend_added or x.amend_removed %}
+  <p class="dv-amend">{{ icon("history") }}<span>Поправки в старый перечень: добавлено позиций {{ x.amend_added }}, исключено {{ x.amend_removed }}. Документ: {{ dv.norm_link("1195n", "изменения в старый перечень") }}</span></p>
+  {% endif %}
+
+  {{ dv.back() }}
+  {{ dv.dates() }}
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="module" src="{{ url('assets/js/dv-back.js') }}"></script>
+{% endblock %}

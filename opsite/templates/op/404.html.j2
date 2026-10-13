@@ -1,0 +1,20 @@
+{% extends "op/base.html.j2" %}
+{% block title %}Такой страницы нет{% endblock %}
+{% block description %}Страница не найдена{% endblock %}
+{% block main %}
+<div class="op-wrap op-page">
+  <h1>Такой страницы нет</h1>
+  <p class="op-lead">Возможно, ссылка устарела. Выберите, что случилось, или вернитесь на главную</p>
+  <div class="op-actions">
+    {{ op.btn("На главную", href=hub(''), icon_name="arrow-left") }}
+    {% if not site.is_hub %}{{ op.btn("К началу раздела «" ~ site.title ~ "»", href=url(''), kind="secondary") }}{% endif %}
+  </div>
+  {{ op.now() }}
+  {% if opdata.situations %}
+  <h2>Что случилось?</h2>
+  <ul>
+    {% for s in opdata.situations %}<li><a href="{{ hub('s/' ~ s.id ~ '/') }}">{{ s.title }}</a></li>{% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "deps.yaml: снимки соседей",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "required": ["major"],
+    "properties": {
+      "major": { "type": "integer" },
+      "datasets": { "type": "array", "items": { "type": "string" } },
+      "lib": { "type": "array", "items": { "type": "string" } },
+      "tools": { "type": "array", "items": { "type": "string" } },
+      "version": { "type": "string" },
+      "data_date": { "type": "string" },
+      "content_sha256": { "type": "object", "additionalProperties": { "type": "string" } },
+      "synced_at": { "type": "string" }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+name: Ошибка в данных
+description: Строка перечня не совпадает со сканом официальной публикации
+title: "Ошибка в данных: "
+labels: ["review:data"]
+body:
+  - type: markdown
+    attributes:
+      value: "**Это сообщение увидят все. Не пишите имя, диагноз и регион, а также адреса, телефоны и номера документов.** Нам нужны только код изделия, страница скана и что не так"
+  - type: input
+    id: code
+    attributes:
+      label: Код вида изделия
+      description: Шесть цифр, они есть на карточке изделия и в списке «Весь перечень»
+      placeholder: "Например, 303260"
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Страница скана
+      description: Номер страницы официальной публикации, он стоит на карточке под цитатой («стр. 6 публикации»). Можно ссылкой на publication.pravo.gov.ru
+      placeholder: "Например, стр. 6"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: Что не так
+      description: Как написано на скане и как написано у нас. Без названий фирм, моделей и цен
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Перед отправкой
+      options:
+        - label: В сообщении нет имён, диагнозов, адресов, телефонов и номеров документов
+          required: true

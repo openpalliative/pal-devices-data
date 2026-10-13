@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Помощь нужна прямо сейчас
+    url: https://openpalliative.github.io/now/
+    about: Это не служба помощи. Если человеку плохо, звоните 112 или 103. Номера и что сказать диспетчеру на этой странице
+  - name: Сообщить об уязвимости
+    url: https://github.com/openpalliative/pal-devices-data/security/advisories/new
+    about: Закрыто, видят только мейнтейнеры. Не пишите об уязвимостях в открытых issue

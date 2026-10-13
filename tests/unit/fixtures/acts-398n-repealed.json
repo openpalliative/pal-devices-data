@@ -1,0 +1,12 @@
+{
+  "format": "openpalliative-dataset/1", "dataset": "acts", "repo": "pal-norms",
+  "schema_version": "1.0.0", "version": "2000.01.01", "generated_at": "2000-01-01T00:00:00Z",
+  "data_date": "2000-01-01", "stale_after_days": 90, "license": "CC-BY-4.0",
+  "source": [{ "id": "fixture", "title": "Пример на выдуманных данных" }],
+  "content_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "counts": { "items": 2, "unverified": 0, "excluded": 0 },
+  "items": [
+    { "id": "398n", "short_title": "Пример перечня", "status": "repealed", "verified": true, "verified_at": "2000-01-01" },
+    { "id": "pp-240", "short_title": "Пример правил", "status": "in_force", "verified": true, "verified_at": "2000-01-01" }
+  ]
+}

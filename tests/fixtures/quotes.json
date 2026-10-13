@@ -1,0 +1,64 @@
+{
+ "format": "openpalliative-dataset/1",
+ "dataset": "quotes",
+ "repo": "pal-devices-data",
+ "schema_version": "1.1.0",
+ "version": "2000.01.01",
+ "generated_at": "2000-01-01T00:00:00Z",
+ "data_date": "2000-01-01",
+ "stale_after_days": 90,
+ "license": "CC0-1.0",
+ "source": [
+  {
+   "id": "fixture",
+   "title": "Пример на выдуманных данных"
+  }
+ ],
+ "content_sha256": "decaae051bf812637c0f8971c2f85a397fefffb3ab49b19aaba5275b99a5d7aa",
+ "counts": {
+  "items": 3,
+  "unverified": 3,
+  "excluded": 0
+ },
+ "items": [
+  {
+   "id": "208n-p25",
+   "text_verbatim": "Пример цитаты, не настоящий текст",
+   "eoNumber": "0000000000000000",
+   "point": "пункт 25",
+   "scan_page": 1,
+   "lint_allow": [],
+   "url": "",
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "reason": "Пример причины"
+  },
+  {
+   "id": "208n-p26",
+   "text_verbatim": "Пример цитаты, не настоящий текст",
+   "eoNumber": "0000000000000000",
+   "point": "пункт 26",
+   "scan_page": 1,
+   "lint_allow": [],
+   "url": "",
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "reason": "Пример причины"
+  },
+  {
+   "id": "398n-fn2",
+   "text_verbatim": "Пример цитаты, не настоящий текст",
+   "eoNumber": "0000000000000000",
+   "point": "сноска 2",
+   "scan_page": 1,
+   "lint_allow": [],
+   "url": "",
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "reason": "Пример причины"
+  }
+ ]
+}

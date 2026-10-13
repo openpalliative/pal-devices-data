@@ -1,0 +1,220 @@
+.dv-card__head {
+  margin-bottom: 16px;
+}
+
+.dv-card__kind {
+  margin: 0 0 4px;
+  font-size: var(--op-size-small);
+  color: var(--op-muted);
+  max-width: 44em;
+}
+
+.dv-card__kind strong {
+  color: var(--op-text);
+  font-weight: 600;
+}
+
+.dv-card__aka {
+  margin: 0 0 4px;
+  font-size: var(--op-size-small);
+  color: var(--op-muted);
+}
+
+.dv-card .op-draft {
+  margin-bottom: 8px;
+}
+
+.dv-who {
+  margin: 28px 0 8px;
+  padding: 22px 22px 8px;
+  background: var(--op-surface);
+  border: 1px solid var(--op-border);
+  border-left: 6px solid var(--op-honey);
+  border-radius: var(--op-radius);
+  max-width: 52em;
+}
+
+.dv-who > h2 {
+  margin-top: 0;
+}
+
+.dv-who__answer {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin: 0 0 8px;
+  font-size: calc(var(--op-size-body) * 1.2);
+  font-weight: 600;
+  line-height: 1.35;
+  max-width: 30em;
+}
+
+.dv-who__answer .op-icon {
+  margin-top: 0.15em;
+  color: var(--op-primary);
+}
+
+.dv-who__basis,
+.dv-who__note {
+  font-size: var(--op-size-small);
+  color: var(--op-muted);
+}
+
+.dv-who__basis a {
+  font-weight: 600;
+}
+
+.dv-why {
+  margin: 4px 0 12px;
+}
+
+.dv-why__title {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 12px 0 4px;
+  font-size: var(--op-size-body);
+}
+
+.dv-why__title .op-icon {
+  color: var(--op-primary);
+}
+
+.dv-why .op-status {
+  margin: 12px 0;
+}
+
+.dv-row blockquote {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.dv-row__dl {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.dv-row__dl div {
+  display: grid;
+  grid-template-columns: 7.5em 1fr;
+  gap: 12px;
+}
+
+.dv-row__dl dt {
+  color: var(--op-muted);
+  font-size: var(--op-size-small);
+  padding-top: 0.15em;
+}
+
+.dv-row__dl dd {
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .dv-row__dl div {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.dv-rules {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+  max-width: 44em;
+}
+
+.dv-rule {
+  margin: 0 0 10px;
+  padding-left: 14px;
+  border-left: 4px solid var(--op-honey);
+}
+
+.dv-rule p {
+  margin: 0 0 2px;
+}
+
+.dv-rule__from {
+  color: var(--op-muted);
+  font-size: var(--op-size-small);
+}
+
+.dv-basis-more {
+  max-width: 48em;
+}
+
+.dv-old {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 16px 0 0;
+  color: var(--op-muted);
+}
+
+.dv-old .op-icon {
+  margin-top: 0.2em;
+}
+
+.dv-next .op-btn {
+  text-align: left;
+}
+
+.dv-siblings {
+  margin-top: 28px;
+}
+
+.dv-renamed {
+  margin: 8px 0 16px;
+}
+
+@media (max-width: 599px) {
+  .dv-card .op-crumbs li:first-child {
+    display: none;
+  }
+}
+
+@media (max-width: 599px) {
+  .dv-who {
+    padding: 12px 14px 2px;
+  }
+}
+
+@media (max-width: 599px) {
+  .dv-card h1.dv-card__long {
+    font-size: var(--op-size-h2);
+  }
+}
+
+@media (max-width: 599px) {
+  .dv-card .dv-dates,
+  .dv-card .dv-moreuse {
+    margin-top: 24px;
+  }
+
+  .dv-card .dv-siblings {
+    margin-top: 16px;
+  }
+
+  .dv-card .op-actions {
+    margin: 16px 0;
+  }
+}
+
+@media (max-width: 599px) {
+  .dv-card .dv-who {
+    margin-top: 20px;
+  }
+
+  .dv-card .dv-why {
+    margin-bottom: 4px;
+  }
+
+  .dv-card__head {
+    margin-bottom: 8px;
+  }
+
+  .dv-rule {
+    margin-bottom: 8px;
+  }
+}

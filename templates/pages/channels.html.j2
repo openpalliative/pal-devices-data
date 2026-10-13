@@ -1,0 +1,85 @@
+{% extends "op/base.html.j2" %}
+{% import "partials/dv.html.j2" as dv with context %}
+{% set draft = "legal" %}
+{% block title %}Через кого получают изделия{% endblock %}
+{% block description %}Два пути получить медицинское изделие для дома: через медицинскую организацию и через Соцфонд. У каждого пути основание дословно{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url('assets/css/dv-print.css') }}" media="print">
+<link rel="stylesheet" href="{{ url('assets/css/dv-text.css') }}">
+<link rel="stylesheet" href="{{ url('assets/css/dv-info.css') }}">
+{% endblock %}
+{% block main %}
+<div class="op-wrap op-page dv-channels">
+  {{ op.crumbs([("openpalliative", hub('')), (site.title, url('')), ("Через кого получают", "")]) }}
+  <h1>Через кого получают изделия</h1>
+  <p class="op-lead">Путей два. Какой из них ваш, зависит от того, есть ли у позиции в перечне сноска о Соцфонде и есть ли у человека инвалидность</p>
+
+  <ul class="dv-paths2">
+    {% for cid, icon_name, when in (("mo-398n", "package", "Для позиций перечня изделий для дома"), ("sfr-pp240", "users-round", "Для " ~ (site.dv.fn2_count | plural("позиции", "позиций", "позиций")) ~ " перечня со сноской о Соцфонде, если у человека есть инвалидность")) %}
+    {% set ch = site.dv.channels.get(cid) %}
+    {% if ch %}
+    <li class="dv-path" id="{{ cid }}">
+      <h2 class="dv-path__title">{{ icon(icon_name) }}<span>{{ ch.title }}</span></h2>
+      <p class="dv-path__when">{{ when }}</p>
+      {% if not site.dv.channel_open.get(cid, true) %}
+      {{ dv.closed() }}
+      {% else %}
+      <p class="dv-path__sentence">{{ ch.sentence }}</p>
+      {% if ch.body %}<p>{{ dv.text(ch.body) }}</p>{% endif %}
+      {% endif %}
+      {% set in_body = site.dv.seg(ch.body) | selectattr(0, "equalto", "n") | map(attribute=1) | list %}
+      {% set docs = ch.norm_ids | reject("in", in_body) | list %}
+      {% if docs %}
+      <p>Ещё документы: {% for nid in docs %}{{ dv.norm_link(nid) }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+      {% endif %}
+      {% if ch.quote_ids %}
+      <p class="dv-path__q">Дословно: {% for qid in ch.quote_ids if qid in site.dv.quotes %}{% set q = site.dv.quotes[qid] %}<a href="#q-{{ qid }}">{{ dv.qlabel(q, true) }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</p>
+      {% endif %}
+      {% if not ch.verified %}<p class="dv-path__state">{{ dv.nv() }} <span>Текст этого блока ещё не сверен</span></p>{% endif %}
+    </li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+
+  <section aria-labelledby="between">
+    <h2 id="between">Если отправляют из одного места в другое</h2>
+    <p>Например, в медицинской организации говорят «идите в Соцфонд», а в Соцфонде говорят, что позиции нет в индивидуальной программе реабилитации</p>
+    {% call op.status("unverified") %}Нормы для случая «инвалидность есть, а в программе реабилитации позиции нет» мы пока не нашли{% endcall %}
+    <p>Попросите ответ на бумаге: с ним понятнее, куда идти дальше</p>
+    <div class="op-actions">
+      {{ op.btn("Попросить ответ на бумаге", xurl('obrashchenie-kit', 'case/', {'new': 1, 's': 'oral-refusal'}), "primary", "file-text") }}
+    </div>
+  </section>
+
+  <section aria-labelledby="repealed">
+    <h2 id="repealed">Документы ссылаются на отменённые</h2>
+    <p>В действующих документах есть ссылки на документы, которые уже не действуют. Если вам отказывают со ссылкой на них, покажите эти места</p>
+    {% for wid in ("ref-repealed-348n", "ref-repealed-345n") %}
+    {% set w = site.dv.warnings.get(wid) %}
+    {% if w %}
+    <div class="dv-collision">
+      {{ dv.warning(wid) }}
+      {% if w.quote_ids %}<p class="dv-collision__q">Дословно: {% for qid in w.quote_ids if qid in site.dv.quotes %}{% set q = site.dv.quotes[qid] %}<a href="#q-{{ qid }}">{{ dv.qlabel(q, true) }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+    </div>
+    {% endif %}
+    {% endfor %}
+  </section>
+
+  <section aria-labelledby="verbatim">
+    <h2 id="verbatim">Что сказано в документах дословно</h2>
+    {% set shown = namespace(ids=[]) %}
+    {% for cid in ("mo-398n", "sfr-pp240") %}{% set ch = site.dv.channels.get(cid) %}{% if ch %}{% for qid in ch.quote_ids if qid not in shown.ids %}{% set shown.ids = shown.ids + [qid] %}{% endfor %}{% endif %}{% endfor %}
+    {% for wid in ("ref-repealed-348n", "ref-repealed-345n") %}{% set w = site.dv.warnings.get(wid) %}{% if w %}{% for qid in w.quote_ids if qid not in shown.ids %}{% set shown.ids = shown.ids + [qid] %}{% endfor %}{% endif %}{% endfor %}
+    {% for qid in shown.ids if qid in site.dv.quotes %}
+    {% set q = site.dv.quotes[qid] %}
+    {{ dv.quote(qid, dv.qlabel(q, true) | trim) }}
+    {% endfor %}
+  </section>
+
+  {{ dv.back() }}
+  {{ dv.dates() }}
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="module" src="{{ url('assets/js/dv-back.js') }}"></script>
+{% endblock %}

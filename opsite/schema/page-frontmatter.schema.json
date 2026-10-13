@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Front matter страницы content/pages/*.md",
+  "type": "object",
+  "required": ["title", "description"],
+  "properties": {
+    "title": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "lead": { "type": "string" },
+    "layout": { "type": "string" },
+    "draft": { "enum": ["legal", "medical", "both", "none"] },
+    "noindex": { "type": "boolean" },
+    "lint_allow": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rule", "reason"],
+        "properties": { "rule": { "type": "string" }, "reason": { "type": "string", "minLength": 3 } }
+      }
+    }
+  }
+}

@@ -1,0 +1,106 @@
+.dv-az {
+  margin-top: 40px;
+}
+
+.dv-letters ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+
+.dv-letters li {
+  margin: 0;
+}
+
+.dv-letters a {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--op-target);
+  min-height: var(--op-target);
+  border: 1px solid var(--op-border);
+  border-radius: var(--op-radius);
+  background: var(--op-surface);
+  font-weight: 600;
+}
+
+.dv-az__cols {
+  columns: 1;
+  column-gap: 40px;
+}
+
+@media (min-width: 720px) {
+  .dv-az__cols {
+    columns: 2;
+  }
+}
+
+@media (min-width: 1040px) {
+  .dv-az__cols {
+    columns: 3;
+  }
+}
+
+.dv-az__letter {
+  break-inside: avoid;
+  margin-bottom: 12px;
+}
+
+.dv-az__letter h2 {
+  margin: 0 0 4px;
+  padding-top: 8px;
+  font-size: var(--op-size-h3);
+  color: var(--op-primary);
+}
+
+.dv-az__list,
+
+.dv-az__list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dv-az__list > li {
+  margin: 0 0 12px;
+  break-inside: avoid;
+}
+
+.dv-az__list > li:target {
+  outline: 3px solid var(--op-focus);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+.dv-az__list b {
+  display: block;
+  font-weight: 600;
+}
+
+.dv-az__list b::first-letter {
+  text-transform: uppercase;
+}
+
+.dv-az__list i {
+  font-style: normal;
+  color: var(--op-muted);
+}
+
+.dv-az__list ul li {
+  margin: 2px 0 0;
+  font-size: var(--op-size-small);
+}
+
+.dv-az__more {
+  margin-top: 32px;
+}
+
+.dv-names .dv-az {
+  margin-top: 0;
+}
+
+.dv-names .dv-az > h1 {
+  margin-bottom: 0.35em;
+}

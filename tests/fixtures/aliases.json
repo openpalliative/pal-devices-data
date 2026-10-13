@@ -1,0 +1,98 @@
+{
+ "format": "openpalliative-dataset/1",
+ "dataset": "aliases",
+ "repo": "pal-devices-data",
+ "schema_version": "1.1.0",
+ "version": "2000.01.01",
+ "generated_at": "2000-01-01T00:00:00Z",
+ "data_date": "2000-01-01",
+ "stale_after_days": 90,
+ "license": "CC0-1.0",
+ "source": [
+  {
+   "id": "fixture",
+   "title": "Пример на выдуманных данных"
+  }
+ ],
+ "content_sha256": "9c67f6e2a89a88981d16b47fb22df19b9ea83ea52ef837fe30cc3955d30078ac",
+ "counts": {
+  "items": 4,
+  "unverified": 3,
+  "excluded": 0
+ },
+ "items": [
+  {
+   "id": "otkashlivatel",
+   "alias": "откашливатель",
+   "kind": "household",
+   "codes": [
+    "303260"
+   ],
+   "primary_for": "303260",
+   "ambiguous": false,
+   "norm_text": "откашливатель",
+   "verified": true,
+   "verified_at": "2000-01-01",
+   "source_ref": "fixture",
+   "search_only": false,
+   "seen_in": "пример",
+   "basis": "пример"
+  },
+  {
+   "id": "kislorodnik",
+   "alias": "кислородник",
+   "kind": "household",
+   "codes": [
+    "113810",
+    "191160"
+   ],
+   "primary_for": null,
+   "ambiguous": false,
+   "norm_text": "кислородник",
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "search_only": false,
+   "seen_in": "пример",
+   "basis": "",
+   "reason": "пример причины"
+  },
+  {
+   "id": "pampersy",
+   "alias": "памперсы",
+   "kind": "household",
+   "codes": [
+    "280360"
+   ],
+   "primary_for": "280360",
+   "ambiguous": false,
+   "norm_text": "памперсы",
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "search_only": true,
+   "seen_in": "пример",
+   "basis": "",
+   "reason": "пример причины"
+  },
+  {
+   "id": "trubka",
+   "alias": "трубка",
+   "kind": "household",
+   "codes": [
+    "303260",
+    "113810"
+   ],
+   "primary_for": null,
+   "ambiguous": true,
+   "norm_text": "трубка",
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "search_only": false,
+   "seen_in": "пример",
+   "basis": "",
+   "reason": "пример причины"
+  }
+ ]
+}

@@ -1,0 +1,52 @@
+const VERSION = {{ version | tojson }};
+const FILES = {{ files | tojson }};
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(caches.open(VERSION).then((cache) => cache.addAll(FILES)));
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k.startsWith({{ (site.repo ~ "-") | tojson }}) && k !== VERSION).map((k) => caches.delete(k)))
+    ).then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data === "skip-waiting") self.skipWaiting();
+});
+
+async function networkFirst(request) {
+  const cache = await caches.open(VERSION);
+  try {
+    const response = await fetch(request);
+    if (response.ok) cache.put(request, response.clone());
+    return response;
+  } catch (error) {
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    const fallback = await cache.match(new URL("./", self.registration.scope).href);
+    if (fallback) return fallback;
+    throw error;
+  }
+}
+
+async function cacheFirst(request) {
+  const cache = await caches.open(VERSION);
+  const cached = await cache.match(request);
+  if (cached) return cached;
+  const response = await fetch(request);
+  if (response.ok) cache.put(request, response.clone());
+  return response;
+}
+
+self.addEventListener("fetch", (event) => {
+  const { request } = event;
+  if (request.method !== "GET") return;
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin || url.search || !url.href.startsWith(self.registration.scope)) return;
+  const html = request.mode === "navigate" || (request.headers.get("accept") || "").includes("text/html");
+  const data = url.pathname.includes("/data/");
+  event.respondWith(html || data ? networkFirst(request) : cacheFirst(request));
+});

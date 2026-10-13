@@ -1,0 +1,36 @@
+internal: [entrypoints, lint-rules, norm-view, region-view, holiday-runs, pack]
+titles:
+  pal-norms:
+    acts: Документы и их статус
+    calendar: Производственный календарь
+    changes: Что изменилось в документах
+    deadline-rules: Сроки ответа
+    escalation: Куда обращаться дальше
+    indications: Показания к паллиативной помощи
+    quotes: Цитаты из документов
+  pal-devices-data:
+    aliases: Привычные названия изделий
+    channels: Через кого получают изделия
+    devices-348n-diff: Сравнение старого и нового перечня
+    devices-398n: Перечень изделий для дома
+    nutrition-3551r: Лечебное питание для детей
+    quotes: Цитаты из документов
+    warnings: Предупреждения к изделиям
+  pal-directory:
+    addressees: Ведомства регионов
+    federal-lines: Номера по всей стране
+    region-acts: Документы регионов
+    region-lines: Номера горячих линий регионов
+    regions: Регионы
+    routers: Кто направляет в регионе
+    routes: Маршруты по приказам регионов
+  obrashchenie-kit:
+    addressees-federal: Федеральные ведомства
+    channels: Способы подачи
+    documents: Образцы документов
+    ladder: Шаги после ответа
+    reply-types: Какие бывают ответы
+    scenarios: Ситуации
+    turning18: Когда ребёнку исполняется 18
+  home-care-kit:
+    sheets: Листы для дома

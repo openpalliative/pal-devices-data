@@ -1,0 +1,78 @@
+name: watch
+on:
+  schedule: [{ cron: "17 4 * * 1" }]
+  workflow_dispatch:
+permissions: {}
+concurrency: { group: watch, cancel-in-progress: false }
+jobs:
+  watch:
+    runs-on: ${{ fromJSON(vars.WATCH_RUNNER || '"ubuntu-24.04"') }}
+    timeout-minutes: 60
+    permissions: { contents: write, pull-requests: write, issues: write, actions: write }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: "${{ vars.WATCH_FACTS_PUSH == 'true' }}" }
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with: { version: "0.11.7", enable-cache: false }
+      - run: uv sync --frozen --all-groups
+      - run: uv run python -m pipeline.watch
+      - run: uv run python -m opsite build
+      - run: uv run python -m opsite check --ci --update-golden
+      - name: facts push
+        if: vars.WATCH_FACTS_PUSH == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WATCH_FACTS_PUSH: ${{ vars.WATCH_FACTS_PUSH }}
+        run: sh scripts/watch-apply facts
+      - id: facts
+        if: vars.WATCH_FACTS_PUSH != 'true'
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          branch: watch/nkmi-facts
+          title: "data: снимок справочника НКМИ"
+          commit-message: "data: снимок справочника НКМИ"
+          body: "Еженедельная проверка справочника видов Росздравнадзора. Меняются только служебные файлы снимка (дата проверки, версия набора и список кодов) и строка автопроверки в эталонах трёх карточек. Остальные тексты, которые видят семьи, здесь не меняются"
+          labels: facts
+          add-paths: |
+            data/snapshots/**
+            raw/nkmi_subset.csv
+            tests/golden/html/**
+      - name: facts checks and merge
+        if: steps.facts.outputs.pull-request-operation == 'created' || steps.facts.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ steps.facts.outputs.pull-request-branch }}
+          PR: ${{ steps.facts.outputs.pull-request-number }}
+        run: |
+          gh workflow run checks.yml --repo "$GITHUB_REPOSITORY" --ref "$BRANCH"
+          gh pr merge "$PR" --repo "$GITHUB_REPOSITORY" --auto --squash || echo "Автослияние выключено, PR со снимком ждёт человека"
+      - run: uv run python -m pipeline.watch --apply-proposals _reports/watch.json
+      - id: names
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          branch: watch/nkmi-names
+          title: "data: новые имена видов в справочнике НКМИ"
+          commit-message: "data: новые имена видов в справочнике НКМИ"
+          body: "Наблюдатель нашёл, что в справочнике Росздравнадзора поменялись названия видов. Эти названия видят семьи на карточках, поэтому правку должен посмотреть человек с медицинским образованием"
+          labels: review:medical
+          add-paths: data/398n.csv
+      - name: names checks
+        if: steps.names.outputs.pull-request-operation == 'created' || steps.names.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ steps.names.outputs.pull-request-branch }}
+        run: gh workflow run checks.yml --repo "$GITHUB_REPOSITORY" --ref "$BRANCH"
+      - name: review
+        if: ${{ !cancelled() }}
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: test ! -f _reports/watch.json || uv run python -m pipeline.watch --open-issues _reports/watch.json
+      - if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with: { name: watch-reports, path: _reports, if-no-files-found: ignore, retention-days: 14 }
+      - name: keepalive
+        if: always()
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          for f in watch.yml pages.yml sync-data.yml; do
+            gh api -X PUT "repos/${GITHUB_REPOSITORY}/actions/workflows/${f}/enable"
+          done

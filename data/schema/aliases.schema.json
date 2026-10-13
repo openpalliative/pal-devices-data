@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openpalliative.github.io/pal-devices-data/data/v1/aliases.schema.json",
+  "title": "Бытовые названия изделий",
+  "type": "object",
+  "required": [
+    "dataset",
+    "items"
+  ],
+  "properties": {
+    "dataset": {
+      "const": "aliases"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "alias",
+          "ambiguous",
+          "basis",
+          "codes",
+          "id",
+          "kind",
+          "norm_text",
+          "primary_for",
+          "search_only",
+          "seen_in",
+          "source_ref",
+          "verified",
+          "verified_at"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "verified_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "alias": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "household",
+              "abbr",
+              "misspelling"
+            ]
+          },
+          "codes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^\\d{6}$",
+              "x-message-ru": "код вида НКМИ из шести цифр"
+            },
+            "minItems": 1
+          },
+          "primary_for": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{6}$"
+          },
+          "ambiguous": {
+            "type": "boolean"
+          },
+          "norm_text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "search_only": {
+            "type": "boolean",
+            "description": "true: только для поиска, на карточке в «Как ещё называют» не показывать"
+          },
+          "seen_in": {
+            "type": "string",
+            "minLength": 1,
+            "description": "тип источника, без ссылок"
+          },
+          "basis": {
+            "type": "string",
+            "description": "дословный фрагмент имени или описания вида НКМИ, на котором основано соответствие"
+          },
+          "reason": {
+            "type": "string",
+            "description": "почему не сверено"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "verified": {
+                  "const": false
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "reason"
+              ],
+              "properties": {
+                "reason": {
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "verified": {
+                  "const": true
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "basis": {
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "x-schema-version": "1.1.0"
+}

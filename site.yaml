@@ -1,0 +1,17 @@
+repo: pal-devices-data
+title: Кто выдаёт изделия
+tagline: Найдите аппарат или расходник по тому, как вы его называете, и узнайте, кто его выдаёт и на каком основании
+prefix: dv
+port: 8702
+base: /pal-devices-data/
+pwa: false
+stale_after_days: 90
+draft_default: legal
+github: https://github.com/openpalliative/pal-devices-data
+site_url: https://openpalliative.github.io
+lang: ru
+nav:
+  - { title: "Поиск", path: "" }
+  - { title: "Весь перечень", path: "list/" }
+  - { title: "Питание", path: "nutrition/" }
+  - { title: "Через кого получают", path: "channels/" }

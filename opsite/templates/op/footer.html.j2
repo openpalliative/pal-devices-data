@@ -1,0 +1,43 @@
+<footer class="op-footer"{% if lang != "ru" %} lang="ru"{% endif %}>
+  <div class="op-wrap">
+    {% if page_flags.get("now") %}
+    <p class="op-footer__now-link">{{ icon("phone") }}<a href="{{ hub('now/') }}">Если помощь нужна прямо сейчас</a></p>
+    {% else %}
+    <div class="op-footer__now">
+      <p class="op-footer__now-title">{{ icon("phone") }}<span>Помощь прямо сейчас</span></p>
+      <ul class="op-footer__tels">
+        {% for line in opdata.now.lines %}
+        <li><a href="{{ line.number | tel }}">{{ line.number | tel_display }}</a> <span>{{ line.label }}{% if line.third_party %}. Сторонняя линия, мы с ней не связаны{% endif %}</span>{% if not line.verified %} {{ unverified_inline() }}{% endif %}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+    <p class="op-footer__disclaimer">Не медицинская и не юридическая консультация. Проект не связан с фондами, медицинскими организациями и государственными органами. Мы не принимаем обращения и не собираем деньги</p>
+    <nav class="op-footer__links" aria-label="О проекте">
+      <ul>
+        <li><a href="{{ hub('privacy/') }}">Приватность</a></li>
+        <li><a href="{{ hub('principles/') }}">Как мы работаем</a></li>
+        <li><a href="{{ hub('about/') }}">О проекте</a></li>
+        <li><a href="{{ hub('help-us/') }}">Как помочь</a></li>
+        <li><a href="{{ site.github }}">Исходный код</a></li>
+        <li><a href="{{ hub('en/') }}" lang="en" hreflang="en">English</a></li>
+      </ul>
+    </nav>
+    {% set ds = opdata.data_summary %}
+    {% set built = opdata.built_at | ru_date %}
+    <p class="op-footer-build">{% if ds.main %}{% if not opdata.commit and not ds.other and (ds.main | ru_date) == built %}Данные и сборка от {{ built }}{% else %}Данные от {{ ds.main | ru_date }}{% if ds.other %}, кроме: {% for d in ds.other %}{{ d.tool }} от {{ d.date | ru_date }}{{ ", " if not loop.last }}{% endfor %}{% endif %}{% if not opdata.commit %}, сборка от {{ built }}{% endif %}{% endif %}{% else %}Сборка от {{ built }}{% endif %}{% if opdata.commit %}, версия <a href="{{ site.github }}/commit/{{ opdata.commit }}">{{ opdata.commit }}</a>{% endif %}</p>
+    {% if opdata.data_dates %}
+    <details class="op-footer-data">
+      <summary>Подробнее о данных</summary>
+      <p>Каждый набор данных обновляется отдельно. Платформа {{ opdata.version }}, сборка от {{ opdata.built_at | ru_date }}</p>
+      <ul>
+        {% for repo, items in opdata.data_dates | groupby("repo") %}
+        {% set t = opdata.tools | selectattr("repo", "equalto", repo) | first | default(none) %}
+        {% set one = items | map(attribute="date") | unique | list | length == 1 %}
+        <li>{{ t.title if t else repo }}{% if one %} от {{ items[0].date | ru_date }}{% if items | rejectattr("title", "equalto", t.title if t else repo) | list %}: {% for d in items %}{{ d.title }}{{ ", " if not loop.last }}{% endfor %}{% endif %}{% else %}: {% for d in items %}{{ d.title }} от {{ d.date | ru_date }}{{ "; " if not loop.last }}{% endfor %}{% endif %}</li>
+        {% endfor %}
+      </ul>
+    </details>
+    {% endif %}
+  </div>
+</footer>

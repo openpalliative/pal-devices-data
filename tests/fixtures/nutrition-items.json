@@ -1,0 +1,19 @@
+{
+ "format": "openpalliative-dataset/1",
+ "dataset": "nutrition-items",
+ "repo": "pal-devices-data",
+ "schema_version": "1.0.0",
+ "version": "2000.01.01",
+ "generated_at": "2000-01-01T00:00:00Z",
+ "data_date": "2000-01-01",
+ "stale_after_days": 90,
+ "license": "CC0-1.0",
+ "source": [{"id": "fixture", "title": "Пример на выдуманных данных"}],
+ "content_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+ "counts": {"items": 1, "unverified": 1, "excluded": 0},
+ "items": [
+  {"id": "1", "item_no": 1, "name": "Пример продукта, не настоящий", "form": "сухая смесь", "edition_added": "0000000000000000",
+   "edition_removed": null, "scan_page": 2, "number_verified": true, "text_verified": false, "verified": false,
+   "verified_at": null, "source_ref": "fixture", "note": "пример"}
+ ]
+}

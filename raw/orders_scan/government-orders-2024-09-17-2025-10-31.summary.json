@@ -1,0 +1,14 @@
+{
+ "period": "2024-09-17..2025-10-31",
+ "checked_at": "2026-10-12",
+ "listed": 2773,
+ "checked": 2773,
+ "failed": [],
+ "hits": [
+  "0001202409190039",
+  "0001202412050026",
+  "0001202501270007",
+  "0001202509190034"
+ ],
+ "query": "api/Documents Block=government DocumentTypes=распоряжение PeriodType=range по месяцам, первая страница каждого акта (GetImage) через tesseract rus psm 6, поиск «лечебн… питан» и «3551-р»"
+}

@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openpalliative.github.io/pal-norms/data/v1/quotes.schema.json",
+  "title": "Дословные цитаты из официальных публикаций",
+  "type": "object",
+  "required": [
+    "dataset",
+    "items"
+  ],
+  "properties": {
+    "dataset": {
+      "const": "quotes"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "verified",
+          "verified_at",
+          "source_ref",
+          "act_id",
+          "point",
+          "anchor",
+          "page",
+          "text",
+          "text_source",
+          "ocr",
+          "scan_checked"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "verified_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "act_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "point": {
+            "type": "string",
+            "minLength": 1
+          },
+          "anchor": {
+            "type": "string",
+            "pattern": "^p-[0-9a-z]+(-[0-9a-z]+)*$"
+          },
+          "page": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "text_source": {
+            "enum": [
+              "official_pdf",
+              "ips_archive",
+              "none"
+            ]
+          },
+          "ocr": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "passes",
+              "diff_lines"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "passes": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "diff_lines": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "dpi": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "scan_checked": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "at",
+              "method"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "at": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                "x-message-ru": "дата в виде ГГГГ-ММ-ДД"
+              },
+              "method": {
+                "enum": [
+                  "visual-crop",
+                  "ips-live"
+                ]
+              },
+              "crop": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "crops": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "notes": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "second": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "at",
+                  "method",
+                  "agrees"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "at": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                    "x-message-ru": "дата в виде ГГГГ-ММ-ДД"
+                  },
+                  "method": {
+                    "enum": [
+                      "ocr-pass-c",
+                      "visual-reread"
+                    ]
+                  },
+                  "agrees": {
+                    "type": "boolean"
+                  },
+                  "crop": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "notes": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "footnotes_omitted": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "какие знаки сносок из скана не перенесены в text и почему"
+          },
+          "edition": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "по какой официальной публикации взят текст, если это не сам акт, а изменяющий его закон"
+          },
+          "review": {
+            "type": "object",
+            "required": [
+              "status"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "status": {
+                "enum": [
+                  "none",
+                  "ok",
+                  "expired"
+                ]
+              },
+              "role": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reviewed_at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "expires_at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "ref": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "unverified_reason": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "почему цитата не сверена с официальной публикацией"
+          }
+        },
+        "if": {
+          "properties": {
+            "verified": {
+              "const": true
+            }
+          },
+          "required": [
+            "verified"
+          ]
+        },
+        "then": {
+          "properties": {
+            "text_source": {
+              "const": "official_pdf"
+            },
+            "ocr": {
+              "type": "object"
+            },
+            "scan_checked": {
+              "type": "object"
+            }
+          },
+          "x-message-ru": "verified:true только для текста из официального PDF, с двумя проходами OCR и сверкой со сканом"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,182 @@
+{
+ "format": "openpalliative-dataset/1",
+ "dataset": "devices-398n",
+ "repo": "pal-devices-data",
+ "schema_version": "1.1.0",
+ "version": "2000.01.01",
+ "generated_at": "2000-01-01T00:00:00Z",
+ "data_date": "2000-01-01",
+ "stale_after_days": 90,
+ "license": "CC0-1.0",
+ "source": [
+  {
+   "id": "fixture",
+   "title": "Пример на выдуманных данных"
+  }
+ ],
+ "content_sha256": "cd2bcf8e832513aa31edaaa58c048208303e42a898084bb9b34cfdb2ce4e7d4f",
+ "counts": {
+  "items": 4,
+  "unverified": 2,
+  "excluded": 0
+ },
+ "nkmi_check": {
+  "checked_at": "2000-01-01",
+  "version": "20000101",
+  "present": 3,
+  "missing": 1,
+  "missing_codes": [
+   "113810"
+  ],
+  "ok": true
+ },
+ "open_questions": [
+  {
+   "id": "fixture-question",
+   "text": "Пример открытого вопроса"
+  }
+ ],
+ "items": [
+  {
+   "id": "303260",
+   "code": "303260",
+   "nkmi_name": "Инсуффлятор-аспиратор",
+   "name_in_act": "Инсуффлятор-аспиратор",
+   "nkmi_name_now": "Инсуффлятор-аспиратор",
+   "note": "",
+   "group_no": 1,
+   "group_title": "Пример группы А",
+   "subgroup_title": "Пример подгруппы А1",
+   "order": 1,
+   "scan_page": 3,
+   "fn2": false,
+   "tsr_2347r": "unknown",
+   "in_348n": "yes",
+   "channel_ids": [
+    "mo-398n"
+   ],
+   "warning_ids": [
+    "no-fn2-ipra",
+    "tsr-unknown",
+    "ref-repealed-348n"
+   ],
+   "aliases": [
+    "otkashlivatel",
+    "trubka"
+   ],
+   "primary_alias": "otkashlivatel",
+   "nkmi_status": "present",
+   "legal_reviewed": false,
+   "verified": true,
+   "verified_at": "2000-01-01",
+   "source_ref": "fixture",
+   "nkmi_changed_in": null,
+   "nkmi_history": [],
+   "tsr_source_ref": null
+  },
+  {
+   "id": "280360",
+   "code": "280360",
+   "nkmi_name": "Подгузники для взрослых",
+   "name_in_act": "Подгузники для взрослых",
+   "nkmi_name_now": "Подгузники для взрослых",
+   "note": "",
+   "group_no": 2,
+   "group_title": "Пример группы Б",
+   "subgroup_title": "Пример подгруппы Б1",
+   "order": 2,
+   "scan_page": 13,
+   "fn2": true,
+   "tsr_2347r": "by_fn2",
+   "in_348n": "yes",
+   "channel_ids": [
+    "mo-398n",
+    "sfr-pp240"
+   ],
+   "warning_ids": [
+    "fn2-sfr",
+    "ref-repealed-345n"
+   ],
+   "aliases": [
+    "pampersy"
+   ],
+   "primary_alias": "pampersy",
+   "nkmi_status": "present",
+   "legal_reviewed": false,
+   "verified": true,
+   "verified_at": "2000-01-01",
+   "source_ref": "fixture",
+   "nkmi_changed_in": null,
+   "nkmi_history": [],
+   "tsr_source_ref": "398n-fn2"
+  },
+  {
+   "id": "113810",
+   "code": "113810",
+   "nkmi_name": "Концентратор кислорода переносной/портативный",
+   "name_in_act": "Концентратор кислорода переносной/портативный",
+   "nkmi_name_now": null,
+   "note": "",
+   "group_no": 1,
+   "group_title": "Пример группы А",
+   "subgroup_title": "Пример подгруппы А2",
+   "order": 3,
+   "scan_page": 4,
+   "fn2": false,
+   "tsr_2347r": "unknown",
+   "in_348n": "unknown",
+   "channel_ids": [
+    "mo-398n"
+   ],
+   "warning_ids": [
+    "no-fn2-ipra",
+    "nkmi-missing"
+   ],
+   "aliases": [
+    "kislorodnik",
+    "trubka"
+   ],
+   "primary_alias": null,
+   "nkmi_status": "missing",
+   "legal_reviewed": false,
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "nkmi_changed_in": null,
+   "nkmi_history": [],
+   "tsr_source_ref": null
+  },
+  {
+   "id": "191160",
+   "code": "191160",
+   "nkmi_name": "Концентратор кислорода стационарный",
+   "name_in_act": "Концентратор кислорода стационарный",
+   "nkmi_name_now": "Концентратор кислорода стационарный",
+   "note": "",
+   "group_no": 1,
+   "group_title": "Пример группы А",
+   "subgroup_title": "Пример подгруппы А2",
+   "order": 4,
+   "scan_page": 4,
+   "fn2": false,
+   "tsr_2347r": "unknown",
+   "in_348n": "no",
+   "channel_ids": [
+    "mo-398n"
+   ],
+   "warning_ids": [],
+   "aliases": [
+    "kislorodnik"
+   ],
+   "primary_alias": null,
+   "nkmi_status": "present",
+   "legal_reviewed": false,
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "nkmi_changed_in": null,
+   "nkmi_history": [],
+   "tsr_source_ref": null
+  }
+ ]
+}

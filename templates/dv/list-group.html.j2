@@ -1,0 +1,29 @@
+{% extends "op/base.html.j2" %}
+{% import "partials/dv.html.j2" as dv with context %}
+{% set draft = "legal" %}
+{% set g = group %}
+{% block title %}{{ g.title[:1] | upper }}{{ g.title[1:] }}{% endblock %}
+{% block description %}Группа {{ g.no }} перечня медицинских изделий для паллиативной помощи на дому: вид, код, кто выдаёт{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url('assets/css/dv-print.css') }}" media="print">
+<link rel="stylesheet" href="{{ url('assets/css/dv-list.css') }}">
+{% endblock %}
+{% block main %}
+<div class="op-wrap op-page dv-listpage">
+  {{ op.crumbs([("openpalliative", hub('')), (site.title, url('')), ("Весь перечень", url('list/')), ("Группа " ~ g.no, "")]) }}
+  <p class="dv-grp__eyebrow">Группа {{ g.no }} из {{ site.dv.groups | length }}</p>
+  <h1 class="dv-grp__h1">{{ g.title[:1] | upper }}{{ g.title[1:] }}</h1>
+  <p class="op-lead">{{ g["items"] | length | plural("позиция", "позиции", "позиций") }}. Лист «что просить» собирается на странице <a href="{{ url('list/') }}">Весь перечень</a></p>
+  {% for sg in g.subgroups %}
+  <h2 class="dv-subgrp" id="{{ sg.anchor }}">{{ sg.title[:1] | upper }}{{ sg.title[1:] }}</h2>
+  {{ dv.table(sg["items"]) }}
+  {% endfor %}
+  <nav class="dv-pager" aria-label="Другие группы">
+    {% if prev_group %}<a href="{{ url('list/' ~ prev_group.no ~ '/') }}">{{ icon("arrow-left") }}<span>Группа {{ prev_group.no }}</span></a>{% endif %}
+    <a href="{{ url('list/') }}"><span>Весь перечень</span></a>
+    {% if next_group %}<a href="{{ url('list/' ~ next_group.no ~ '/') }}"><span>Группа {{ next_group.no }}</span>{{ icon("arrow-right") }}</a>{% endif %}
+  </nav>
+  {{ op.print_btn("Распечатать таблицу группы") }}
+  {{ dv.dates() }}
+</div>
+{% endblock %}

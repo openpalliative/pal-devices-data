@@ -1,0 +1,374 @@
+.dv-filters {
+  margin: 20px 0 8px;
+  padding: 16px 18px 4px;
+  background: var(--op-surface);
+  border: 1px solid var(--op-border);
+  border-radius: var(--op-radius);
+}
+
+.dv-filters__row {
+  display: grid;
+  gap: 4px 28px;
+}
+
+@media (min-width: 900px) {
+  .dv-filters__row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+  }
+}
+
+.dv-filters__find {
+  margin-bottom: 12px;
+}
+
+.dv-filters__checks {
+  border: 0;
+  padding: 0;
+  margin: 0 0 12px;
+  display: grid;
+  gap: 2px;
+}
+
+.dv-check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--op-target);
+  cursor: pointer;
+}
+
+.dv-check input,
+.dv-pick input {
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  flex: none;
+  accent-color: var(--op-primary);
+}
+
+.dv-filters__count {
+  margin: 0 0 12px;
+  font-size: var(--op-size-small);
+  color: var(--op-muted);
+}
+
+.dv-tray {
+  position: static;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 20px;
+  margin: 0 0 20px;
+  padding: 12px 18px;
+  background: var(--op-highlight);
+  border: 1px solid var(--op-border);
+  border-radius: var(--op-radius);
+}
+
+.dv-tray.is-active {
+  position: sticky;
+  bottom: 0;
+  box-shadow: 0 -6px 16px -10px var(--op-text);
+}
+
+.dv-tray__note {
+  margin: 0;
+  font-size: var(--op-size-small);
+  color: var(--op-muted);
+}
+
+@media (max-width: 599px) {
+  .dv-tray.is-active {
+    padding: 8px 12px;
+    margin: 0 calc(var(--op-gutter) * -1) 20px;
+    border-radius: 0;
+    border-width: 1px 0 0;
+  }
+
+  .dv-tray.is-active .dv-tray__title,
+  .dv-tray.is-active .dv-tray__note {
+    display: none;
+  }
+
+  .dv-tray.is-active .dv-tray__count {
+    font-weight: 600;
+  }
+
+  .dv-tray.is-active .op-btn--secondary {
+    padding: 8px 14px;
+    font-size: var(--op-size-small);
+  }
+}
+
+.dv-tray__title {
+  margin: 0;
+  font-size: var(--op-size-body);
+}
+
+.dv-tray__count {
+  margin: 0;
+  font-size: var(--op-size-small);
+}
+
+.dv-tray__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.dv-tray .op-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.dv-grp {
+  margin: 0 0 14px;
+}
+
+.dv-grp > summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 12px;
+  overflow-wrap: anywhere;
+  min-height: var(--op-target);
+  padding: 10px 0;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: var(--op-size-h3);
+  line-height: 1.35;
+}
+
+.dv-grp__no {
+  flex: none;
+  min-width: 1.8em;
+  color: var(--op-primary);
+}
+
+.dv-grp__title {
+  flex: 1;
+}
+
+.dv-grp__title::first-letter {
+  text-transform: uppercase;
+}
+
+.dv-grp__n {
+  flex: none;
+  font-size: var(--op-size-small);
+  font-weight: 400;
+  color: var(--op-muted);
+}
+
+.dv-table td:nth-child(n) {
+  vertical-align: top;
+}
+
+.dv-table tbody tr.is-picked {
+  background: var(--op-highlight);
+}
+
+.dv-col-pick {
+  width: 72px;
+  text-align: center;
+}
+
+.dv-pick {
+  display: inline-grid;
+  place-items: center;
+  width: var(--op-target);
+  height: var(--op-target);
+  margin: -12px 0;
+  cursor: pointer;
+}
+
+.dv-c {
+  white-space: nowrap;
+}
+
+.dv-c::before {
+  content: "";
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  margin-right: 8px;
+  vertical-align: -0.18em;
+  background: var(--op-primary);
+  -webkit-mask: url("../../ui/icons/package.svg") center / contain no-repeat;
+  mask: url("../../ui/icons/package.svg") center / contain no-repeat;
+}
+
+.dv-c--2::before {
+  -webkit-mask-image: url("../../ui/icons/share-2.svg");
+  mask-image: url("../../ui/icons/share-2.svg");
+}
+
+.dv-k {
+  font-family: var(--op-font-mono);
+  white-space: nowrap;
+}
+
+.dv-list__loading {
+  color: var(--op-muted);
+}
+
+.dv-grp__open {
+  margin: 0 0 8px;
+  padding-left: calc(1.8em + 12px);
+}
+
+.dv-grp__eyebrow {
+  margin: 0 0 4px;
+  font-size: var(--op-size-small);
+  font-weight: 600;
+  color: var(--op-muted);
+}
+
+.dv-subgrp {
+  font-size: var(--op-size-h3);
+}
+
+.dv-subgrp::first-letter {
+  text-transform: uppercase;
+}
+
+.dv-pager {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 24px 0;
+}
+
+.dv-pager a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--op-target);
+  font-weight: 600;
+}
+
+.dv-list__none {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+@media (max-width: 719px) {
+  .dv-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .dv-table,
+  .dv-table tbody {
+    display: block;
+  }
+
+  .dv-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2px 12px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--op-sunken);
+  }
+
+  .dv-table tbody tr:last-child {
+    border-bottom: 0;
+  }
+
+  .dv-table tbody td {
+    display: block;
+    padding: 0;
+    border: 0;
+    grid-column: 1;
+  }
+
+  .dv-table tbody td:first-child,
+  .dv-table tbody td.dv-col-pick + td {
+    font-weight: 500;
+  }
+
+  .dv-table tbody td.dv-col-pick:first-child {
+    font-weight: 400;
+  }
+
+  .dv-k::before {
+    content: "Код ";
+    color: var(--op-muted);
+  }
+
+  .dv-o::before {
+    content: "В старом перечне: ";
+    color: var(--op-muted);
+  }
+
+  .dv-table tbody td.dv-col-pick {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+    align-self: center;
+    width: auto;
+  }
+
+  .dv-pick {
+    margin: 0;
+  }
+}
+
+.dv-sheet,
+.dv-sheet-tpl {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .dv-c::before {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+}
+
+
+@media (min-width: 720px) {
+  .dv-table {
+    table-layout: fixed;
+  }
+
+  .dv-table th:nth-last-child(1) {
+    width: 9.5em;
+  }
+
+  .dv-table th:nth-last-child(2) {
+    width: 17.5em;
+  }
+
+  .dv-table td.dv-c {
+    white-space: normal;
+    padding-left: calc(14px + 1.05em + 8px);
+    text-indent: calc(-1.05em - 8px);
+  }
+
+  .dv-table th:nth-last-child(3) {
+    width: 6.5em;
+  }
+
+  .dv-table th.dv-col-pick {
+    width: 5.5em;
+    white-space: nowrap;
+  }
+}
+
+.dv-nvline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 0 0 8px;
+  font-size: var(--op-size-small);
+  color: var(--op-muted);
+}

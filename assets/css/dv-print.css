@@ -1,0 +1,39 @@
+:root:not([data-theme="light"]) {
+  --op-bg: white;
+  --op-surface: white;
+  --op-sunken: white;
+  --op-text: black;
+  --op-muted: black;
+  --op-border: black;
+  --op-primary: black;
+  --op-on-primary: white;
+  --op-link: black;
+  --op-highlight: white;
+  --op-success: black;
+  --op-warning: black;
+  --op-danger: black;
+  --op-honey: black;
+  --op-tile: white;
+  color-scheme: light;
+}
+
+.dv-quick,
+.dv-search__form,
+.dv-letters,
+.dv-back,
+.dv-moreuse,
+.op-crumbs {
+  display: none !important;
+}
+
+.dv-who,
+.dv-branch,
+.dv-path,
+.dv-result {
+  border: 1pt solid black !important;
+  background: white !important;
+}
+
+.dv-nv::before {
+  background: black;
+}

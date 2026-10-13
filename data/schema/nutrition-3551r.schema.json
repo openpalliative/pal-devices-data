@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openpalliative.github.io/pal-devices-data/data/v1/nutrition-3551r.schema.json",
+  "title": "Редакции перечня специализированных продуктов лечебного питания для детей-инвалидов",
+  "type": "object",
+  "required": [
+    "dataset",
+    "items"
+  ],
+  "properties": {
+    "dataset": {
+      "const": "nutrition-3551r"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "amends",
+          "date",
+          "first_sentence",
+          "id",
+          "in_force_from",
+          "items_from",
+          "items_scan_pages",
+          "items_to",
+          "kind",
+          "number",
+          "pages",
+          "sha256",
+          "source_ref",
+          "url",
+          "verified",
+          "verified_at"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^\\d{16}$"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "verified_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "number": {
+            "type": "string",
+            "minLength": 1
+          },
+          "date": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "kind": {
+            "enum": [
+              "base",
+              "amendment"
+            ]
+          },
+          "amends": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{16}$"
+          },
+          "in_force_from": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "pages": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "first_sentence": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "items_from": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "description": "первый номер пункта перечня, который утверждает или добавляет редакция"
+          },
+          "items_to": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "items_scan_pages": {
+            "type": "string",
+            "pattern": "^(\\d+(-\\d+)?)?$",
+            "description": "страницы PDF с этими пунктами"
+          }
+        }
+      }
+    }
+  },
+  "x-schema-version": "1.1.0"
+}

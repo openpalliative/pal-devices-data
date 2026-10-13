@@ -1,0 +1,274 @@
+{% import "op/macros.html.j2" as op with context %}
+
+{% macro nv() -%}
+<span class="dv-nv">Не проверено</span>
+{%- endmacro %}
+
+{% macro norm_link(nid, label=none, quiet=false) -%}
+{% set n = site.dv.norms.get(nid) %}
+{% if n and n.in_vendor %}{{ norm(nid, label) }}{% elif n and n.url %}<a class="dv-norm" href="{{ n.url }}">{{ label or n.title }}</a>{% if not quiet %} {{ nv() }}{% endif %}{% else %}<span class="dv-norm">{{ label or (n.title if n else nid) }}</span>{% if not quiet %} {{ nv() }}{% endif %}{% endif %}
+{%- endmacro %}
+
+{% macro text(value) -%}
+{% for kind, part in site.dv.seg(value) %}{% if kind == "n" %}{{ norm_link(part) }}{% else %}{{ part }}{% endif %}{% endfor %}
+{%- endmacro %}
+
+{% macro cite_for(ref, eo="", point="", verified_at=none, verified=true, url_override="", nid="") -%}
+{% set s = site.dv.sources.get(ref, {}) %}
+{% set r = site.dv.req.get(nid or s.get("norm_id") or "", {}) %}
+{% set link = url_override or s.get("url", "") or (("http://publication.pravo.gov.ru/document/" ~ eo) if eo else "") %}
+{{ op.cite({"title": r.get("line") or s.get("title") or "Официальная публикация", "point": point, "eoNumber": eo or s.get("eoNumber", ""), "url": link, "verified_at": verified_at if verified else none, "verified": verified}) }}
+{%- endmacro %}
+
+{% macro qlabel(q, cap=false) -%}
+{% set pt = q.get("point_short") or q.point %}
+{% if q.source_ref == "pravo-398n" and "перечн" not in pt %}{% set pt = pt ~ (" о перечне" if pt.endswith("приказа") else " приказа о перечне") %}{% endif %}
+{% if cap %}{{ pt[:1] | upper }}{% else %}{{ pt[:1] | lower }}{% endif %}{{ pt[1:] }}
+{%- endmacro %}
+
+{% macro quote(qid, heading=none, same=false) -%}
+{% set q = site.dv.quotes.get(qid) %}
+{% if not q %}
+{{ op.unverified("Дословный текст этого пункта мы ещё не перенесли") }}
+{% else %}
+<figure class="op-quote dv-quote" id="q-{{ qid }}">
+  {% if heading %}<p class="dv-quote__head">{{ heading }}</p>{% endif %}
+  {% if q.text_verbatim %}
+  <blockquote data-verbatim>{{ q.text_verbatim }}</blockquote>
+  {% else %}
+  {{ op.unverified("Дословный текст пока не перенесён. Откройте официальную публикацию по ссылке") }}
+  {% endif %}
+  <figcaption>
+    {% set point = q.point ~ ((", стр. " ~ q.scan_page ~ " публикации") if q.scan_page else "") %}
+    {% if same and q.verified %}
+    <span class="op-cite"><span class="op-cite__title">Та же публикация, {{ point }}.</span></span>
+    {% else %}
+    {{ cite_for(q.source_ref, q.eoNumber, point, q.verified_at, q.verified, q.get("url", ""), q.get("act_id", "") if q.get("from_norms") else "") }}
+    {% endif %}
+  </figcaption>
+  {% if not q.verified and q.text_verbatim %}
+  <p class="dv-quote__note">Текст снят распознаванием со скана и ещё не сверен с изображением страницы. Сверьте по ссылке</p>
+  {% endif %}
+</figure>
+{% endif %}
+{%- endmacro %}
+
+{% macro channel_line(device, cls="") -%}
+{% if "sfr-pp240" in device.channel_ids %}
+<p class="dv-ch dv-ch--both {{ cls }}">{{ icon("share-2") }}<span>Медорганизация или Соцфонд</span></p>
+{% else %}
+<p class="dv-ch dv-ch--mo {{ cls }}">{{ icon("package") }}<span>Выдаёт медорганизация</span></p>
+{% endif %}
+{%- endmacro %}
+
+{% macro warning(wid) -%}
+{% set w = site.dv.warnings.get(wid) %}
+{% if w %}
+{% call op.status("unverified" if w.kind == "unverified" else "info") %}{{ text(w.text) }}{% endcall %}
+{% endif %}
+{%- endmacro %}
+
+{% macro closed() -%}
+{% call op.status("unverified") %}Основание изменилось, проверяется. Пока мы не сверили новую редакцию, не показываем, кто выдаёт. Смотрите <a href="{{ xurl('pal-norms', 'acts/') }}">Нормы и сроки</a>{% endcall %}
+{%- endmacro %}
+
+{% macro is_open(device) -%}
+{% set st = namespace(ok=true) %}{% for cid in device.channel_ids %}{% if not site.dv.channel_open.get(cid, true) %}{% set st.ok = false %}{% endif %}{% endfor %}{{ "1" if st.ok else "" }}
+{%- endmacro %}
+
+{% macro renamed(device) -%}
+{% if device._renamed %}
+<div class="op-status op-status--info dv-renamed">
+  {{ icon("info") }}
+  <p><strong class="op-status__word">Важно.</strong> Росздравнадзор сменил название вида под этим кодом после выхода перечня{% if device.get("nkmi_changed_in") %} (версия справочника {{ device.nkmi_changed_in }}){% endif %}. Сейчас в справочнике под кодом {{ device.code }} записано: «{{ device.nkmi_name_now }}». {% set rw = site.dv.warnings.get("nkmi-reassigned") %}{% if rw and "nkmi-reassigned" in device.warning_ids and ". " in rw.text %}{{ rw.text.split(". ", 1)[1] | trim(".") }}{% else %}Здесь вид назван так, как в перечне{% endif %}{% if device.nkmi_status == "mismatch" and not device.verified %}. {{ nv() }} Строка перечня проверяется{% endif %}</p>
+</div>
+{% endif %}
+{%- endmacro %}
+
+{% macro channel(device) -%}
+{% set chs = site.dv.channels %}
+{% set both = "sfr-pp240" in device.channel_ids %}
+{% if not (is_open(device) | trim) %}
+{{ closed() }}
+{% else %}
+<p class="dv-who__answer">{{ icon("share-2" if both else "package") }}<span>{% if both %}Выдаёт медорганизация, а при инвалидности может выдать Соцфонд{% else %}{{ chs.get("mo-398n", {}).get("sentence") or "Выдаёт медицинская организация" }}{% endif %}</span></p>
+<p class="dv-who__basis">Основание: <a href="#q-row">строка перечня</a>{% if device.fn2 %} и <a href="#q-398n-fn2">сноска 2</a>{% endif %}</p>
+<details class="dv-more dv-why">
+  <summary>{{ icon("chevron-right", "dv-more__chev") }}<span>Почему так</span></summary>
+  <div class="dv-more__body">
+    {% for cid in (("mo-398n", "sfr-pp240") if both else ("mo-398n",)) %}
+    {% set ch = chs.get(cid) %}
+    {% if ch %}
+    <h3 class="dv-why__title">{{ icon("package" if cid == "mo-398n" else "users-round") }}<span>{{ ch.title }}{% if both %}: {{ "если инвалидности нет" if cid == "mo-398n" else "если у человека есть инвалидность" }}{% endif %}</span></h3>
+    {% if ch.body %}<p>{{ text(ch.body) }}</p>{% endif %}
+    {% if cid == "sfr-pp240" and "sfr-ipra" in device.warning_ids %}{{ warning("sfr-ipra") }}{% endif %}
+    {% endif %}
+    {% endfor %}
+    {% if both %}
+    <p>Мы не спрашиваем про инвалидность, поэтому показываем оба пути</p>
+    {% else %}
+    {% if "no-fn2-ipra" in device.warning_ids %}{{ warning("no-fn2-ipra") }}{% endif %}
+    {% if "tsr-unknown" in device.warning_ids %}{{ warning("tsr-unknown") }}{% endif %}
+    <p>Если у человека есть инвалидность, смотрите <a href="{{ url('channels/') }}#q-208n-p26">пункт 26 положения о паллиативной помощи</a></p>
+    {% endif %}
+    <p><a href="{{ url('channels/') }}">Оба пути подробно</a></p>
+  </div>
+</details>
+{% endif %}
+{%- endmacro %}
+
+{% macro more_basis(device) -%}
+{% set ids = namespace(list=[]) %}
+{% for cid in device.channel_ids %}{% for q in site.dv.channels.get(cid, {}).get("quote_ids", []) %}{% if q not in ids.list and q != "398n-fn2" and q in site.dv.quotes %}{% set ids.list = ids.list + [q] %}{% endif %}{% endfor %}{% endfor %}
+{% if ids.list %}
+<p class="dv-basis-more">Ещё дословно: {% for qid in ids.list %}{% set q = site.dv.quotes[qid] %}<a href="{{ url('channels/') }}#q-{{ qid }}">{{ qlabel(q) }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</p>
+{% endif %}
+{%- endmacro %}
+
+{% macro rules() -%}
+{% set mo = site.dv.channels.get("mo-398n", {}) %}
+{% set shown = namespace(n=0) %}
+<ul class="dv-rules">
+{% for rid in mo.get("deadline_rule_ids", []) %}
+{% set r = site.dv.rules.get(rid) %}
+{% if r and r.usable %}
+{% set shown.n = shown.n + 1 %}
+<li class="dv-rule">
+  <p class="dv-rule__label">{{ r.result_label }}: <strong>{{ r.value }} {% if r.unit == "working_days" %}{{ r.value | plural("рабочий день", "рабочих дня", "рабочих дней", false) }}{% elif r.unit == "calendar_days" %}{{ r.value | plural("календарный день", "календарных дня", "календарных дней", false) }}{% else %}в течение суток{% endif %}</strong></p>
+  <p class="dv-rule__from">{% if r.from_event_label %}Отсчёт: {{ r.from_event_label[:1] | lower }}{{ r.from_event_label[1:] }}. {% endif %}<a href="{{ xurl('pal-norms', 'deadlines/' ~ rid ~ '/') }}">Посчитать дату</a></p>
+  {% if r.ambiguous %}{% call op.status("unverified") %}{{ r.ambiguity_note }}{% endcall %}{% endif %}
+</li>
+{% endif %}
+{% endfor %}
+</ul>
+{% if not shown.n %}
+{% call op.status("unverified") %}Срок пока не сверен. Смотрите <a href="{{ xurl('pal-norms', 'deadlines/') }}">Нормы и сроки</a>{% endcall %}
+{% endif %}
+{%- endmacro %}
+
+{% macro old_line(device) -%}
+{% if device.in_348n == "yes" %}
+<p class="dv-old">{{ icon("history") }}<span>В старом перечне: было. <a href="{{ url('changes/') }}">Что изменилось</a></span></p>
+{% elif device.in_348n == "no" %}
+<p class="dv-old">{{ icon("plus") }}<span>Новая позиция: в старом перечне её не было. <a href="{{ url('changes/') }}">Что изменилось</a></span></p>
+{% else %}
+<p class="dv-old">{{ icon("circle-help") }}<span>Было ли это в старом перечне, пока не проверено. <a href="{{ url('changes/') }}">Что изменилось</a></span></p>
+{% endif %}
+{%- endmacro %}
+
+{% macro old_word(device) -%}
+{% if device.in_348n == "yes" %}было{% elif device.in_348n == "no" %}новое{% else %}не проверено{% endif %}
+{%- endmacro %}
+
+{% macro back(manual=false) -%}
+<dv-back class="dv-back"{% if manual %} data-manual{% endif %} hidden>
+  <ul>
+    {% for s in opdata.situations %}
+    <li data-back="{{ s.id }}" hidden><a href="{{ hub('s/' ~ s.id ~ '/') }}">Вернуться: {{ s.title }}</a></li>
+    {% endfor %}
+  </ul>
+</dv-back>
+{%- endmacro %}
+
+{% macro more(compact=false) -%}
+<section class="dv-moreuse" aria-labelledby="dv-moreuse-title">
+  <h2 id="dv-moreuse-title">Что ещё может пригодиться</h2>
+  <ul class="dv-links{{ ' dv-links--row' if compact }}">
+    {% for m in content.texts.more %}
+    <li><a href="{{ xurl(m.repo, m.path) }}">{{ m.title }}</a>{% if not compact %}<span>{{ m.text }}</span>{% endif %}</li>
+    {% endfor %}
+  </ul>
+</section>
+{%- endmacro %}
+
+{% macro dates(inline=false) -%}
+{% set env = site.dv.env %}
+<div class="dv-dates{{ ' dv-dates--inline' if inline }}">
+  {% if env %}{{ op.data_date(env.data_date, env.stale_after_days, true, "Сверено с официальными публикациями") }}{% endif %}
+  {% set k = site.dv.nkmi %}
+  {% if k and k.checked_at %}
+  <p class="dv-dates__nkmi">{{ icon("refresh-cw") }}<span>Автопроверка по справочнику Росздравнадзора <time datetime="{{ k.checked_at }}">{{ k.checked_at | ru_date }}</time>, версия справочника {{ k.version }}: на месте {{ k.present }} из {{ k.present + k.missing }} кодов</span></p>
+  {% endif %}
+</div>
+{%- endmacro %}
+
+{% macro result_templates() -%}
+<template id="dv-tpl-result">
+  <li class="dv-result">
+    <a class="dv-result__link" href=""><span class="dv-result__title"></span></a>
+    <p class="dv-result__kind">Код <span class="dv-result__code"></span><span class="dv-result__alias"></span></p>
+    <p class="dv-result__renamed" data-renamed>{{ icon("info") }}<span>Росздравнадзор сменил название вида под этим кодом после выхода перечня</span></p>
+    <p class="dv-ch dv-ch--mo" data-ch="mo">Выдаёт медорганизация</p>
+    <p class="dv-ch dv-ch--both" data-ch="both">Медорганизация или Соцфонд</p>
+    <p class="dv-result__unverified" data-unverified>{{ nv() }} <span data-why="scan">Строка ещё не сверена со сканом</span><span data-why="mismatch">Строка перечня проверяется</span><span data-why="missing">Кода нет в последней версии справочника</span></p>
+  </li>
+</template>
+<template id="dv-tpl-group">
+  <section class="dv-group">
+    <h3 class="dv-group__title"></h3>
+    <ul class="dv-results__list"></ul>
+  </section>
+</template>
+<template id="dv-tpl-head">
+  <p class="dv-results__head"></p>
+</template>
+<template id="dv-tpl-ambiguous">
+  {% call op.status("info") %}<span data-text></span>{% endcall %}
+</template>
+<template id="dv-tpl-removed">
+  {% call op.status("info") %}<span>Кода <span data-code></span> нет в новом перечне.</span> <a href="" data-link>Что изменилось</a>{% endcall %}
+</template>
+<template id="dv-tpl-error">
+  <div class="dv-empty" role="alert">
+    {% call op.status("error") %}Не получилось загрузить перечень. Обновите страницу или <a href="{{ url('list/') }}">откройте весь перечень</a>{% endcall %}
+  </div>
+</template>
+<template id="dv-tpl-empty">
+  <div class="dv-empty">
+    {% call op.status("info") %}Такого названия мы не нашли. Попробуйте другое слово или <a href="{{ url('list/') }}">откройте весь перечень</a>{% endcall %}
+    <p class="dv-empty__privacy">{{ icon("lock") }}<span>Не пишите в предложении имя, диагноз и регион</span></p>
+    <p><a href="{{ site.github }}/issues/new?template=alias.yml">Предложить название</a> <span class="op-muted">(откроется сайт github.com)</span></p>
+  </div>
+</template>
+{%- endmacro %}
+
+{% macro row(d) -%}
+<tr id="r{{ d.code }}"><td><a href="{{ url('devices/' ~ d.code ~ '/') }}">{{ d.nkmi_name }}</a>{% if not d.verified %} {{ nv() }}{% endif %}</td><td class="dv-k">{{ d.code }}</td>{% if "sfr-pp240" in d.channel_ids %}<td class="dv-c dv-c--2">Медорганизация или Соцфонд</td>{% else %}<td class="dv-c">Медорганизация</td>{% endif %}<td class="dv-o">{{ old_word(d) }}</td></tr>
+{%- endmacro %}
+
+{% macro table(items, pick=false) -%}
+<div class="op-table-wrap"{% if pick %} hidden{% endif %}>
+  <table class="op-table dv-table">
+    <thead><tr>{% if pick %}<th scope="col" class="dv-col-pick">В лист</th>{% endif %}<th scope="col">Вид по справочнику</th><th scope="col">Код</th><th scope="col">Кто выдаёт</th><th scope="col">В старом перечне</th></tr></thead>
+    <tbody>
+      {% for d in items %}
+      {{ row(d) }}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{%- endmacro %}
+
+{% macro ed_req(n) -%}
+{% set nid = site.dv.sources.get(n.source_ref, {}).get("norm_id") or "" %}
+{% set r = site.dv.req.get(nid, {}) %}
+{{- r.get("line") or ("Распоряжение Правительства от " ~ (n.date | ru_date) ~ " № " ~ n.number) -}}
+{%- endmacro %}
+
+{% macro ed_change(n) -%}
+{% if n.get("items_from") and n.get("items_to") %}
+<p class="dv-ed__change">{{ "Пункты перечня" if n.kind == "base" else "Дополняет перечень пунктами" }} {{ n.items_from }}{% if n.items_to != n.items_from %}-{{ n.items_to }}{% endif %}{% if n.get("items_scan_pages") %}, {{ "стр." }} {{ n.items_scan_pages }} публикации{% endif %}</p>
+{% elif n.kind == "amendment" and n.pages > 1 %}
+<p class="dv-ed__change">Сами изменения приложены к распоряжению: {{ "стр. 2" if n.pages == 2 else "стр. 2-" ~ n.pages }} публикации</p>
+{% endif %}
+{%- endmacro %}
+
+{% macro edition_card(n) -%}
+<li class="dv-ed">
+  <p class="dv-ed__kind">{{ icon("file-text") }}<span>{{ "Перечень утверждён" if n.kind == "base" else "Изменения в перечень" }}</span></p>
+  <h3 class="dv-ed__title"><a href="{{ url('nutrition/' ~ n.id ~ '/') }}">{{ ed_req(n) }}</a></h3>
+  <p class="dv-ed__meta">{% if n.in_force_from %}Действует с {{ n.in_force_from | ru_date }} · {% endif %}{{ n.pages | plural("страница", "страницы", "страниц") }} · номер публикации <span class="dv-code">{{ n.id }}</span></p>
+  {{ ed_change(n) }}
+  <p class="dv-ed__links"><a href="{{ n.url }}">Официальная публикация</a>{% if not n.verified %} {{ nv() }}{% endif %}</p>
+</li>
+{%- endmacro %}

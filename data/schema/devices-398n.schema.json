@@ -1,0 +1,345 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openpalliative.github.io/pal-devices-data/data/v1/devices-398n.schema.json",
+  "title": "Перечень медицинских изделий для паллиативной помощи на дому",
+  "type": "object",
+  "required": [
+    "dataset",
+    "items",
+    "nkmi_check"
+  ],
+  "properties": {
+    "dataset": {
+      "const": "devices-398n"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "aliases",
+          "channel_ids",
+          "code",
+          "fn2",
+          "group_no",
+          "group_title",
+          "id",
+          "in_348n",
+          "legal_reviewed",
+          "name_in_act",
+          "nkmi_changed_in",
+          "nkmi_history",
+          "nkmi_name",
+          "nkmi_name_now",
+          "nkmi_status",
+          "note",
+          "order",
+          "primary_alias",
+          "scan_page",
+          "source_ref",
+          "subgroup_title",
+          "tsr_2347r",
+          "tsr_source_ref",
+          "verified",
+          "verified_at",
+          "warning_ids"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^\\d{6}$"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "verified_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "code": {
+            "type": "string",
+            "pattern": "^\\d{6}$",
+            "x-message-ru": "код вида НКМИ из шести цифр"
+          },
+          "nkmi_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name_in_act": {
+            "type": "string",
+            "minLength": 1
+          },
+          "nkmi_name_now": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "group_no": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "group_title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "subgroup_title": {
+            "type": "string"
+          },
+          "order": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "scan_page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "fn2": {
+            "type": "boolean"
+          },
+          "tsr_2347r": {
+            "enum": [
+              "yes",
+              "no",
+              "unknown",
+              "by_fn2"
+            ],
+            "description": "by_fn2: выведено только из сноски 2 перечня, по тексту перечня ТСР не сверено"
+          },
+          "in_348n": {
+            "enum": [
+              "yes",
+              "no",
+              "unknown"
+            ]
+          },
+          "channel_ids": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "mo-398n",
+                "sfr-pp240"
+              ]
+            },
+            "minItems": 1
+          },
+          "warning_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            }
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            }
+          },
+          "primary_alias": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "nkmi_status": {
+            "enum": [
+              "present",
+              "renamed",
+              "mismatch",
+              "missing",
+              "unknown"
+            ]
+          },
+          "legal_reviewed": {
+            "type": "boolean"
+          },
+          "note": {
+            "type": "string"
+          },
+          "tsr_source_ref": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "id цитаты или источника, на котором основано значение tsr_2347r"
+          },
+          "nkmi_changed_in": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{8}$",
+            "description": "версия НКМИ, с которой под кодом записан другой вид"
+          },
+          "nkmi_history": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "version",
+                "name"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "version": {
+                  "type": "string",
+                  "pattern": "^\\d{8}$"
+                },
+                "name": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "tsr_2347r": {
+                  "const": "yes"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "tsr_source_ref": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "tsr_2347r": {
+                  "const": "by_fn2"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "fn2": {
+                  "const": true
+                },
+                "tsr_source_ref": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "nkmi_status": {
+                  "const": "renamed"
+                },
+                "nkmi_changed_in": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "nkmi_changed_in"
+              ]
+            },
+            "then": {
+              "properties": {
+                "nkmi_history": {
+                  "minItems": 2
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "nkmi_check": {
+      "type": "object",
+      "required": [
+        "checked_at",
+        "version",
+        "present",
+        "missing"
+      ],
+      "properties": {
+        "checked_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "present": {
+          "type": "integer"
+        },
+        "missing": {
+          "type": "integer"
+        },
+        "missing_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\d{6}$",
+            "x-message-ru": "код вида НКМИ из шести цифр"
+          }
+        },
+        "ok": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "history_versions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\d{8}$"
+          }
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "text"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "x-schema-version": "1.1.0"
+}

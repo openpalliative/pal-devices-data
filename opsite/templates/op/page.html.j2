@@ -1,0 +1,12 @@
+{% extends "op/base.html.j2" %}
+{% block title %}{{ page.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+{% block main %}
+<div class="op-wrap op-page">
+  <h1>{{ page.title }}</h1>
+  {% if page.lead %}<p class="op-lead">{{ page.lead }}</p>{% endif %}
+  <div class="op-prose">
+    {{ body }}
+  </div>
+</div>
+{% endblock %}

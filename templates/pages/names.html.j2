@@ -1,0 +1,49 @@
+{% extends "op/base.html.j2" %}
+{% import "partials/dv.html.j2" as dv with context %}
+{% set draft = "legal" %}
+{% block title %}Названия по алфавиту{% endblock %}
+{% block description %}Как в семьях называют медицинские изделия для дома и какие виды перечня за этими словами стоят{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url('assets/css/dv-print.css') }}" media="print">
+<link rel="stylesheet" href="{{ url('assets/css/dv-names.css') }}">
+{% endblock %}
+{% block main %}
+<div class="op-wrap op-page dv-names">
+  {{ op.crumbs([("openpalliative", hub('')), (site.title, url('')), ("Названия по алфавиту", "")]) }}
+  <section class="dv-az" id="dv-az" aria-labelledby="dv-az-title">
+    <h1 id="dv-az-title">Названия по алфавиту</h1>
+    <p class="op-muted">Так изделия называют в семьях. Рядом вид по справочнику Росздравнадзора, как он записан в перечне. Отметка «Не проверено» у названия значит, что мы ещё не сверили, к каким видам оно относится</p>
+    <nav class="dv-letters" aria-label="Буквы">
+      <ul>
+        {% for l in site.dv.az %}<li><a href="#l-{{ loop.index }}">{{ l.letter }}</a></li>{% endfor %}
+      </ul>
+    </nav>
+    <div class="dv-az__cols">
+{% for l in site.dv.az %}
+<section class="dv-az__letter" aria-labelledby="l-{{ loop.index }}"><h2 id="l-{{ loop.index }}">{{ l.letter }}</h2><ul class="dv-az__list">
+{% for it in l["items"] %}
+<li id="a-{{ it.alias.id }}"><b>{{ it.alias.alias }}</b>{% if not it.alias.verified %} {{ dv.nv() }}{% endif %}<ul>
+{% if it.targets | length <= 2 %}
+{% for t in it.targets %}
+{% if t.kind == "device" %}<li><a href="{{ url('devices/' ~ t.code ~ '/') }}">{{ t.name }}</a></li>
+{% else %}<li><a href="{{ url('changes/') }}#c-{{ t.code }}">{{ t.name }}</a> <i>нет в новом перечне</i></li>
+{% endif %}
+{% endfor %}
+{% else %}
+{% for b in it.bundles %}<li><a href="{{ url('list/' ~ b.group_no ~ '/') }}#{{ b.anchor }}">{{ b.title[:1] | upper }}{{ b.title[1:] }}</a> <i>{{ b.count | plural("вид", "вида", "видов") }}</i></li>
+{% endfor %}
+{% if it.old %}<li><a href="{{ url('changes/') }}#gone">Из старого перечня</a> <i>{{ it.old | plural("код", "кода", "кодов") }}</i></li>
+{% endif %}
+{% endif %}
+</ul></li>
+{% endfor %}
+</ul></section>
+{% endfor %}
+    </div>
+    <p class="dv-az__more">Нет вашего слова? Откройте <a href="{{ url('list/') }}">весь перечень</a> или <a href="{{ site.github }}/issues/new?template=alias.yml">предложите название</a> <span class="op-muted">(откроется сайт github.com, не пишите имя, диагноз и регион)</span></p>
+  </section>
+
+  <p><a href="{{ url('') }}">{{ icon("search") }} Искать по слову или коду</a></p>
+  {{ dv.dates() }}
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+tools:
+  - repo: obrashchenie-kit
+    prefix: ok
+    title: Заявления и жалобы
+    summary: Попросить ответ на бумаге, посчитать срок и понять следующий шаг
+    icon: file-text
+    group: do
+  - repo: home-care-kit
+    prefix: hc
+    title: Листы для дома
+    summary: Карта на ночь и праздники, лист для скорой, чек-лист выписки
+    icon: printer
+    group: do
+  - repo: pal-devices-data
+    prefix: dv
+    title: Кто выдаёт изделия
+    summary: Аппараты, кровати, расходники и питание. Кто выдаёт и по какому документу
+    icon: package
+    group: learn
+  - repo: pal-directory
+    prefix: pd
+    title: Куда звонить
+    summary: Номера вашего региона с назначением, источником и датой проверки
+    icon: map-pin
+    group: learn
+  - repo: pal-norms
+    prefix: pn
+    title: Нормы и сроки
+    summary: Дословные цитаты из официальных публикаций, сроки ответа и куда обращаться дальше
+    icon: scale
+    group: learn

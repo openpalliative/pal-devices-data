@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "content/situations.yaml хаба",
+  "type": "object",
+  "required": ["situations"],
+  "properties": {
+    "version": { "type": "string" },
+    "situations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "hint", "icon"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+          "title": { "type": "string", "minLength": 1 },
+          "hint": { "type": "string", "minLength": 1 },
+          "icon": { "type": "string" },
+          "urgent": { "enum": ["true", "false", true, false] },
+          "roles": { "type": "array", "items": { "type": "string" } },
+          "ideas": { "type": "array", "items": { "type": "string" } },
+          "today": { "$ref": "#/$defs/steps" },
+          "later": { "$ref": "#/$defs/steps" },
+          "if_failed": { "$ref": "#/$defs/steps" },
+          "related": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["repo", "label"],
+        "additionalProperties": false,
+        "properties": {
+          "repo": { "type": "string" },
+          "entry": { "type": "string" },
+          "path": { "type": "string" },
+          "label": { "type": "string", "minLength": 1 },
+          "params": { "type": "object", "additionalProperties": { "type": "string" } },
+          "soon": { "enum": ["true", "false", true, false] },
+          "anchor": { "type": "string", "pattern": "^[a-z0-9-]+$" }
+        }
+      }
+    }
+  }
+}

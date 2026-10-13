@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openpalliative.github.io/pal-devices-data/data/v1/entrypoints.schema.json",
+  "title": "Точки входа инструмента для хаба",
+  "type": "object",
+  "required": [
+    "dataset",
+    "items"
+  ],
+  "properties": {
+    "dataset": {
+      "const": "entrypoints"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "audience",
+          "id",
+          "maturity",
+          "offline",
+          "path",
+          "printable",
+          "situations",
+          "summary",
+          "title",
+          "verified",
+          "verified_at"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "verified_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string"
+          },
+          "audience": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "family",
+                "org",
+                "lawyer",
+                "medic",
+                "developer"
+              ]
+            }
+          },
+          "situations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "offline": {
+            "type": "boolean"
+          },
+          "printable": {
+            "type": "boolean"
+          },
+          "maturity": {
+            "enum": [
+              "demo",
+              "draft",
+              "beta",
+              "stable"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

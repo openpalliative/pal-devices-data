@@ -1,0 +1,43 @@
+{
+ "format": "openpalliative-dataset/1",
+ "dataset": "nutrition-3551r",
+ "repo": "pal-devices-data",
+ "schema_version": "1.1.0",
+ "version": "2000.01.01",
+ "generated_at": "2000-01-01T00:00:00Z",
+ "data_date": "2000-01-01",
+ "stale_after_days": 90,
+ "license": "CC0-1.0",
+ "source": [
+  {
+   "id": "fixture",
+   "title": "Пример на выдуманных данных"
+  }
+ ],
+ "content_sha256": "79aca71d10637d8caa2e0cdfcafab4995658ebf7e998520cf671d24bc2aca09d",
+ "counts": {
+  "items": 1,
+  "unverified": 1,
+  "excluded": 0
+ },
+ "items": [
+  {
+   "id": "0000000000000000",
+   "number": "0000-р",
+   "date": "2000-01-01",
+   "kind": "base",
+   "amends": null,
+   "in_force_from": null,
+   "pages": 1,
+   "first_sentence": "Пример первой фразы, не настоящий текст",
+   "url": "http://publication.pravo.gov.ru/document/0000000000000000",
+   "sha256": "",
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "items_from": 1,
+   "items_to": 1,
+   "items_scan_pages": "2"
+  }
+ ]
+}

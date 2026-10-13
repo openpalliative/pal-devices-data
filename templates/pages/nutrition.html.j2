@@ -1,0 +1,75 @@
+{% extends "op/base.html.j2" %}
+{% import "partials/dv.html.j2" as dv with context %}
+{% set draft = "legal" %}
+{% set base_nut = site.dv.nutrition_base %}
+{% set eds = site.dv.nutrition %}
+{% set q = site.dv.quotes.get("323fz-37-15") %}
+{% set has_q = q and q.text_verbatim %}
+{% block title %}Лечебное питание{% endblock %}
+{% block description %}Перечень специализированных продуктов лечебного питания для детей-инвалидов: редакции, ссылки на официальные публикации и что делать, если продукта нет в перечне или отказали{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url('assets/css/dv-print.css') }}" media="print">
+<link rel="stylesheet" href="{{ url('assets/css/dv-text.css') }}">
+<link rel="stylesheet" href="{{ url('assets/css/dv-info.css') }}">
+{% endblock %}
+{% block main %}
+<div class="op-wrap op-page dv-nutrition">
+  {{ op.crumbs([("openpalliative", hub('')), (site.title, url('')), ("Лечебное питание", "")]) }}
+  <h1>Лечебное питание</h1>
+  <p class="op-lead">Перечень специализированных продуктов лечебного питания для детей-инвалидов утверждает Правительство.{% if eds | length > 1 %} Сейчас у него {{ eds | length | plural("документ", "документа", "документов") }}: сам перечень и изменения к нему{% endif %}</p>
+
+  <section aria-labelledby="eds">
+    <h2 id="eds">Перечень и изменения</h2>
+    <ol class="dv-eds">
+      {% for n in eds %}
+      {{ dv.edition_card(n) }}
+      {% endfor %}
+    </ol>
+    {% call op.status("info") %}Список продуктов мы на сайт не переносим: в нём торговые наименования. Смотрите приложение в официальной публикации{% if base_nut %}: <a href="{{ base_nut.url }}">перечень на сайте официальных публикаций</a>{% endif %}{% endcall %}
+  </section>
+
+  <section class="dv-notlisted" aria-labelledby="notlisted">
+    <h2 id="notlisted">Продукта нет в перечне</h2>
+    {% if has_q %}
+    <p class="dv-legal-mark">{{ icon("file-warning") }}<span><strong>Черновик.</strong> Нужна проверка юристом в РФ: как эта норма применяется к вашему случаю, юрист ещё не смотрел</span></p>
+    {{ dv.quote("323fz-37-15", "Закон об основах охраны здоровья граждан, " ~ (q.get("point_short") or q.point)) }}
+    {% if q.verified %}
+    <ol class="dv-qsteps">
+      {% if "врачебной комисси" in q.text_verbatim %}<li><strong>Кто решает.</strong> Врачебная комиссия: так сказано в цитате выше</li>{% endif %}
+      {% set law = site.dv.req.get(q.get("law_id") or "323-fz", {}) %}
+      {% set amend = site.dv.req.get(q.get("act_id") or "", {}) %}
+      <li><strong>На что сослаться.</strong> {% set pt = q.get("point_short") or q.point %}{{ pt[:1] | upper }}{{ pt[1:] }} закона об основах охраны здоровья граждан{% if law.get("line") %} ({{ law.line }}){% endif %}{% if amend.get("line") and q.get("act_id") != (q.get("law_id") or "323-fz") %}, в редакции {{ amend.line | replace("Федеральный закон", "Федерального закона", 1) }}{% endif %}{% if q.eoNumber %}, номер официальной публикации <span class="dv-code">{{ q.eoNumber }}</span>{% endif %}</li>
+    </ol>
+    {% else %}
+    {% call op.status("unverified") %}Текст снят распознаванием и ещё не сверен с изображением страницы. Пока не опирайтесь на него в обращении{% endcall %}
+    {% endif %}
+    {% else %}
+    {% call op.status("unverified") %}Решение о продукте не из перечня может принять врачебная комиссия. Норма: {{ (q.get("point_short") or q.point) if q else "часть 15 статьи 37" }} закона об основах охраны здоровья граждан{% endcall %}
+    <p>Закон: {{ dv.norm_link("323-fz") }}</p>
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="adult">
+    <h2 id="adult">После 18 лет</h2>
+    {% call op.status("unverified") %}Перечень выше касается детей-инвалидов. Как лечебным питанием обеспечивают взрослых, мы пока не разбирали{% endcall %}
+  </section>
+
+  <section aria-labelledby="refused">
+    <h2 id="refused">Если отказали</h2>
+    <p>Попросите ответ на бумаге. Мы поможем составить обращение и посчитать срок ответа</p>
+    <div class="op-actions">
+      {{ op.btn("Отказали в питании", xurl('obrashchenie-kit', 'case/', {'new': 1, 's': 'oral-refusal', 'nut': base_nut.id if base_nut else none}), "primary", "file-text") }}
+    </div>
+  </section>
+
+  {{ dv.back() }}
+  {{ dv.more() }}
+  {% if eds %}
+  {% set nenv = data["nutrition-3551r"] %}
+  <div class="dv-dates">{{ op.data_date(nenv.data_date, nenv.stale_after_days, true, "Сверено с официальными публикациями") }}</div>
+  {% endif %}
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="module" src="{{ url('assets/js/dv-back.js') }}"></script>
+{% endblock %}

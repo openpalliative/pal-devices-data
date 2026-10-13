@@ -1,0 +1,19 @@
+domains:
+  - domain: te-st.org
+    reason: проект не ссылается на сайты организаций из реестра иностранных агентов, Федеральный закон от 14.07.2022 № 255-ФЗ «О контроле за деятельностью лиц, находящихся под иностранным влиянием»
+  - domain: vk.com
+    reason: ограничительные меры ЕС, Council Decision (CFSP) 2026/1709 от 13.07.2026, https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202601709
+  - domain: vk.ru
+    reason: ограничительные меры ЕС, Council Decision (CFSP) 2026/1709 от 13.07.2026, https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202601709
+  - domain: max.ru
+    reason: ограничительные меры ЕС в отношении разработчика MAX, Council Decision (CFSP) 2026/1709 от 13.07.2026, https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202601709
+  - domain: fonts.googleapis.com
+    reason: сайты не делают внешних запросов, шрифт лежит рядом со страницей (принципы проекта, раздел «Приватность»)
+  - domain: fonts.gstatic.com
+    reason: сайты не делают внешних запросов, шрифт лежит рядом со страницей (принципы проекта, раздел «Приватность»)
+  - domain: mc.yandex.ru
+    reason: на сайтах нет аналитики и счётчиков (принципы проекта, раздел «Приватность»)
+  - domain: google-analytics.com
+    reason: на сайтах нет аналитики и счётчиков (принципы проекта, раздел «Приватность»)
+  - domain: googletagmanager.com
+    reason: на сайтах нет аналитики и счётчиков (принципы проекта, раздел «Приватность»)

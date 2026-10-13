@@ -1,0 +1,107 @@
+{% extends "op/base.html.j2" %}
+{% import "partials/dv.html.j2" as dv with context %}
+{% set draft = "legal" %}
+{% set d = device %}
+{% set src = site.dv.sources.get(d.source_ref, {}) %}
+{% set req = site.dv.req.get("398n", {}) %}
+{% set eo = req.get("eoNumber") or src.get("eoNumber", "") %}
+{% block title %}{{ d._title }}{% endblock %}
+{% block description %}Кто выдаёт: {{ d.nkmi_name }}, код вида {{ d.code }}. Основание дословно и что делать, если не выдают{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url('assets/css/dv-print.css') }}" media="print">
+<link rel="stylesheet" href="{{ url('assets/css/dv-text.css') }}">
+<link rel="stylesheet" href="{{ url('assets/css/dv-card.css') }}">
+{% endblock %}
+{% block main %}
+<div class="op-wrap op-page dv-card">
+  {{ op.crumbs([("openpalliative", hub('')), (site.title, url('')), (d._title, "")]) }}
+  <header class="dv-card__head">
+    <h1{% if d._title | length > 60 %} class="dv-card__long"{% endif %}>{{ d._title }}</h1>
+    <p class="dv-card__kind">{{ "Вид по перечню" if d._renamed else "Вид по справочнику Росздравнадзора" }}{% if d._title != d.nkmi_name %}: <strong>{{ d.nkmi_name }}</strong> ·{% else %},{% endif %} код <span class="dv-code">{{ d.code }}</span></p>
+    {% if d._other_names %}<p class="dv-card__aka">Как ещё называют: {% for n in d._other_names %}{{ n }}{% if n in d._unverified_names %} (название не проверено){% endif %}{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+  </header>
+  {{ dv.renamed(d) }}
+  {% if not d.verified and not d._renamed %}
+  {% call op.status("unverified") %}Строка ещё не сверена с изображением страницы официальной публикации. Сверьте код по ссылке в разделе «Основание»{% endcall %}
+  {% endif %}
+  {% if d.nkmi_status == "missing" %}
+  {% call op.status("unverified") %}Кода нет в последней версии справочника Росздравнадзора. Возможно, вид переименован, это проверяется{% endcall %}
+  {% elif d.nkmi_status == "unknown" %}
+  {% call op.status("unverified") %}Есть ли код в справочнике Росздравнадзора, пока не проверено{% endcall %}
+  {% endif %}
+
+  <section class="dv-who" aria-labelledby="who">
+    <h2 id="who">Кто выдаёт</h2>
+    {{ dv.channel(d) }}
+  </section>
+
+  <section aria-labelledby="basis">
+    <h2 id="basis">Основание</h2>
+    <figure class="op-quote dv-row" id="q-row">
+      <p class="dv-quote__head">Строка перечня изделий для дома</p>
+      <blockquote data-verbatim>
+        <dl class="dv-row__dl">
+          <div><dt>Группа</dt><dd>{{ d.group_title }}</dd></div>
+          <div><dt>Подгруппа</dt><dd>{{ d.subgroup_title }}</dd></div>
+          <div><dt>Вид</dt><dd>{{ d.name_in_act or d.nkmi_name }}</dd></div>
+          <div><dt>Код</dt><dd><span class="dv-code">{{ d.code }}</span>{% if d.fn2 %} (со сноской 2){% endif %}</dd></div>
+        </dl>
+      </blockquote>
+      <figcaption>{{ dv.cite_for(d.source_ref, eo, "стр. " ~ d.scan_page ~ " публикации", d.verified_at, d.verified) }}</figcaption>
+    </figure>
+    {% if d.fn2 %}{{ dv.quote("398n-fn2", "Сноска 2 к перечню", same=true) }}{% endif %}
+    {{ dv.more_basis(d) }}
+  </section>
+
+  <section aria-labelledby="wait">
+    <h2 id="wait">Сколько ждать</h2>
+    {{ dv.rules() }}
+  </section>
+
+  {% set rest = d.warning_ids | reject("in", site.dv.channel_warnings) | reject("in", ["nkmi-mismatch", "nkmi-missing"]) | list %}
+  {% if d._renamed %}{% set rest = rest | reject("in", ["nkmi-renamed", "nkmi-reassigned"]) | list %}{% endif %}
+  {% set refs = rest | select("in", ["ref-repealed-348n", "ref-repealed-345n"]) | list %}
+  {% set rest = rest | reject("in", refs) | list %}
+  <section aria-labelledby="know">
+    <h2 id="know">Важно знать</h2>
+    {% for wid in rest %}{{ dv.warning(wid) }}{% endfor %}
+    {{ dv.old_line(d) }}
+    {% if refs %}
+    <details class="dv-more dv-refs">
+      <summary>{{ icon("chevron-right", "dv-more__chev") }}<span>Если отказывают со ссылкой на отменённый документ</span></summary>
+      <div class="dv-more__body">{% for wid in refs %}{{ dv.warning(wid) }}{% endfor %}</div>
+    </details>
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="next">
+    <h2 id="next">Что дальше</h2>
+    <div class="op-actions dv-next">
+      {{ op.btn("Не выдают? Попросить ответ на бумаге", xurl('obrashchenie-kit', 'case/', {'new': 1, 's': 'oral-refusal', 'device': d.code}), "primary", "file-text") }}
+      {{ op.btn("Добавить в лист «что просить»", xurl(site.repo, 'list/', {'device': d.code}), "secondary", "list-checks") }}
+      {{ op.btn("Что просить при выписке", xurl('home-care-kit', 'discharge/'), "secondary", "clipboard-list") }}
+    </div>
+  </section>
+
+  {% set g = site.dv.groups | selectattr("no", "equalto", d.group_no) | first %}
+  {% set sg = g.subgroups | selectattr("title", "equalto", d.subgroup_title) | first %}
+  {% set others = sg["items"] | rejectattr("code", "equalto", d.code) | list %}
+  <details class="dv-more dv-siblings">
+    <summary>{{ icon("chevron-right", "dv-more__chev") }}<span>Другие позиции этой подгруппы перечня ({{ others | length }})</span></summary>
+    <div class="dv-more__body">
+      {% if others %}
+      <ul class="dv-links dv-links--plain">
+        {% for o in others %}<li><a href="{{ url('devices/' ~ o.code ~ '/') }}">{{ o.nkmi_name }}</a> <span class="dv-code">{{ o.code }}</span></li>{% endfor %}
+      </ul>
+      {% endif %}
+      <p><a href="{{ url('list/' ~ g.no ~ '/') }}#{{ sg.anchor }}">Вся группа «{{ g.title }}» таблицей</a></p>
+    </div>
+  </details>
+
+  {{ dv.back() }}
+  {{ dv.dates() }}
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="module" src="{{ url('assets/js/dv-back.js') }}"></script>
+{% endblock %}

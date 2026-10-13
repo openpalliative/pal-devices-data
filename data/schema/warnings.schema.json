@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openpalliative.github.io/pal-devices-data/data/v1/warnings.schema.json",
+  "title": "Предупреждения на карточках изделий",
+  "type": "object",
+  "required": [
+    "dataset",
+    "items"
+  ],
+  "properties": {
+    "dataset": {
+      "const": "warnings"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "quote_ids",
+          "source_ref",
+          "text",
+          "verified",
+          "verified_at",
+          "when"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "verified_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "when": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fn2": {
+                "type": "boolean"
+              },
+              "in_348n": {
+                "enum": [
+                  "yes",
+                  "no",
+                  "unknown"
+                ]
+              },
+              "nkmi_missing": {
+                "type": "boolean"
+              },
+              "tsr_unknown": {
+                "type": "boolean"
+              },
+              "group_no": {
+                "type": "integer"
+              },
+              "always": {
+                "type": "boolean"
+              },
+              "nkmi_mismatch": {
+                "type": "boolean"
+              },
+              "nkmi_renamed": {
+                "type": "boolean"
+              },
+              "nkmi_reassigned": {
+                "type": "boolean"
+              }
+            }
+          },
+          "kind": {
+            "enum": [
+              "info",
+              "unverified"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quote_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            }
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "description": "почему verified:false"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "verified": {
+                  "const": false
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "x-schema-version": "1.1.0"
+}

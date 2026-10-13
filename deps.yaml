@@ -1,0 +1,9 @@
+pal-norms:
+  major: 1
+  datasets: [acts, deadline-rules, quotes]
+  version: 2026.10.11
+  data_date: '2026-10-11'
+  content_sha256: {acts: 157fd6f370c077d379560d119a161a308ff742040f4aef99259ee7da527f8a04,
+    deadline-rules: ee3903bed7add904f7654f77d314be9da4d5718a09c6f697fa5273dba0802d2d,
+    quotes: e87da78d82a78382e54c2fb48298bd5cccd9f8f073ffdaa1b7f0c046a3337325}
+  synced_at: '2026-10-13T06:32:03Z'

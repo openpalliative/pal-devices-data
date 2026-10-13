@@ -1,0 +1,109 @@
+{
+ "format": "openpalliative-dataset/1",
+ "dataset": "warnings",
+ "repo": "pal-devices-data",
+ "schema_version": "1.1.0",
+ "version": "2000.01.01",
+ "generated_at": "2000-01-01T00:00:00Z",
+ "data_date": "2000-01-01",
+ "stale_after_days": 90,
+ "license": "CC0-1.0",
+ "source": [
+  {
+   "id": "fixture",
+   "title": "Пример на выдуманных данных"
+  }
+ ],
+ "content_sha256": "1a9240226e56aa27374534f2462f99e147c91a0cde32af6ddfe30739c5dcac19",
+ "counts": {
+  "items": 6,
+  "unverified": 6,
+  "excluded": 0
+ },
+ "items": [
+  {
+   "id": "no-fn2-ipra",
+   "when": {
+    "fn2": false
+   },
+   "kind": "info",
+   "text": "Пример предупреждения без сноски",
+   "quote_ids": [],
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "reason": "Пример причины"
+  },
+  {
+   "id": "fn2-sfr",
+   "when": {
+    "fn2": true
+   },
+   "kind": "info",
+   "text": "Пример предупреждения со сноской",
+   "quote_ids": [
+    "398n-fn2"
+   ],
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "reason": "Пример причины"
+  },
+  {
+   "id": "ref-repealed-348n",
+   "when": {
+    "always": true
+   },
+   "kind": "info",
+   "text": "Пример: ссылка на отменённый перечень",
+   "quote_ids": [
+    "208n-p25"
+   ],
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "reason": "Пример причины"
+  },
+  {
+   "id": "ref-repealed-345n",
+   "when": {
+    "fn2": true
+   },
+   "kind": "info",
+   "text": "Пример: ссылка на отменённое положение",
+   "quote_ids": [
+    "398n-fn2"
+   ],
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "reason": "Пример причины"
+  },
+  {
+   "id": "tsr-unknown",
+   "when": {
+    "tsr_unknown": true
+   },
+   "kind": "unverified",
+   "text": "Пример: перечень реабилитационных средств не сверен",
+   "quote_ids": [],
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "reason": "Пример причины"
+  },
+  {
+   "id": "nkmi-missing",
+   "when": {
+    "nkmi_missing": true
+   },
+   "kind": "unverified",
+   "text": "Пример: кода нет в справочнике",
+   "quote_ids": [],
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture",
+   "reason": "Пример причины"
+  }
+ ]
+}

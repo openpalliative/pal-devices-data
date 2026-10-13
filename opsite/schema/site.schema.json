@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "site.yaml",
+  "type": "object",
+  "required": [
+    "repo",
+    "title",
+    "tagline",
+    "prefix",
+    "port",
+    "base",
+    "pwa",
+    "stale_after_days",
+    "draft_default",
+    "github"
+  ],
+  "properties": {
+    "repo": {
+      "type": "string",
+      "pattern": "^[a-z0-9.-]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tagline": {
+      "type": "string",
+      "minLength": 1
+    },
+    "prefix": {
+      "type": "string",
+      "pattern": "^[a-z]{2,4}$"
+    },
+    "port": {
+      "type": "integer",
+      "minimum": 1024,
+      "maximum": 65535
+    },
+    "base": {
+      "type": "string",
+      "pattern": "^/([a-z0-9-]+/)?$",
+      "x-message-ru": "base: / для хаба или /<repo>/ для инструмента"
+    },
+    "pwa": {
+      "type": "boolean"
+    },
+    "stale_after_days": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "draft_default": {
+      "enum": [
+        "legal",
+        "medical",
+        "both",
+        "none"
+      ]
+    },
+    "github": {
+      "type": "string",
+      "pattern": "^https://github\\.com/openpalliative/"
+    },
+    "lang": {
+      "type": "string",
+      "pattern": "^[a-z]{2}$"
+    },
+    "nav": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "title",
+          "path"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "site_url": {
+      "type": "string",
+      "pattern": "^https://[a-z0-9.-]+(/[a-z0-9._-]+)*/?$",
+      "x-message-ru": "site_url: адрес вида https://openpalliative.github.io"
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "first_load_kb": {
+          "type": "integer",
+          "minimum": 50,
+          "maximum": 400
+        },
+        "gzip": {
+          "type": "boolean"
+        },
+        "allow": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "page",
+              "kb",
+              "reason"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "page": {
+                "type": "string"
+              },
+              "kb": {
+                "type": "integer",
+                "minimum": 50,
+                "maximum": 400
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 10
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

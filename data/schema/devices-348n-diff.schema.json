@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openpalliative.github.io/pal-devices-data/data/v1/devices-348n-diff.schema.json",
+  "title": "Сравнение старого и нового перечня изделий",
+  "type": "object",
+  "required": [
+    "dataset",
+    "items"
+  ],
+  "properties": {
+    "dataset": {
+      "const": "devices-348n-diff"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "amended_by",
+          "code",
+          "id",
+          "name_348n",
+          "nkmi_name_now",
+          "retired",
+          "source_ref",
+          "status",
+          "verified",
+          "verified_at"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^\\d{6}$"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "verified_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "code": {
+            "type": "string",
+            "pattern": "^\\d{6}$",
+            "x-message-ru": "код вида НКМИ из шести цифр"
+          },
+          "status": {
+            "enum": [
+              "kept",
+              "removed",
+              "added"
+            ]
+          },
+          "name_348n": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "nkmi_name_now": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "retired": {
+            "type": "boolean"
+          },
+          "amended_by": {
+            "enum": [
+              "",
+              "added_1195n",
+              "removed_1195n"
+            ]
+          },
+          "retired_note": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "в каких версиях НКМИ кода нет"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "retired": {
+                  "const": true
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "retired_note": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "counts_diff": {
+      "type": "object",
+      "required": [
+        "old_total",
+        "new_total",
+        "kept",
+        "removed",
+        "added",
+        "unverified"
+      ],
+      "properties": {
+        "old_total": {
+          "type": "integer"
+        },
+        "new_total": {
+          "type": "integer"
+        },
+        "kept": {
+          "type": "integer"
+        },
+        "removed": {
+          "type": "integer"
+        },
+        "added": {
+          "type": "integer"
+        },
+        "unverified": {
+          "type": "integer"
+        }
+      }
+    },
+    "scan_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "text"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "x-schema-version": "1.1.0"
+}

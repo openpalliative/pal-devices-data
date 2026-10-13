@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Список датасетов репо",
+  "type": "object",
+  "required": ["repo", "generated_at", "opsite_version", "datasets"],
+  "properties": {
+    "repo": { "type": "string" },
+    "generated_at": { "type": "string" },
+    "opsite_version": { "type": "string" },
+    "datasets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "path", "schema", "schema_version", "version", "data_date", "content_sha256", "bytes", "items"],
+        "properties": {
+          "name": { "type": "string" },
+          "path": { "type": "string" },
+          "schema": { "type": "string" },
+          "schema_version": { "type": "string" },
+          "version": { "type": "string" },
+          "data_date": { "type": "string" },
+          "content_sha256": { "type": "string" },
+          "sha256": { "type": "string" },
+          "bytes": { "type": "integer" },
+          "items": { "type": "integer" }
+        }
+      }
+    }
+  }
+}

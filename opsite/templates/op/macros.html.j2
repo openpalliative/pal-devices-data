@@ -1,0 +1,354 @@
+{% macro btn(label, href=none, kind="primary", icon_name=none, type="button", size="", attrs={}) -%}
+{% set cls = "op-btn op-btn--" ~ kind ~ (" op-btn--" ~ size if size else "") %}
+{% if href %}
+<a class="{{ cls }}" href="{{ href }}"{% for k, v in attrs.items() %} {{ k }}="{{ v }}"{% endfor %}>{% if icon_name %}{{ icon(icon_name) }}{% endif %}<span>{{ label }}</span></a>
+{%- else %}
+<button class="{{ cls }}" type="{{ type }}"{% for k, v in attrs.items() %} {{ k }}="{{ v }}"{% endfor %}>{% if icon_name %}{{ icon(icon_name) }}{% endif %}<span>{{ label }}</span></button>
+{%- endif %}
+{%- endmacro %}
+
+{% macro field(id, label, hint=none, type="text", name=none, value="", autocomplete=none, error=none, required=false, inputmode=none, options=none, rows=none) -%}
+{% set described = [] %}
+{% if hint %}{% set _ = described.append(id ~ "-hint") %}{% endif %}
+{% if error %}{% set _ = described.append(id ~ "-error") %}{% endif %}
+<div class="op-field{{ ' op-field--error' if error }}">
+  <label class="op-field__label" for="{{ id }}">{{ label }}{% if not required %} <span class="op-field__optional">(можно не заполнять)</span>{% endif %}</label>
+  {% if hint %}<p class="op-field__hint" id="{{ id }}-hint">{{ hint }}</p>{% endif %}
+  {% if options is not none %}
+  <select class="op-input" id="{{ id }}" name="{{ name or id }}"{% if described %} aria-describedby="{{ described | join(' ') }}"{% endif %}{% if error %} aria-invalid="true"{% endif %}{% if required %} required{% endif %}>
+    {% for opt in options %}<option value="{{ opt.value }}"{% if opt.value == value %} selected{% endif %}>{{ opt.label }}</option>{% endfor %}
+  </select>
+  {% elif type == "textarea" %}
+  <textarea class="op-input op-input--area" id="{{ id }}" name="{{ name or id }}" rows="{{ rows or 4 }}"{% if described %} aria-describedby="{{ described | join(' ') }}"{% endif %}{% if error %} aria-invalid="true"{% endif %}{% if required %} required{% endif %}>{{ value }}</textarea>
+  {% else %}
+  <input class="op-input" id="{{ id }}" name="{{ name or id }}" type="{{ type }}" value="{{ value }}"{% if autocomplete %} autocomplete="{{ autocomplete }}"{% endif %}{% if inputmode %} inputmode="{{ inputmode }}"{% endif %}{% if described %} aria-describedby="{{ described | join(' ') }}"{% endif %}{% if error %} aria-invalid="true"{% endif %}{% if required %} required{% endif %}>
+  {% endif %}
+  {% if error %}<p class="op-field__error" id="{{ id }}-error">{{ icon("circle-alert") }}<span><strong>Ошибка:</strong> {{ error }}</span></p>{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro choice(name, legend, options, hint=none, type="radio", value=none) -%}
+<fieldset class="op-choice">
+  <legend class="op-field__label">{{ legend }}</legend>
+  {% if hint %}<p class="op-field__hint">{{ hint }}</p>{% endif %}
+  {% for opt in options %}
+  <label class="op-choice__item">
+    <input type="{{ type }}" name="{{ name }}" value="{{ opt.value }}"{% if opt.value == value %} checked{% endif %}>
+    <span>{{ opt.label }}{% if opt.hint %}<span class="op-choice__hint">{{ opt.hint }}</span>{% endif %}</span>
+  </label>
+  {% endfor %}
+</fieldset>
+{%- endmacro %}
+
+{% macro card(title, href=none, icon_name=none, meta=none, level=3, cls="") -%}
+<article class="op-card{{ ' op-card--link' if href }}{{ ' ' ~ cls if cls }}">
+  {% if icon_name %}<span class="op-card__icon">{{ icon(icon_name) }}</span>{% endif %}
+  <div class="op-card__body">
+    <h{{ level }} class="op-card__title">{% if href %}<a href="{{ href }}">{{ title }}</a>{% else %}{{ title }}{% endif %}</h{{ level }}>
+    {% if caller is defined %}<div class="op-card__text">{{ caller() }}</div>{% endif %}
+    {% if meta %}<p class="op-card__meta">{{ meta }}</p>{% endif %}
+  </div>
+</article>
+{%- endmacro %}
+
+{% set STATUS = {
+  "done": ("circle-check", "Готово"),
+  "deadline": ("clock", "Срок"),
+  "warning": ("triangle-alert", "Внимание"),
+  "error": ("triangle-alert", "Ошибка"),
+  "info": ("info", "Важно"),
+  "unverified": ("circle-help", "Не проверено"),
+  "stale": ("history", "Снимок устарел"),
+  "repealed": ("history", "Утратил силу"),
+  "offline": ("wifi-off", "Нет интернета"),
+} %}
+
+{% macro status(kind, text=none, role=none, icon_name=none, word=none) -%}
+{% set s = STATUS[kind] %}
+<div class="op-status op-status--{{ kind }}"{% if role %} role="{{ role }}"{% endif %}>
+  {{ icon(icon_name or s[0]) }}
+  <p><strong class="op-status__word{{ ' op-visually-hidden' if kind == 'info' and not word }}">{{ word or s[1] }}.</strong>{% if text %} {{ text }}{% endif %}{% if caller is defined %} {{ caller() }}{% endif %}</p>
+</div>
+{%- endmacro %}
+
+{% set DRAFT = {
+  "legal": "Текст не проверен юристом в РФ. Не используйте его как готовый документ без такой проверки",
+  "medical": "Текст не проверен медиком в РФ. Это не медицинская рекомендация",
+} %}
+
+{% set DRAFT_WHO = {"legal": "юристом", "medical": "медиком", "both": "юристом и медиком"} %}
+
+{% macro draft(kind, open=false) -%}
+{% if kind and kind != "none" %}
+<aside class="op-draft" aria-label="Черновик">
+  <details class="op-draft__details" open{% if open %} data-keep-open{% endif %}>
+    <summary class="op-draft__summary">{{ icon("file-warning", "op-draft__icon") }}<span class="op-draft__line"><strong>Черновик.</strong> Ждёт проверки {{ DRAFT_WHO[kind] }} в РФ</span>{{ icon("chevron-down", "op-draft__chev") }}</summary>
+    <div class="op-draft__body">
+      {% if kind in ("legal", "both") %}<p>{{ DRAFT.legal }}</p>{% endif %}
+      {% if kind in ("medical", "both") %}<p>{{ DRAFT.medical }}</p>{% endif %}
+    </div>
+  </details>
+  <p class="op-draft__print">{{ icon("file-warning", "op-draft__icon") }}<span><strong>Черновик.</strong>{% if kind in ("legal", "both") %} {{ DRAFT.legal }}.{% endif %}{% if kind in ("medical", "both") %} {{ DRAFT.medical }}.{% endif %}</span></p>
+</aside>
+{% endif %}
+{%- endmacro %}
+
+{% macro now(compact=false, heading_level=2, sources=false) -%}
+{% set _ = page_flags.update({"now": true}) %}
+{% set sid = "op-now-title" ~ ("-c" if compact else "") %}
+{% set urgent = opdata.now.lines | selectattr("verified") | list %}
+{% set other = opdata.now.lines | rejectattr("verified") | list %}
+{% set checked_numbers = urgent | map(attribute="number") | list %}
+<section class="op-now{{ ' op-now--compact' if compact }}" aria-labelledby="{{ sid }}">
+  <h{{ heading_level }} class="op-now__title{{ ' op-visually-hidden' if compact }}" id="{{ sid }}">{{ icon("phone") }}<span>Если помощь нужна прямо сейчас</span></h{{ heading_level }}>
+  {% for topic, lines in urgent | groupby("topic") %}
+  <p class="op-now__topic{{ ' op-visually-hidden' if compact }}">{{ topic }}</p>
+  <ul class="op-now__tels">
+    {% for line in lines %}
+    <li><a class="op-now__tel" href="{{ line.number | tel }}"><span class="op-now__num">{{ line.number | tel_display }}</span><span class="op-now__label">{{ (line.short or line.label) if compact else line.label }}</span></a></li>
+    {% endfor %}
+  </ul>
+  {% if not compact %}
+  <ul class="op-now__notes">
+    {% for line in lines if line.note %}<li><strong>{{ line.number | tel_display }}</strong>. {{ line.note }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+  {% endfor %}
+  {% for line in other %}
+  <p class="op-now__other">
+    <span class="op-now__topic-inline">{{ (line.short or line.topic) if compact else line.topic }}:</span>
+    <a href="{{ line.number | tel }}">{{ line.number | tel_display }}</a>
+    <span class="op-now__state">{{ unverified_inline() }}</span>
+    {% if not compact %}<span class="op-now__other-label">{{ line.label }}{% if line.third_party %}. Это сторонняя линия, мы с ней не связаны{% endif %}{% if line.note %}. {{ line.note }}{% endif %}</span>{% endif %}
+  </p>
+  {% endfor %}
+  {% if sources %}
+  <h{{ heading_level + 1 }} class="op-now__src-title" id="sources">Откуда номера</h{{ heading_level + 1 }}>
+  <ul class="op-now__sources">
+    {% for line in opdata.now.lines %}
+    <li>
+      <strong>{{ line.number | tel_display }}</strong>.
+      {% if line.verified %}Сверено с источником {{ line.verified_at | ru_date }}: {{ line.source.title }}{% if line.source.point %}, {{ line.source.point }}{% endif %}.
+      {% if line.source.url %}<a href="{{ line.source.url }}"{% if line.source.eoNumber %} title="Номер публикации {{ line.source.eoNumber }}"{% endif %}>Официальная публикация</a>{% endif %}
+      {% else %}{{ unverified_inline() }} {{ line.source.title }}.{% if line.source.url %} Адрес: <span class="op-code">{{ line.source.url }}</span>{% endif %}
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="op-now__checked">{{ checked_numbers | map("tel_display") | join(" и ") }} сверены с источником {{ opdata.now.checked_at | ru_date }}. <a href="{{ hub('now/') }}#sources">Откуда номера</a></p>
+  {% endif %}
+</section>
+{%- endmacro %}
+
+{% macro quote(text, source) -%}
+<figure class="op-quote">
+  <blockquote data-verbatim>{{ text }}</blockquote>
+  <figcaption>{{ cite(source) }}</figcaption>
+</figure>
+{%- endmacro %}
+
+{% macro legal_review(review, inline=false) -%}
+{% set ok = review and (review.get("status") if review is mapping else review) == "ok" %}
+{% if not ok %}
+{% if inline %}<span class="op-review">{{ icon("scale") }}<span>Толкование не проверено юристом в РФ</span></span>{% else %}{{ status("unverified", "Толкование не проверено юристом в РФ. Текст нормы сверен отдельно", word="Не проверено юристом") }}{% endif %}
+{% endif %}
+{%- endmacro %}
+
+{% macro cite(source) -%}
+{% set eo = source.get("eoNumber") %}
+{% set href = source.get("url") or (("http://publication.pravo.gov.ru/document/" ~ eo) if eo else "") %}
+<span class="op-cite">
+  <span class="op-cite__title">{{ source.title }}{% if source.get("point") %}, {{ source.point }}{% endif %}.</span>
+  {% if href or source.get("verified_at") %}<span class="op-cite__src">{% if href %}<a class="op-cite__link" href="{{ href }}"{% if eo %} title="Номер публикации {{ eo }}" data-eo="{{ eo }}"{% endif %}>Официальная публикация</a>{% endif %}{% if source.get("verified_at") %}{{ "," if href }} сверено {{ source.verified_at | ru_date }}{% endif %}</span>{% endif %}
+  {% if eo %}<span class="op-cite__eo">Номер публикации {{ eo }}</span>{% endif %}
+  {% if source.get("verified") in (false, "false") %}{{ unverified_inline() }}{% endif %}
+  {% if "legal_review" in source %}{{ legal_review(source.legal_review, inline=true) }}{% endif %}
+</span>
+{%- endmacro %}
+
+{% macro data_date(date, stale_after=90, verified=true, label="Данные проверены") -%}
+{% if verified and date %}
+<op-data-date class="op-data-date" datetime="{{ date }}" stale-after="{{ stale_after }}">
+  <span class="op-data-date__row">{{ icon("calendar-days") }}<span>{{ label }} <time datetime="{{ date }}">{{ date | ru_date }}</time></span></span>
+</op-data-date>
+{% else %}
+<p class="op-data-date op-data-date--unverified">{{ icon("circle-help") }}<span><strong>Не проверено.</strong> Эти данные ещё не сверены с источником</span></p>
+{% endif %}
+{%- endmacro %}
+
+{% macro unverified(text="Пункт не проверен и в документ не включён") -%}
+<p class="op-unverified">{{ icon("circle-help") }}<span>{{ text }}</span></p>
+{%- endmacro %}
+
+{% macro steps(current, items, label="Шаги") -%}
+<nav class="op-steps" aria-label="{{ label }}">
+  <p class="op-steps__count">Шаг {{ current }} из {{ items | length }}</p>
+  <ol class="op-steps__list">
+    {% for item in items %}
+    {% set n = loop.index %}
+    {% set text = item if item is string else item[0] %}
+    {% set href = none if item is string else item[1] %}
+    <li class="op-steps__item{{ ' is-done' if n < current }}{{ ' is-current' if n == current }}">
+      {% if href and n != current %}<a class="op-steps__step" href="{{ href }}">{% else %}<span class="op-steps__step"{% if n == current %} aria-current="step"{% endif %}>{% endif %}
+      <span class="op-steps__mark">{% if n < current %}{{ icon("check") }}<span class="op-visually-hidden">Готово:</span>{% else %}{{ n }}{% endif %}</span>
+      <span class="op-steps__text">{{ text }}</span>
+      {% if href and n != current %}</a>{% else %}</span>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</nav>
+{%- endmacro %}
+
+{% macro search(id, label, placeholder="", action="", name="q") -%}
+<form class="op-search" role="search"{% if action %} action="{{ action }}"{% endif %}>
+  <label class="op-field__label" for="{{ id }}">{{ label }}</label>
+  <div class="op-search__row">
+    <span class="op-search__icon">{{ icon("search") }}</span>
+    <input class="op-input op-search__input" id="{{ id }}" name="{{ name }}" type="search" autocomplete="off"{% if placeholder %} placeholder="{{ placeholder }}"{% endif %}>
+    <button class="op-btn op-btn--primary" type="submit"><span>Найти</span></button>
+  </div>
+</form>
+{%- endmacro %}
+
+{% macro toc(items) -%}
+<nav class="op-toc" aria-labelledby="op-toc-title">
+  <p class="op-toc__title" id="op-toc-title">На этой странице</p>
+  <ul>
+    {% for it in items %}<li><a href="#{{ it.id }}">{{ it.title }}</a></li>{% endfor %}
+  </ul>
+</nav>
+{%- endmacro %}
+
+{% macro print_btn(label="Распечатать или сохранить PDF") -%}
+<op-print class="op-print" hidden>{{ btn(label, kind="secondary", icon_name="printer") }}</op-print>
+{%- endmacro %}
+
+{% macro share(text, title="", label="Отправить") -%}
+<op-share class="op-share" data-text="{{ text }}" data-title="{{ title }}">
+  <a class="op-btn op-btn--secondary" href="sms:?&amp;body={{ text | urlencode }}" data-share="sms">{{ icon("message-square") }}<span>СМС</span></a>
+  <a class="op-btn op-btn--secondary" href="mailto:?subject={{ title | urlencode }}&amp;body={{ text | urlencode }}" data-share="mail">{{ icon("mail") }}<span>Почта</span></a>
+  <button class="op-btn op-btn--secondary" type="button" data-share="native" hidden>{{ icon("share-2") }}<span>{{ label }}</span></button>
+  <button class="op-btn op-btn--secondary" type="button" data-share="copy" hidden>{{ icon("copy") }}<span>Скопировать текст</span></button>
+  <span class="op-share__live op-visually-hidden" aria-live="polite"></span>
+</op-share>
+{%- endmacro %}
+
+{% macro sheet_footer(date, until, url_text, draft_kind="none") -%}
+<footer class="op-sheet-footer">
+  <p>Данные от {{ date | ru_date }}, сверьте до {{ until | ru_date }}. {{ url_text }}</p>
+  {% if draft_kind != "none" %}<p>Черновик. {% if draft_kind in ("legal", "both") %}{{ DRAFT.legal }}. {% endif %}{% if draft_kind in ("medical", "both") %}{{ DRAFT.medical }}{% endif %}</p>{% endif %}
+</footer>
+{%- endmacro %}
+
+{% macro wipe(label="Удалить всё с этого устройства") -%}
+<op-wipe class="op-wipe" hidden>
+  {{ btn(label, kind="danger", icon_name="trash-2", attrs={"data-wipe-open": ""}) }}
+  <dialog class="op-dialog" aria-labelledby="op-wipe-title">
+    <form method="dialog">
+      <h2 class="op-dialog__title" id="op-wipe-title">Удалить всё с этого устройства?</h2>
+      <p>Записи, черновики и настройки всех инструментов openpalliative в этом браузере будут удалены. Вернуть их нельзя. Если нужна копия, сначала сохраните её файлом</p>
+      <div class="op-dialog__actions">
+        <button class="op-btn op-btn--danger" value="wipe" type="submit">{{ icon("trash-2") }}<span>Да, удалить всё</span></button>
+        <button class="op-btn op-btn--secondary" value="cancel" type="submit" autofocus><span>Отмена</span></button>
+      </div>
+    </form>
+  </dialog>
+  <p class="op-wipe__live" role="status" aria-live="polite"></p>
+</op-wipe>
+{%- endmacro %}
+
+{% set BADGES = {
+  "demo": ("info", "Демо"),
+  "draft": ("file-warning", "Черновик"),
+} %}
+
+{% macro entry_badges(entry) -%}
+{% if entry %}
+<ul class="op-badges">
+  {% if entry.get("maturity") in BADGES %}{% set b = BADGES[entry.maturity] %}<li class="op-badge">{{ icon(b[0]) }}<span>{{ b[1] }}</span></li>{% endif %}
+  {% if entry.get("offline") in (true, "true") %}<li class="op-badge">{{ icon("wifi-off") }}<span>Без интернета</span></li>{% endif %}
+  {% if entry.get("printable") in (true, "true") %}<li class="op-badge">{{ icon("printer") }}<span>Можно распечатать</span></li>{% endif %}
+</ul>
+{% endif %}
+{%- endmacro %}
+
+{% macro crumbs(items) -%}
+<nav class="op-crumbs{{ ' op-crumbs--single' if items | length < 2 }}" aria-label="Вы здесь">
+  <ol>
+    {% for it in items %}
+    <li>{% if not loop.last %}<a href="{{ it[1] }}">{% if loop.revindex == 2 %}{{ icon("chevron-left", "op-crumbs__back") }}{% endif %}<span>{{ it[0] }}</span></a>{{ icon("chevron-right", "op-crumbs__sep") }}{% else %}<span aria-current="page">{{ it[0] }}</span>{% endif %}</li>
+    {% endfor %}
+  </ol>
+</nav>
+{%- endmacro %}
+
+{% macro soon(text="Готовим. Когда будет готово, появится здесь") -%}
+<span class="op-soon">{{ text }}</span>
+{%- endmacro %}
+
+{% macro region(regions, compact=false, id="op-region", lines=false) -%}
+{% if regions %}
+<op-region class="op-region{{ ' op-region--compact' if compact }}" data-base="{{ xurl('pal-directory', 'regions/') }}" data-index="{{ url('region-index.json') }}"{% if lines %} data-lines="{{ url('region-lines/') }}"{% endif %}>
+  <p class="op-region__prompt">{{ icon("map-pin") }}<span>Выберите регион, и мы покажем номера рядом с вами</span></p>
+  <p class="op-region__current" hidden>{{ icon("map-pin") }}<span>Ваш регион: <a data-region-link href="{{ xurl('pal-directory', '') }}"><strong data-region-name></strong></a></span><span class="op-region__acts"><button type="button" class="op-btn op-btn--link" data-region-change>изменить</button><button type="button" class="op-btn op-btn--link" data-region-forget>забыть</button></span></p>
+  <div class="op-region__search" hidden>
+    <label class="op-field__label" for="{{ id }}-q">Регион, город или сокращение</label>
+    <input class="op-input" id="{{ id }}-q" type="search" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="{{ id }}-suggest" aria-describedby="{{ id }}-count">
+    <p class="op-region__count" id="{{ id }}-count" aria-live="polite"></p>
+    <ul class="op-region__suggest" id="{{ id }}-suggest" role="listbox" aria-label="Подходящие регионы" hidden></ul>
+  </div>
+  <details class="op-region__pick">
+    <summary>{{ icon("chevron-down", "op-region__chev") }}<span>Все регионы списком</span></summary>
+    <ul class="op-region__list">
+      {% for r in regions %}<li><a href="{{ xurl('pal-directory', 'regions/' ~ (r.id | lower) ~ '/') }}">{{ r.get("name") or r.get("title") or r.id }}</a></li>{% endfor %}
+      <li><a href="{{ xurl('pal-directory', 'federal/') }}">Моего региона нет в списке</a></li>
+    </ul>
+  </details>
+  {% if lines %}<div class="op-region__lines" data-roles="{{ lines | join(' ') if lines is not string else lines }}" aria-live="polite"></div>{% endif %}
+</op-region>
+{% else %}
+<p class="op-region op-region--none">{{ icon("map-pin") }}<span>Номера по регионам появятся, когда будет готов раздел <a href="{{ xurl('pal-directory', '') }}">«Куда звонить»</a></span></p>
+{% endif %}
+{%- endmacro %}
+
+{% macro region_lines(regions, roles, compact=false, id="op-region") -%}
+{{ region(regions, compact=compact, id=id, lines=roles or ["general"]) }}
+{%- endmacro %}
+
+{% macro row(title, href=none, icon_name=none, hint=none, soon=false) -%}
+{% if href and not soon %}<a class="op-row" href="{{ href }}">{% else %}<span class="op-row op-row--soon">{% endif %}
+{% if icon_name %}{{ icon(icon_name, "op-row__icon") }}{% endif %}
+<span class="op-row__text"><span class="op-row__title">{{ title }}</span>{% if hint or soon %}<span class="op-row__hint">{{ hint if not soon else soon_text(hint) }}</span>{% endif %}</span>
+{% if href and not soon %}{{ icon("chevron-right", "op-row__chev") }}</a>{% else %}</span>{% endif %}
+{%- endmacro %}
+
+{% macro soon_text(hint=none) -%}{{ hint ~ ". " if hint }}Готовим. Когда будет готово, появится здесь{%- endmacro %}
+
+{% set MONTHS_GEN = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"] %}
+
+{% macro date_field(id, legend, hint=none, quick=true, min=none, max="today", required=true) -%}
+<fieldset class="op-date" data-date3 id="{{ id }}"{% if min %} data-min="{{ min }}"{% endif %}{% if max %} data-max="{{ max }}"{% endif %}{% if hint %} aria-describedby="{{ id }}-hint"{% endif %}>
+  <legend class="op-field__label">{{ legend }}{% if not required %} <span class="op-field__optional">(можно не заполнять)</span>{% endif %}</legend>
+  {% if hint %}<p class="op-field__hint" id="{{ id }}-hint">{{ hint }}</p>{% endif %}
+  <div class="op-date__row">
+    <div class="op-date__part">
+      <label for="{{ id }}-d">День</label>
+      <input class="op-input" id="{{ id }}-d" name="{{ id }}-d" inputmode="numeric" maxlength="2" autocomplete="off" data-part="d">
+    </div>
+    <div class="op-date__part op-date__part--month">
+      <label for="{{ id }}-m">Месяц</label>
+      <select class="op-input" id="{{ id }}-m" name="{{ id }}-m" data-part="m">
+        <option value=""></option>
+        {% for m in MONTHS_GEN %}<option value="{{ loop.index }}">{{ m }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="op-date__part op-date__part--year">
+      <label for="{{ id }}-y">Год</label>
+      <input class="op-input" id="{{ id }}-y" name="{{ id }}-y" inputmode="numeric" maxlength="4" autocomplete="off" data-part="y">
+    </div>
+  </div>
+  {% if quick %}<p class="op-date__quick" hidden><button type="button" class="op-btn op-btn--link" data-quick="0">Сегодня</button><button type="button" class="op-btn op-btn--link" data-quick="-1">Вчера</button></p>{% endif %}
+  <p class="op-field__error" id="{{ id }}-error" hidden>{{ icon("circle-alert") }}<span><strong>Ошибка:</strong> <span data-error></span></span></p>
+</fieldset>
+{%- endmacro %}

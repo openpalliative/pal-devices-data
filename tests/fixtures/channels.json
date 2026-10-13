@@ -1,0 +1,65 @@
+{
+ "format": "openpalliative-dataset/1",
+ "dataset": "channels",
+ "repo": "pal-devices-data",
+ "schema_version": "1.0.0",
+ "version": "2000.01.01",
+ "generated_at": "2000-01-01T00:00:00Z",
+ "data_date": "2000-01-01",
+ "stale_after_days": 90,
+ "license": "CC0-1.0",
+ "source": [
+  {
+   "id": "fixture",
+   "title": "Пример на выдуманных данных"
+  }
+ ],
+ "content_sha256": "954674f2d6a1f88bb305f14e95a377dc62757c6cac425097be8c71be3e5eea8f",
+ "counts": {
+  "items": 2,
+  "unverified": 2,
+  "excluded": 0
+ },
+ "items": [
+  {
+   "id": "mo-398n",
+   "title": "Медицинская организация",
+   "sentence": "Выдаёт медицинская организация, которая оказывает паллиативную помощь",
+   "body": "Пример текста канала [[n:398n]]",
+   "norm_ids": [
+    "398n",
+    "505n",
+    "208n-243n"
+   ],
+   "quote_ids": [
+    "208n-p25"
+   ],
+   "deadline_rule_ids": [
+    "505n-vk-decision",
+    "505n-transfer"
+   ],
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture"
+  },
+  {
+   "id": "sfr-pp240",
+   "title": "Соцфонд",
+   "sentence": "Если у человека есть инвалидность, это идёт через Соцфонд по правилам обеспечения техническими средствами реабилитации",
+   "body": "Пример текста канала [[n:pp-240]]",
+   "norm_ids": [
+    "pp-240",
+    "2347-r",
+    "208n-243n"
+   ],
+   "quote_ids": [
+    "398n-fn2",
+    "208n-p26"
+   ],
+   "deadline_rule_ids": [],
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "fixture"
+  }
+ ]
+}

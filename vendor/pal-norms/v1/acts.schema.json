@@ -1,0 +1,501 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openpalliative.github.io/pal-norms/data/v1/acts.schema.json",
+  "title": "Акты: реквизиты, статус и связи",
+  "type": "object",
+  "required": [
+    "dataset",
+    "items"
+  ],
+  "properties": {
+    "dataset": {
+      "const": "acts"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "verified",
+          "verified_at",
+          "source_ref",
+          "kind",
+          "authority",
+          "number",
+          "doc_date",
+          "title",
+          "short_title",
+          "topics",
+          "eoNumber",
+          "url",
+          "pdf_url",
+          "text_source",
+          "status",
+          "status_basis",
+          "in_force_from",
+          "valid_until",
+          "repealed_at",
+          "supersedes",
+          "superseded_by",
+          "amended_by",
+          "cites",
+          "cites_repealed",
+          "aliases",
+          "quote_ids",
+          "rule_ids",
+          "review"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "verified_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "federal_law",
+              "code",
+              "government_decree",
+              "government_order",
+              "ministry_order",
+              "joint_order"
+            ]
+          },
+          "authority": {
+            "type": "string",
+            "minLength": 1
+          },
+          "number": {
+            "type": "string",
+            "minLength": 1
+          },
+          "doc_date": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "short_title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "topics": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "enum": [
+                "palliative",
+                "devices",
+                "appeals",
+                "pain-relief",
+                "records",
+                "vk",
+                "mse",
+                "calendar",
+                "agencies",
+                "social",
+                "family",
+                "nutrition"
+              ]
+            }
+          },
+          "eoNumber": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{16}$",
+            "x-message-ru": "eoNumber из 16 цифр или пусто"
+          },
+          "publish_date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "pages": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "pdf_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "pdf_sha256": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "text_source": {
+            "enum": [
+              "official_pdf",
+              "ips_archive",
+              "none"
+            ]
+          },
+          "alt_source": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "kind",
+              "snapshot_url",
+              "retrieved_at"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "kind": {
+                "const": "ips_archive"
+              },
+              "nd": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "snapshot_url": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "retrieved_at": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                "x-message-ru": "дата в виде ГГГГ-ММ-ДД"
+              }
+            }
+          },
+          "status": {
+            "enum": [
+              "in_force",
+              "not_yet_in_force",
+              "repealed",
+              "draft",
+              "unknown"
+            ]
+          },
+          "status_basis": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "act_id",
+              "point"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "act_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "point": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quote_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "in_force_from": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "valid_until": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "repealed_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "supersedes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            }
+          },
+          "superseded_by": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            }
+          },
+          "amended_by": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "eoNumber",
+                "doc_date",
+                "title"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "eoNumber": {
+                  "type": "string",
+                  "pattern": "^\\d{16}$"
+                },
+                "doc_date": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                  "x-message-ru": "дата в виде ГГГГ-ММ-ДД"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "cites": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "act_id",
+                "point"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "act_id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                },
+                "point": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "quote_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          },
+          "cites_repealed": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "act_id",
+                "point"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "act_id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                },
+                "point": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "quote_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "quote_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            }
+          },
+          "rule_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            }
+          },
+          "review": {
+            "type": "object",
+            "required": [
+              "status"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "status": {
+                "enum": [
+                  "none",
+                  "ok",
+                  "expired"
+                ]
+              },
+              "role": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reviewed_at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+              },
+              "expires_at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+              },
+              "ref": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "notes": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "repealed"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "properties": {
+                "status_basis": {
+                  "type": "object"
+                }
+              },
+              "x-message-ru": "у отменённого акта нужно основание статуса status_basis"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "in_force"
+                }
+              },
+              "required": [
+                "status"
+              ]
+            },
+            "then": {
+              "properties": {
+                "repealed_at": {
+                  "type": "null"
+                }
+              },
+              "x-message-ru": "у действующего акта repealed_at должен быть пустым"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "text_source": {
+                  "const": "official_pdf"
+                }
+              },
+              "required": [
+                "text_source"
+              ]
+            },
+            "then": {
+              "properties": {
+                "eoNumber": {
+                  "type": "string"
+                }
+              },
+              "x-message-ru": "текст из официального PDF требует eoNumber"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

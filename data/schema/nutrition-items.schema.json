@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openpalliative.github.io/pal-devices-data/data/v1/nutrition-items.schema.json",
+  "title": "Позиции перечня специализированных продуктов лечебного питания для детей с инвалидностью (не публикуется, пока publish_items: false)",
+  "x-schema-version": "1.0.0",
+  "type": "object",
+  "required": ["dataset", "items"],
+  "properties": {
+    "dataset": {"const": "nutrition-items"},
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "item_no", "name", "form", "edition_added", "edition_removed", "scan_page", "number_verified", "text_verified", "verified", "verified_at", "source_ref"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^\\d{1,3}$"},
+          "item_no": {"type": "integer", "minimum": 1},
+          "name": {"type": "string"},
+          "form": {"type": "string"},
+          "edition_added": {"type": "string", "pattern": "^\\d{16}$"},
+          "edition_removed": {"type": ["string", "null"], "pattern": "^\\d{16}$"},
+          "scan_page": {"type": "integer", "minimum": 1},
+          "number_verified": {"type": "boolean"},
+          "text_verified": {"type": "boolean"},
+          "verified": {"type": "boolean"},
+          "verified_at": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+          "source_ref": {"type": "string", "minLength": 1},
+          "note": {"type": "string"}
+        }
+      }
+    }
+  }
+}

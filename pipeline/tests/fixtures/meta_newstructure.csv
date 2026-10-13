@@ -1,0 +1,24 @@
+property,value
+standardversion,http://opendata.gosmonitor.ru/standard/3.0
+identifier,7710537160-mi_types
+title,"Номенклатурная классификация медицинских изделий по видам в xml (по национальному законодательству)"
+description,"Номенклатурная классификация медицинских изделий по видам в xml (по национальному законодательству)"
+creator,"Росздравнадзор"
+format,XML
+size_mb,"4,375"
+created,20180615
+modified,20261001
+provenance,"Обновление набора данных"
+valid,20261101
+subject,"Номенклатурная классификация медицинских изделий, Росздравнадзор"
+data-20261001-structure-20990101,https://roszdravnadzor.gov.ru/opendata/7710537160-mi_types/data-20261001-structure-20990101.zip
+data-20260901-structure-20990101,https://roszdravnadzor.gov.ru/opendata/7710537160-mi_types/data-20260901-structure-20990101.zip
+data-20260801-structure-20990101,https://roszdravnadzor.gov.ru/opendata/7710537160-mi_types/data-20260801-structure-20990101.zip
+data-20260701-structure-20990101,https://roszdravnadzor.gov.ru/opendata/7710537160-mi_types/data-20260701-structure-20990101.zip
+data-20260601-structure-20990101,https://roszdravnadzor.gov.ru/opendata/7710537160-mi_types/data-20260601-structure-20990101.zip
+data-20260501-structure-20990101,https://roszdravnadzor.gov.ru/opendata/7710537160-mi_types/data-20260501-structure-20990101.zip
+data-20260401-structure-20990101,https://roszdravnadzor.gov.ru/opendata/7710537160-mi_types/data-20260401-structure-20990101.zip
+data-20260301-structure-20990101,https://roszdravnadzor.gov.ru/opendata/7710537160-mi_types/data-20260301-structure-20990101.zip
+data-20260201-structure-20990101,https://roszdravnadzor.gov.ru/opendata/7710537160-mi_types/data-20260201-structure-20990101.zip
+data-20260101-structure-20990101,https://roszdravnadzor.gov.ru/opendata/7710537160-mi_types/data-20260101-structure-20990101.zip
+structure-20990101,https://roszdravnadzor.gov.ru/opendata/7710537160-mi_types/structure-20990101.xsd

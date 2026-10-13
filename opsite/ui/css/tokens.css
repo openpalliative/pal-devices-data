@@ -1,0 +1,98 @@
+@font-face {
+  font-family: "Onest";
+  src: url("../fonts/onest-var-cyr-lat.woff2") format("woff2");
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root,
+.op-light {
+  --op-bg: #F7F4E9;
+  --op-surface: #FFFDF8;
+  --op-sunken: #F0E9DC;
+  --op-text: #2A2421;
+  --op-muted: #574D46;
+  --op-border: #857A71;
+  --op-primary: #7C4A2D;
+  --op-primary-hover: #5F3720;
+  --op-on-primary: #FFFFFF;
+  --op-link: #42405F;
+  --op-link-hover: #2F2E48;
+  --op-honey: #CF9F5E;
+  --op-highlight: #F6E7C8;
+  --op-success: #24461F;
+  --op-warning: #6E4F0A;
+  --op-danger: #B23E4E;
+  --op-focus: #F2C14E;
+  --op-tile: #F2EADD;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --op-bg: #1C1917;
+    --op-surface: #26221F;
+    --op-sunken: #151311;
+    --op-text: #EFE8DF;
+    --op-muted: #DBD3CA;
+    --op-border: #8C8076;
+    --op-primary: #EDBF9F;
+    --op-primary-hover: #F5D3BA;
+    --op-on-primary: #1C1917;
+    --op-link: #C9C4F2;
+    --op-link-hover: #E0DCFA;
+    --op-honey: #E6BE73;
+    --op-highlight: #3A2F1E;
+    --op-success: #B5E2C9;
+    --op-warning: #E6C27A;
+    --op-danger: #F0A2A9;
+    --op-focus: #F2C14E;
+    --op-tile: #26221F;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"],
+.op-dark {
+  --op-bg: #1C1917;
+  --op-surface: #26221F;
+  --op-sunken: #151311;
+  --op-text: #EFE8DF;
+  --op-muted: #DBD3CA;
+  --op-border: #8C8076;
+  --op-primary: #EDBF9F;
+  --op-primary-hover: #F5D3BA;
+  --op-on-primary: #1C1917;
+  --op-link: #C9C4F2;
+  --op-link-hover: #E0DCFA;
+  --op-honey: #E6BE73;
+  --op-highlight: #3A2F1E;
+  --op-success: #B5E2C9;
+  --op-warning: #E6C27A;
+  --op-danger: #F0A2A9;
+  --op-focus: #F2C14E;
+  --op-tile: #26221F;
+  color-scheme: dark;
+}
+
+:root {
+  --op-font: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "PT Sans", Arial, sans-serif;
+  --op-font-doc: "PT Astra Serif", "Times New Roman", Times, serif;
+  --op-font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --op-size-body: 18px;
+  --op-size-h1: 32px;
+  --op-size-h2: 24px;
+  --op-size-h3: 20px;
+  --op-size-small: 16px;
+  --op-line: 1.5;
+  --op-measure: 36em;
+  --op-target: 48px;
+  --op-radius: 10px;
+}
+
+@media (min-width: 900px) {
+  :root {
+    --op-size-body: 20px;
+  }
+}

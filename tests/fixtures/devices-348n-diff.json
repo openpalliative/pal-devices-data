@@ -1,0 +1,65 @@
+{
+ "format": "openpalliative-dataset/1",
+ "dataset": "devices-348n-diff",
+ "repo": "pal-devices-data",
+ "schema_version": "1.1.0",
+ "version": "2000.01.01",
+ "generated_at": "2000-01-01T00:00:00Z",
+ "data_date": "2000-01-01",
+ "stale_after_days": 90,
+ "license": "CC0-1.0",
+ "source": [
+  {
+   "id": "fixture",
+   "title": "Пример на выдуманных данных"
+  }
+ ],
+ "content_sha256": "08edb0ae504934d4435ed0458f49e217e4d61ca3d2ae19583c5c397f366e3087",
+ "counts": {
+  "items": 2,
+  "unverified": 0,
+  "excluded": 0
+ },
+ "counts_diff": {
+  "old_total": 2,
+  "new_total": 4,
+  "kept": 1,
+  "removed": 1,
+  "added": 3,
+  "unverified": 0
+ },
+ "scan_notes": [
+  {
+   "id": "fixture-note",
+   "text": "Пример заметки о скане"
+  }
+ ],
+ "items": [
+  {
+   "id": "303260",
+   "code": "303260",
+   "status": "kept",
+   "name_348n": "Инсуффлятор-аспиратор",
+   "nkmi_name_now": "Инсуффлятор-аспиратор",
+   "retired": false,
+   "amended_by": "",
+   "verified": true,
+   "verified_at": "2000-01-01",
+   "source_ref": "fixture",
+   "retired_note": null
+  },
+  {
+   "id": "100000",
+   "code": "100000",
+   "status": "removed",
+   "name_348n": "Пример исключённого вида",
+   "nkmi_name_now": null,
+   "retired": true,
+   "amended_by": "",
+   "verified": true,
+   "verified_at": "2000-01-01",
+   "source_ref": "fixture",
+   "retired_note": "нет в версии 2000-01"
+  }
+ ]
+}

@@ -1,0 +1,248 @@
+.dv-search {
+  display: block;
+  margin: 8px 0 28px;
+  max-width: 44em;
+}
+
+.dv-search__q {
+  margin: 0 0 6px;
+  font-size: var(--op-size-h2);
+}
+
+.dv-search__form .op-field__hint {
+  margin: 0 0 10px;
+}
+
+.dv-search__form .op-search__row {
+  margin-bottom: 12px;
+}
+
+.dv-search__form .op-search__input {
+  font-size: max(18px, var(--op-size-body));
+  min-height: 56px;
+  border-width: 2px;
+}
+
+.dv-search__form .op-btn {
+  min-height: 56px;
+}
+
+.dv-search__nojs {
+  color: var(--op-muted);
+}
+
+.dv-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+
+.dv-quick li {
+  margin: 0;
+}
+
+.dv-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--op-target);
+  padding: 8px 18px;
+  border: 1px solid var(--op-border);
+  border-radius: var(--op-radius);
+  background: var(--op-surface);
+  color: var(--op-text);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.dv-chip:hover {
+  border-color: var(--op-text);
+  background: var(--op-sunken);
+  color: var(--op-text);
+}
+
+.dv-results:empty {
+  display: none;
+}
+
+.dv-results {
+  margin: 4px 0 8px;
+}
+
+.dv-results__head {
+  margin: 0 0 10px;
+  color: var(--op-muted);
+  font-size: var(--op-size-small);
+}
+
+.dv-results__more {
+  margin: 0 0 16px;
+}
+
+.dv-results__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.dv-result {
+  position: relative;
+  margin: 0;
+  max-width: none;
+  padding: 16px 18px;
+  background: var(--op-surface);
+  border: 1px solid var(--op-border);
+  border-radius: var(--op-radius);
+}
+
+.dv-result:hover {
+  border-color: var(--op-text);
+}
+
+.dv-result:has(a:focus-visible) {
+  outline: 3px solid var(--op-focus);
+  outline-offset: 2px;
+}
+
+.dv-result__link {
+  font-weight: 600;
+  font-size: var(--op-size-h3);
+  line-height: 1.35;
+}
+
+.dv-result__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--op-radius);
+}
+
+.dv-result__link:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.dv-result p {
+  margin: 4px 0 0;
+}
+
+.dv-result__kind {
+  color: var(--op-muted);
+  font-size: var(--op-size-small);
+}
+
+.dv-result__unverified {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--op-size-small);
+  color: var(--op-muted);
+}
+
+.dv-group {
+  margin: 0 0 8px;
+}
+
+.dv-group__title {
+  margin: 18px 0 8px;
+  font-size: var(--op-size-body);
+}
+
+.dv-empty {
+  margin: 0 0 16px;
+}
+
+.dv-empty p {
+  margin: 0 0 8px;
+}
+
+.dv-empty__privacy {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: var(--op-size-small);
+  color: var(--op-muted);
+}
+
+.dv-paths {
+  margin-top: 40px;
+}
+
+.dv-result .dv-ch::before {
+  content: "";
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+  background: var(--op-primary);
+  -webkit-mask: url("../../ui/icons/package.svg") center / contain no-repeat;
+  mask: url("../../ui/icons/package.svg") center / contain no-repeat;
+}
+
+.dv-result .dv-ch--both::before {
+  -webkit-mask-image: url("../../ui/icons/share-2.svg");
+  mask-image: url("../../ui/icons/share-2.svg");
+}
+
+@media (forced-colors: active) {
+  .dv-result .dv-ch::before {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+}
+
+@media (max-width: 599px) {
+  .dv-home.op-page {
+    padding-top: 20px;
+  }
+
+  .dv-home .op-lead {
+    font-size: var(--op-size-small);
+    margin-bottom: 16px;
+  }
+
+  .dv-search__q {
+    font-size: var(--op-size-h3);
+  }
+}
+
+.dv-search__hint {
+  margin: -6px 0 8px;
+}
+
+.dv-search__az {
+  margin: 0 0 16px;
+}
+
+.dv-result__renamed {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: var(--op-size-small);
+}
+
+.dv-result__renamed .op-icon {
+  flex: none;
+  margin-top: 0.2em;
+  color: var(--op-primary);
+}
+
+@media (max-width: 599px) {
+  .dv-quick {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .dv-lead-more {
+    display: none;
+  }
+
+  .dv-chip {
+    padding: 6px 12px;
+    font-size: var(--op-size-small);
+  }
+}

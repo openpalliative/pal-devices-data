@@ -1,0 +1,24 @@
+{
+  "name": "pal-devices-data",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@10.33.0",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test:unit": "node --test \"tests/unit/**/*.test.js\"",
+    "test:e2e": "playwright test --grep-invert @shots",
+    "test:e2e:firefox": "OP_BROWSER=firefox playwright test --grep-invert @shots",
+    "test:e2e:webkit": "OP_BROWSER=webkit playwright test --grep-invert @shots",
+    "test:e2e:all": "pnpm test:e2e && pnpm test:e2e:firefox && pnpm test:e2e:webkit",
+    "shots": "playwright test --grep @shots && OP_BROWSER=firefox playwright test --grep @shots && OP_BROWSER=webkit playwright test --grep @shots",
+    "gate": "sh scripts/gate.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1",
+    "@axe-core/playwright": "4.13.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": []
+  }
+}

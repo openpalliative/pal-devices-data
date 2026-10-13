@@ -1,0 +1,53 @@
+{% extends "op/base.html.j2" %}
+{% import "partials/dv.html.j2" as dv with context %}
+{% set draft = "legal" %}
+{% block title %}{{ site.title }}{% endblock %}
+{% block description %}{{ site.tagline }}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url('assets/css/dv-print.css') }}" media="print">
+<link rel="stylesheet" href="{{ url('assets/css/dv-home.css') }}">
+{% endblock %}
+{% block main %}
+<div class="op-wrap op-page dv-home">
+  <h1>Кто выдаёт изделия</h1>
+  <p class="op-lead">Найдите изделие по своему названию<span class="dv-lead-more">. Покажем, кто его выдаёт и на каком основании</span></p>
+
+  <dv-search class="dv-search" data-base="{{ url('') }}">
+    <h2 class="dv-search__q"><label for="dv-q">Как вы это называете?</label></h2>
+    <form class="dv-search__form" role="search" hidden>
+      <div class="op-search__row">
+        <span class="op-search__icon">{{ icon("search") }}</span>
+        <input class="op-input op-search__input" id="dv-q" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search" aria-describedby="dv-q-hint" aria-controls="dv-results">
+        <button class="op-btn op-btn--primary" type="submit"><span>Найти</span></button>
+      </div>
+    </form>
+    <p class="dv-search__nojs" data-nojs>Выберите слово ниже или найдите своё в <a href="{{ url('names/') }}">списке названий по алфавиту</a></p>
+    <ul class="dv-quick" aria-label="Частые слова">
+      {% for q in site.dv.quick %}
+      <li><a class="dv-chip" href="{{ url('names/') }}{{ ('#a-' ~ q.alias_id) if q.alias_id else '' }}" data-word="{{ q.word }}">{{ q.label }}</a></li>
+      {% endfor %}
+    </ul>
+    <p class="op-field__hint dv-search__hint" id="dv-q-hint" hidden>Можно написать по-своему, например «матрас от пролежней» или «зонд», или ввести код вида из шести цифр</p>
+    <p class="dv-search__az"><a href="{{ url('names/') }}">Все названия по алфавиту</a></p>
+    <div class="dv-results" id="dv-results" aria-live="polite"></div>
+    {{ dv.result_templates() }}
+  </dv-search>
+
+
+  <section class="dv-paths" aria-labelledby="dv-paths-title">
+    <h2 id="dv-paths-title">Через кого получают</h2>
+    <ul class="op-cards op-cards--2">
+      <li>{% call op.card("Медицинская организация", url('channels/'), "package") %}Та, которая оказывает паллиативную помощь. Это путь для позиций перечня изделий для дома{% endcall %}</li>
+      <li>{% call op.card("Соцфонд, если есть инвалидность", url('channels/'), "users-round") %}Второй путь для позиций со сноской о Соцфонде: {{ site.dv.fn2_count }} из {{ site.dv.devices | length }}{% endcall %}</li>
+    </ul>
+    <p><a href="{{ url('nutrition/') }}">Лечебное питание</a> · <a href="{{ url('changes/') }}">Что изменилось в перечне</a> · <a href="{{ url('data/') }}">Данные и источники</a></p>
+  </section>
+
+  {{ dv.back() }}
+  {{ dv.dates() }}
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="module" src="{{ url('assets/js/dv-back.js') }}"></script>
+<script type="module" src="{{ url('assets/js/dv-search.js') }}"></script>
+{% endblock %}

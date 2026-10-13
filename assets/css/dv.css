@@ -1,0 +1,168 @@
+.dv-code {
+  font-family: var(--op-font-mono);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.dv-home h1,
+
+.dv-card h1,
+
+.dv-listpage h1 {
+  margin-bottom: 0.35em;
+}
+
+.dv-ch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: var(--op-size-small);
+}
+
+.dv-ch .op-icon {
+  color: var(--op-primary);
+}
+
+.dv-dates {
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid var(--op-sunken);
+  font-size: var(--op-size-small);
+  color: var(--op-muted);
+}
+
+.dv-dates--inline {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.dv-dates p,
+
+.dv-dates .op-data-date {
+  margin: 0 0 6px;
+}
+
+.dv-dates__nkmi {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.dv-dates__nkmi .op-icon {
+  margin-top: 0.2em;
+}
+
+.dv-links {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.dv-links li {
+  margin: 0;
+}
+
+.dv-links span {
+  display: block;
+  font-size: var(--op-size-small);
+  color: var(--op-muted);
+}
+
+.dv-links--plain {
+  gap: 4px;
+}
+
+.dv-links--plain li .dv-code,
+
+.dv-links--plain li span.dv-code {
+  display: inline;
+  margin-left: 6px;
+  color: var(--op-muted);
+}
+
+.dv-links--row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+}
+
+.dv-links--row a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--op-target);
+}
+
+.dv-links--row a span {
+  display: inline;
+  font-size: inherit;
+  color: inherit;
+}
+
+.dv-back {
+  display: block;
+  margin-top: 32px;
+}
+
+.dv-back ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dv-back a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--op-target);
+  font-weight: 600;
+}
+
+.dv-back a::before {
+  content: "";
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: url("../../ui/icons/arrow-left.svg") center / contain no-repeat;
+  mask: url("../../ui/icons/arrow-left.svg") center / contain no-repeat;
+}
+
+.dv-nv {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 8px 0 6px;
+  border: 1px solid var(--op-sunken);
+  border-left: 3px dashed var(--op-border);
+  border-radius: 0 6px 6px 0;
+  background: var(--op-surface);
+  color: var(--op-muted);
+  font-size: var(--op-size-small);
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  vertical-align: 0.1em;
+}
+
+.dv-nv::before {
+  content: "";
+  width: 1em;
+  height: 1em;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: url("../../ui/icons/circle-help.svg") center / contain no-repeat;
+  mask: url("../../ui/icons/circle-help.svg") center / contain no-repeat;
+}
+
+@media (forced-colors: active) {
+  .dv-back a::before,
+  .dv-nv::before {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+}

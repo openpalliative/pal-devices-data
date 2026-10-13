@@ -1,0 +1,122 @@
+{% extends "op/base.html.j2" %}
+{% import "partials/dv.html.j2" as dv with context %}
+{% set draft = "none" %}
+{% set k = site.dv.nkmi %}
+{% block title %}Данные и источники{% endblock %}
+{% block description %}Открытые наборы данных о медицинских изделиях для паллиативной помощи на дому: JSON, CSV, схемы, источники и лицензии{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url('assets/css/dv-print.css') }}" media="print">
+<link rel="stylesheet" href="{{ url('assets/css/dv-text.css') }}">
+<link rel="stylesheet" href="{{ url('assets/css/dv-info.css') }}">
+{% endblock %}
+{% macro src_item(s) %}
+      <li>
+        <p class="dv-sources__title">{% if s.get("url") %}<a href="{{ s.url }}">{{ s.title }}</a>{% else %}{{ s.title }}{% endif %}</p>
+        {% if s.get("eoNumber") or s.get("pages") or s.get("retrieved_at") %}
+        <p class="dv-sources__meta">
+          {%- if s.get("eoNumber") %}Номер публикации <span class="op-code">{{ s.eoNumber }}</span>{% endif %}
+          {%- if s.get("pages") %}{% if s.get("eoNumber") %} · {% endif %}{{ s.pages }} стр.{% endif %}
+          {%- if s.get("retrieved_at") %}{% if s.get("eoNumber") or s.get("pages") %} · {% endif %}скачано {{ s.retrieved_at | ru_date }}{% endif -%}
+        </p>
+        {% endif %}
+        {% if s.get("sha256") %}<p class="dv-sources__hash">sha256 <span class="op-code">{{ s.sha256 }}</span></p>{% endif %}
+      </li>
+{% endmacro %}
+{% block main %}
+<div class="op-wrap op-page dv-data">
+  {{ op.crumbs([("openpalliative", hub('')), (site.title, url('')), ("Данные и источники", "")]) }}
+  <h1>Данные и источники</h1>
+  <p class="op-lead">Всё, что показывает этот сайт, лежит в открытых файлах. Их можно скачать, проверить и использовать в своих проектах</p>
+
+  <section aria-labelledby="dates">
+    <h2 id="dates">Когда сверяли</h2>
+    {{ dv.dates(true) }}
+  </section>
+
+  <section aria-labelledby="sets">
+    <h2 id="sets">Наборы данных</h2>
+    <div class="op-table-wrap">
+      <table class="op-table dv-sets">
+        <thead><tr><th scope="col">Что внутри</th><th scope="col">Записей</th><th scope="col">Не проверено</th><th scope="col">Данные от</th><th scope="col">Файлы</th></tr></thead>
+        <tbody>
+          {% for name, env in data | dictsort %}
+          <tr>
+            <td>{{ site.dv.dataset_titles.get(name, name) }}<br><span class="dv-code">{{ name }}</span></td>
+            <td>{{ env.counts["items"] }}</td>
+            <td>{{ env.counts.unverified }}</td>
+            <td>{{ env.data_date | ru_date }}</td>
+            <td class="dv-sets__files"><a href="{{ url('data/v1/' ~ name ~ '.json') }}">JSON</a>{% if name == "devices-398n" and site.dv.devices %} <a href="{{ url('data/v1/devices-398n.csv') }}">CSV</a>{% endif %} <a href="{{ url('data/v1/' ~ name ~ '.schema.json') }}">схема</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p>Список наборов для программ: <a href="{{ url('data/v1/index.json') }}">index.json</a>. Формат описан в <a href="{{ site.github }}">исходном коде проекта</a></p>
+  </section>
+
+  <section aria-labelledby="src">
+    <h2 id="src">Источники</h2>
+    {% set order = ["pravo-398n", "pravo-208n-243n", "pravo-505n", "pravo-348n", "pravo-1195n", "pravo-3551r-2023", "pravo-2562r-2024", "pravo-76r-2025", "pravo-3122r-2025", "rzn-nkmi"] %}
+    {% set srcs = site.dv.sources %}
+    <h3>Официальные публикации и открытые данные</h3>
+    <ul class="dv-sources">
+      {% for sid in order if sid in srcs %}{{ src_item(srcs[sid]) }}{% endfor %}
+      {% for sid, s in srcs | dictsort if sid not in order and s.get("url") %}{{ src_item(s) }}{% endfor %}
+    </ul>
+    {% if k and k.version %}
+    <p>Имена видов: открытые данные Росздравнадзора, набор 7710537160-mi_types, версия {{ k.version }}</p>
+    {% endif %}
+    {% if site.dv.pending %}
+    <h3>Документы, которые мы ещё не разобрали</h3>
+    <p>Эти документы упоминаются на сайте, но в разделе «Нормы и сроки» они ещё не сверены с официальной публикацией. Рядом с ними на сайте стоит отметка «Не проверено»</p>
+    <ul class="dv-sources">
+      {% for n in site.dv.pending %}
+      <li>
+        <p class="dv-sources__title">{% if n.url %}<a href="{{ n.url }}">{{ n.title }}</a>{% else %}{{ n.title }}{% endif %} {{ dv.nv() }}</p>
+        <p class="dv-sources__meta">{{ n.why[:1] | upper }}{{ n.why[1:] }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% set own = [] %}{% for sid, s in srcs | dictsort if not s.get("url") and not sid.startswith("norm-") and not s.get("norm_id") %}{% set _ = own.append(s) %}{% endfor %}
+    {% if own %}
+    <h3>Наша разметка</h3>
+    <ul class="dv-sources">
+      {% for s in own %}{{ src_item(s) }}{% endfor %}
+    </ul>
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="open">
+    <h2 id="open">Открытые вопросы</h2>
+    {% set n505 = site.dv.norms.get("505n", {}) %}
+    <ul>
+      {% for q in site.dv.env.get("open_questions", []) %}
+      {% if q.id == "transfer-order" and n505.get("safe") %}
+      <li>Порядок передачи изделий на дом в разделе «Нормы и сроки» отмечен как действующий: {{ norm("505n") }}. Сроки на карточках изделий берутся из него</li>
+      {% else %}
+      <li>{{ q.text }}</li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section aria-labelledby="lic">
+    <h2 id="lic">Лицензии</h2>
+    <ul>
+      <li>Разметка, названия и связи: CC0, можно использовать без условий</li>
+      <li>Имена видов изделий взяты из открытых данных Росздравнадзора. Указывайте источник. Лицензия набора в его паспорте не указана</li>
+      <li>Тексты официальных документов не охраняются авторским правом (статья 1259 Гражданского кодекса)</li>
+      <li>Код сайта: MIT</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="err">
+    <h2 id="err">Нашли ошибку</h2>
+    <p>Напишите нам на GitHub, что не так и где: адрес страницы, код изделия, номер публикации</p>
+    <p class="dv-privacy">{{ icon("lock") }}<span><strong>Не пишите имя, диагноз и регион.</strong> Сообщения на GitHub видны всем</span></p>
+    <p><a href="{{ site.github }}/issues/new?template=data-error.yml">Сообщить об ошибке</a> <span class="op-muted">(откроется сайт github.com)</span></p>
+    {% call op.status("info") %}Проекту нужен мейнтейнер в России, который будет сверять данные с официальными публикациями{% endcall %}
+  </section>
+</div>
+{% endblock %}

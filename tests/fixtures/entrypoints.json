@@ -1,0 +1,110 @@
+{
+ "format": "openpalliative-dataset/1",
+ "dataset": "entrypoints",
+ "repo": "pal-devices-data",
+ "schema_version": "1.0.0",
+ "version": "2000.01.01",
+ "generated_at": "2000-01-01T00:00:00Z",
+ "data_date": "2000-01-01",
+ "stale_after_days": 90,
+ "license": "CC0-1.0",
+ "source": [
+  {
+   "id": "fixture",
+   "title": "Пример на выдуманных данных"
+  }
+ ],
+ "content_sha256": "f48bf6078248a87a1662cd677fe2279a56c3cf191c3901f1f145f855fa101813",
+ "counts": {
+  "items": 5,
+  "unverified": 5,
+  "excluded": 0
+ },
+ "items": [
+  {
+   "id": "search",
+   "title": "Кто выдаёт изделия",
+   "summary": "Пример",
+   "path": "",
+   "audience": [
+    "family"
+   ],
+   "situations": [
+    "device",
+    "discharge",
+    "turning-18"
+   ],
+   "offline": false,
+   "printable": false,
+   "maturity": "beta",
+   "verified": false,
+   "verified_at": null
+  },
+  {
+   "id": "nutrition",
+   "title": "Лечебное питание",
+   "summary": "Пример",
+   "path": "nutrition/",
+   "audience": [
+    "family"
+   ],
+   "situations": [
+    "device"
+   ],
+   "offline": false,
+   "printable": false,
+   "maturity": "beta",
+   "verified": false,
+   "verified_at": null
+  },
+  {
+   "id": "channels",
+   "title": "Через кого получают изделия",
+   "summary": "Пример",
+   "path": "channels/",
+   "audience": [
+    "family"
+   ],
+   "situations": [
+    "device"
+   ],
+   "offline": false,
+   "printable": false,
+   "maturity": "beta",
+   "verified": false,
+   "verified_at": null
+  },
+  {
+   "id": "changes",
+   "title": "Что изменилось в перечне",
+   "summary": "Пример",
+   "path": "changes/",
+   "audience": [
+    "family"
+   ],
+   "situations": [
+    "device"
+   ],
+   "offline": false,
+   "printable": false,
+   "maturity": "beta",
+   "verified": false,
+   "verified_at": null
+  },
+  {
+   "id": "list",
+   "title": "Весь перечень",
+   "summary": "Пример",
+   "path": "list/",
+   "audience": [
+    "family"
+   ],
+   "situations": [],
+   "offline": false,
+   "printable": true,
+   "maturity": "beta",
+   "verified": false,
+   "verified_at": null
+  }
+ ]
+}

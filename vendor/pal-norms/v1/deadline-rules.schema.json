@@ -1,0 +1,306 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openpalliative.github.io/pal-norms/data/v1/deadline-rules.schema.json",
+  "title": "Правила сроков",
+  "type": "object",
+  "required": [
+    "dataset",
+    "items"
+  ],
+  "properties": {
+    "dataset": {
+      "const": "deadline-rules"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "verified",
+          "verified_at",
+          "source_ref",
+          "situation",
+          "from_event",
+          "from_event_label",
+          "who",
+          "value",
+          "unit",
+          "direction",
+          "pre",
+          "extension",
+          "shift_if_nonworking",
+          "margin_working_days",
+          "norm_ids",
+          "quote_ids",
+          "ambiguous",
+          "ambiguity_note",
+          "escalation_ids",
+          "audience",
+          "legal_review"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "verified_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "group": {
+            "enum": [
+              "appeals",
+              "records",
+              "devices",
+              "care",
+              "transition",
+              "mse",
+              "pharmacy"
+            ],
+            "x-message-ru": "группа правила: appeals, records, devices, care, transition, mse, pharmacy"
+          },
+          "situation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "result_label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "from_event": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "from_event_label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "who": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "unit": {
+            "enum": [
+              "calendar_days",
+              "working_days",
+              "within_24h"
+            ]
+          },
+          "direction": {
+            "enum": [
+              "forward",
+              "backward"
+            ]
+          },
+          "pre": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "value",
+              "unit",
+              "label"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "unit": {
+                "enum": [
+                  "calendar_days",
+                  "working_days",
+                  "within_24h"
+                ]
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "interpretation": {
+                "type": "boolean"
+              }
+            }
+          },
+          "extension": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "value",
+              "unit",
+              "label"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "unit": {
+                "enum": [
+                  "calendar_days",
+                  "working_days",
+                  "within_24h"
+                ]
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "shift_if_nonworking": {
+            "enum": [
+              "yes",
+              "no",
+              "unknown"
+            ]
+          },
+          "margin_working_days": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "norm_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            },
+            "minItems": 1
+          },
+          "quote_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            },
+            "minItems": 1
+          },
+          "ambiguous": {
+            "type": "boolean"
+          },
+          "ambiguity_note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "escalation_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+            }
+          },
+          "audience": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "family",
+                "org",
+                "lawyer"
+              ]
+            }
+          },
+          "legal_review": {
+            "type": "object",
+            "required": [
+              "status"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "status": {
+                "enum": [
+                  "none",
+                  "ok",
+                  "expired"
+                ]
+              },
+              "role": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reviewed_at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+              },
+              "expires_at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+                "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+              },
+              "ref": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "unit_interpretation": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "единица срока выведена проектом, в норме не названа"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "ambiguous": {
+                  "const": true
+                }
+              },
+              "required": [
+                "ambiguous"
+              ]
+            },
+            "then": {
+              "properties": {
+                "ambiguity_note": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "x-message-ru": "у неоднозначного правила нужен ambiguity_note"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

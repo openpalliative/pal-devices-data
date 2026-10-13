@@ -1,0 +1,18 @@
+[
+  {"name": "home", "path": "", "nojs": true},
+  {"name": "names", "path": "names/", "nojs": true},
+  {"name": "device-303260", "path": "devices/303260/", "nojs": true},
+  {"name": "device-280360", "path": "devices/280360/", "nojs": true},
+  {"name": "device-113810", "path": "devices/113810/"},
+  {"name": "device-259910", "path": "devices/259910/"},
+  {"name": "device-207990", "path": "devices/207990/"},
+  {"name": "list", "path": "list/", "nojs": true},
+  {"name": "list-sheet", "path": "list/#device=303260"},
+  {"name": "list-group-1", "path": "list/1/", "nojs": true},
+  {"name": "channels", "path": "channels/", "nojs": true},
+  {"name": "changes", "path": "changes/", "nojs": true},
+  {"name": "nutrition", "path": "nutrition/", "nojs": true},
+  {"name": "nutrition-edition", "path": "nutrition/0001202312110027/"},
+  {"name": "nutrition-amendment", "path": "nutrition/0001202409190039/"},
+  {"name": "data", "path": "data/", "nojs": true}
+]

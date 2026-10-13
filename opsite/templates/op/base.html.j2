@@ -1,0 +1,80 @@
+{% import "op/macros.html.j2" as op with context %}
+<!doctype html>
+<html lang="{{ lang }}" data-theme="auto" data-size="m">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="{{ csp }}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>{% block doc_title %}{% block title %}{{ site.title }}{% endblock %}{% if self.title() != site.title and (site.title | lower) not in (self.title() | lower) %} - {{ site.title }}{% endif %}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ site.tagline }}{% endblock %}">
+{% if noindex %}
+<meta name="robots" content="noindex">
+{% else %}
+<link rel="canonical" href="{{ abs_url() }}">
+{% for alt in alternates %}
+<link rel="alternate" hreflang="{{ alt[0] }}" href="{{ abs_url(alt[1]) }}">
+{% endfor %}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="openpalliative">
+<meta property="og:locale" content="{{ 'en_US' if lang == 'en' else 'ru_RU' }}">
+<meta property="og:title" content="{{ self.doc_title() }}">
+<meta property="og:description" content="{{ self.description() }}">
+<meta property="og:url" content="{{ abs_url() }}">
+<meta property="og:image" content="{{ abs_url('ui/brand/og/' ~ site.repo ~ '.png') }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+{% endif %}
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F7F4E9">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1C1917">
+<link rel="preload" href="{{ url('ui/fonts/onest-var-cyr-lat.woff2') }}" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{{ url('ui/css/tokens.css') }}">
+<link rel="stylesheet" href="{{ url('ui/css/base.css') }}">
+<link rel="stylesheet" href="{{ url('ui/css/components.css') }}">
+<link rel="stylesheet" href="{{ url('ui/css/print.css') }}" media="print">
+{% if site.has_css %}
+<link rel="stylesheet" href="{{ url('assets/css/' ~ site.prefix ~ '.css') }}">
+{% endif %}
+<link rel="icon" href="{{ url('ui/brand/favicon.svg') }}" type="image/svg+xml">
+<link rel="icon" href="{{ url('ui/brand/favicon-32.png') }}" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="{{ url('ui/brand/apple-touch-icon.png') }}">
+{% if site.pwa %}
+<link rel="manifest" href="{{ url('manifest.webmanifest') }}">
+{% endif %}
+<script src="{{ url('ui/js/prefs-boot.js') }}"></script>
+<script type="module" src="{{ url('ui/js/op.js') }}"></script>
+{% block head %}{% endblock %}
+</head>
+<body class="op-body{% block body_class %}{% endblock %}">
+<a class="op-skip" href="#main"{% if lang != "ru" %} lang="ru"{% endif %}>Перейти к содержанию</a>
+{% include "op/header.html.j2" %}
+<main id="main" class="op-main" tabindex="-1">
+{% if draft and draft != "none" %}
+<div class="op-wrap op-draft-wrap">{{ op.draft(draft) }}</div>
+{% endif %}
+{% block main %}{% endblock %}
+{% if print_url %}
+<p class="op-print-only op-print-url op-wrap">Адрес страницы: {{ abs_url() }}</p>
+{% endif %}
+</main>
+{% if not (site.is_hub and nav_current == "tools/") %}
+<nav class="op-tools-bottom" aria-labelledby="op-tools-bottom-title"{% if lang != "ru" %} lang="ru"{% endif %}>
+  <div class="op-wrap">
+    <h2 class="op-tools-bottom__title" id="op-tools-bottom-title">Все инструменты</h2>
+    <ul>
+      {% for t in opdata.tools %}
+      <li><a href="{{ xurl(t.repo, '') }}"{% if t.repo == site.repo %} aria-current="page"{% endif %}>{{ icon(t.icon) }}<span>{{ t.title }}</span>{{ icon("chevron-right", "op-tools-bottom__chev") }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</nav>
+{% endif %}
+{% include "op/footer.html.j2" %}
+{% for name in ("history", "circle-check", "clock", "triangle-alert", "circle-help", "info", "wifi-off") %}
+<template id="op-icon-{{ name }}">{{ icon(name) }}</template>
+{% endfor %}
+{% block scripts %}{% endblock %}
+</body>
+</html>

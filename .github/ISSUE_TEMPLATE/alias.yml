@@ -1,0 +1,22 @@
+name: Предложить название
+description: Как вы называете изделие, которое не нашлось в поиске
+title: "Название: "
+labels: ["alias"]
+body:
+  - type: markdown
+    attributes:
+      value: "Не пишите имя, диагноз и регион. Нам нужно только слово, которым вы называете изделие"
+  - type: input
+    id: alias
+    attributes:
+      label: Как вы называете изделие
+      placeholder: "Например, откашливатель"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: Что это, своими словами
+      description: Для чего оно и как выглядит. Без названий фирм и моделей
+    validations:
+      required: true

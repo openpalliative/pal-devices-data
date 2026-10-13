@@ -1,0 +1,83 @@
+.dv-more {
+  margin: 8px 0 16px;
+  max-width: 48em;
+}
+
+.dv-more > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--op-target);
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--op-link);
+  list-style: none;
+}
+
+.dv-more > summary::-webkit-details-marker {
+  display: none;
+}
+
+.dv-more > summary span {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.dv-more__chev {
+  transition: transform 0.15s ease;
+}
+
+.dv-more[open] > summary .dv-more__chev {
+  transform: rotate(90deg);
+}
+
+.dv-more__body {
+  padding: 8px 0 0 4px;
+}
+
+.dv-quote__head {
+  margin: 0 0 6px;
+  font-size: var(--op-size-small);
+  font-weight: 600;
+  color: var(--op-muted);
+}
+
+.dv-quote__note {
+  margin: 8px 0 0 24px;
+  font-size: var(--op-size-small);
+  color: var(--op-muted);
+}
+
+.dv-moreuse {
+  margin-top: 40px;
+}
+
+.dv-norms {
+  padding-left: 1.1em;
+}
+
+.dv-collision {
+  margin: 0 0 28px;
+  max-width: 48em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dv-more__chev {
+    transition: none;
+  }
+}
+
+.op-quote .op-cite > .op-status--inline {
+  align-self: flex-start;
+}
+
+.dv-uplink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.op-quote .op-cite__eo {
+  display: block;
+}

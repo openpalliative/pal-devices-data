@@ -1,0 +1,97 @@
+.dv-filters,
+.dv-tray,
+.dv-col-pick,
+.dv-nvline {
+  display: none !important;
+}
+
+.dv-grp > summary {
+  font-size: 12pt;
+  padding: 2mm 0;
+}
+
+.dv-c::before {
+  background: black;
+}
+
+.dv-table tbody tr.is-picked {
+  background: white;
+}
+
+.dv-has-sheet .dv-listpage > :not(dv-list),
+.dv-has-sheet dv-list > :not(.dv-sheet),
+.dv-has-sheet .op-draft-wrap,
+.dv-has-sheet .op-tools-bottom {
+  display: none !important;
+}
+
+.dv-sheet *,
+.dv-sheet .op-draft {
+  max-width: none !important;
+  text-wrap: wrap !important;
+}
+
+.dv-has-sheet .dv-sheet {
+  display: block;
+  font-size: 11pt;
+  line-height: 1.3;
+}
+
+.dv-sheet .op-draft {
+  margin: 0 0 2mm;
+}
+
+.dv-sheet .op-draft__print {
+  padding: 1.5mm 3mm;
+  font-size: 11pt;
+}
+
+.dv-sheet__title {
+  margin: 0 0 1mm;
+  font-size: 15pt;
+  line-height: 1.2;
+}
+
+.dv-sheet__lead {
+  margin: 0 0 2.5mm;
+  font-size: 11pt;
+}
+
+.dv-sheet__item,
+.dv-sheet__skip {
+  break-inside: avoid;
+  margin: 0 0 2mm;
+  padding: 1.5mm 3mm 2mm;
+  border: 1pt solid black;
+}
+
+.dv-sheet__item p {
+  margin: 0 0 0.5mm;
+  max-width: none;
+}
+
+.dv-sheet__name {
+  margin: 0 0 0.5mm;
+  font-size: 12pt;
+  line-height: 1.25;
+}
+
+.dv-sheet__write {
+  display: grid;
+  grid-template-columns: 3fr 1.4fr 4fr;
+  gap: 2mm;
+  margin-top: 1.5mm;
+}
+
+.dv-sheet__item .dv-sheet__write p {
+  height: 14mm;
+  margin: 0;
+  padding: 0.5mm 1.5mm;
+  border: 0.75pt solid black;
+  font-size: 11pt;
+}
+
+.dv-sheet .op-sheet-footer {
+  margin-top: 2mm;
+  font-size: 11pt;
+}

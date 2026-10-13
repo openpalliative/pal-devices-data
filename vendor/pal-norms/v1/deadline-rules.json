@@ -1,0 +1,926 @@
+{
+ "format": "openpalliative-dataset/1",
+ "dataset": "deadline-rules",
+ "repo": "pal-norms",
+ "schema_version": "1.2.0",
+ "version": "2026.10.11",
+ "generated_at": "2026-10-13T06:32:02Z",
+ "data_date": "2026-10-11",
+ "stale_after_days": 90,
+ "license": "CC-BY-4.0",
+ "source": [
+  {
+   "id": "ips-59-fz",
+   "title": "ИПС «Законодательство России», снимок web.archive.org: О порядке рассмотрения обращений граждан Российской Федерации",
+   "url": "https://web.archive.org/web/20260626091943*/pravo.gov.ru/proxy/ips/*nd=102106413*",
+   "retrieved_at": "2026-10-11",
+   "license": "не охраняется авторским правом, подп. 1 п. 6 ст. 1259 ГК РФ (официальные документы)"
+  },
+  {
+   "id": "pravo-100n",
+   "title": "100н: Об утверждении Правил отпуска лекарственных препаратов для медицинского применения аптечными организациями, индивидуальными предпринимателями, имеющими лицензию на осуществление фармацевтической деятельности, медицинскими организациями, имеющими лицензию на осуществление фармацевтической деятельности, и их обособленными подразделениями, расположенными в сельских населенных пунктах, в которых отсутствуют аптечные организации, Правил отпуска наркотических средств и психотропных веществ, зарегистрированных в качестве лекарственных препаратов для медицинского применения, лекарственных препаратов для медицинского применения, содержащих наркотические средства и психотропные вещества, Порядка отпуска гражданам аптечными организациями иммунобиологических лекарственных препаратов для иммунопрофилактики",
+   "url": "http://publication.pravo.gov.ru/document/0001202504100006",
+   "eoNumber": "0001202504100006",
+   "retrieved_at": "2026-10-11",
+   "license": "не охраняется авторским правом, подп. 1 п. 6 ст. 1259 ГК РФ (официальные документы)"
+  },
+  {
+   "id": "pravo-180n",
+   "title": "180н: Об утверждении порядка создания и деятельности врачебной комиссии медицинской организации",
+   "url": "http://publication.pravo.gov.ru/document/0001202505160009",
+   "eoNumber": "0001202505160009",
+   "retrieved_at": "2026-10-11",
+   "license": "не охраняется авторским правом, подп. 1 п. 6 ст. 1259 ГК РФ (официальные документы)"
+  },
+  {
+   "id": "pravo-208n-243n",
+   "title": "208н/243н: Об утверждении Положения об организации оказания паллиативной медицинской помощи, включая порядок взаимодействия медицинских организаций, организаций социального обслуживания и общественных объединений, иных некоммерческих организаций, осуществляющих свою деятельность в сфере охраны здоровья",
+   "url": "http://publication.pravo.gov.ru/document/0001202505290031",
+   "eoNumber": "0001202505290031",
+   "retrieved_at": "2026-10-11",
+   "license": "не охраняется авторским правом, подп. 1 п. 6 ст. 1259 ГК РФ (официальные документы)"
+  },
+  {
+   "id": "pravo-505n",
+   "title": "505н: Об утверждении Порядка передачи от медицинской организации пациенту (его законному представителю) медицинских изделий, предназначенных для поддержания функций органов и систем организма человека, для использования на дому при оказании паллиативной медицинской помощи",
+   "url": "http://publication.pravo.gov.ru/document/0001201909250013",
+   "eoNumber": "0001201909250013",
+   "retrieved_at": "2026-10-11",
+   "license": "не охраняется авторским правом, подп. 1 п. 6 ст. 1259 ГК РФ (официальные документы)"
+  },
+  {
+   "id": "pravo-789n",
+   "title": "789н: Об утверждении порядка и сроков предоставления медицинских документов (их копий) и выписок из них",
+   "url": "http://publication.pravo.gov.ru/document/0001202009240027",
+   "eoNumber": "0001202009240027",
+   "retrieved_at": "2026-10-11",
+   "license": "не охраняется авторским правом, подп. 1 п. 6 ст. 1259 ГК РФ (официальные документы)"
+  },
+  {
+   "id": "pravo-pp-588",
+   "title": "588: О признании лица инвалидом",
+   "url": "http://publication.pravo.gov.ru/document/0001202204080035",
+   "eoNumber": "0001202204080035",
+   "retrieved_at": "2026-10-11",
+   "license": "не охраняется авторским правом, подп. 1 п. 6 ст. 1259 ГК РФ (официальные документы)"
+  }
+ ],
+ "content_sha256": "ee3903bed7add904f7654f77d314be9da4d5718a09c6f697fa5273dba0802d2d",
+ "counts": {
+  "items": 21,
+  "unverified": 3,
+  "excluded": 0
+ },
+ "items": [
+  {
+   "id": "59fz-answer",
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "ips-59-fz",
+   "group": "appeals",
+   "situation": "Написали обращение или жалобу в государственный орган или государственную медицинскую организацию",
+   "result_label": "Ответ должен прийти не позже",
+   "from_event": "received",
+   "from_event_label": "Когда обращение поступило",
+   "who": "орган или организация, куда вы написали",
+   "value": 30,
+   "unit": "calendar_days",
+   "direction": "forward",
+   "pre": {
+    "value": 3,
+    "unit": "calendar_days",
+    "label": "на регистрацию (в законе «в течение трех дней», какие это дни, не сказано, считаем календарными)",
+    "interpretation": true
+   },
+   "extension": {
+    "value": 30,
+    "unit": "calendar_days",
+    "label": "срок могут продлить, но должны сообщить вам"
+   },
+   "shift_if_nonworking": "unknown",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "59-fz"
+   ],
+   "quote_ids": [
+    "59-fz-s8-2",
+    "59-fz-s12-1",
+    "59-fz-s12-2"
+   ],
+   "ambiguous": true,
+   "ambiguity_note": "В норме не сказано, переносится ли срок, если последний день выпал на выходной или праздник. Срок считается со дня регистрации, а на регистрацию закон даёт три дня с момента поступления. В законе сроки названы днями без слова «календарных», календарными их считает проект",
+   "escalation_ids": [
+    "esc-no-answer",
+    "esc-not-on-merits"
+   ],
+   "audience": [
+    "family",
+    "org",
+    "lawyer"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   },
+   "unit_interpretation": "В законе сроки названы просто днями, без слова «календарных» или «рабочих». Календарными их считает проект, это толкование, юрист в РФ его не проверял"
+  },
+  {
+   "id": "59fz-redirect",
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "ips-59-fz",
+   "group": "appeals",
+   "situation": "Обращение отправили не туда, куда нужно",
+   "result_label": "Обращение должны переслать по адресу и сообщить вам не позже",
+   "from_event": "received",
+   "from_event_label": "Когда обращение поступило",
+   "who": "орган или организация, куда вы написали",
+   "value": 7,
+   "unit": "calendar_days",
+   "direction": "forward",
+   "pre": {
+    "value": 3,
+    "unit": "calendar_days",
+    "label": "на регистрацию (в законе «в течение трех дней», какие это дни, не сказано, считаем календарными)",
+    "interpretation": true
+   },
+   "extension": null,
+   "shift_if_nonworking": "unknown",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "59-fz"
+   ],
+   "quote_ids": [
+    "59-fz-s8-2",
+    "59-fz-s8-3"
+   ],
+   "ambiguous": true,
+   "ambiguity_note": "В норме не сказано, переносится ли срок, если последний день выпал на выходной или праздник. В законе сроки названы днями без слова «календарных», календарными их считает проект",
+   "escalation_ids": [
+    "esc-redirected"
+   ],
+   "audience": [
+    "family",
+    "org",
+    "lawyer"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   },
+   "unit_interpretation": "В законе сроки названы просто днями, без слова «календарных» или «рабочих». Календарными их считает проект, это толкование, юрист в РФ его не проверял"
+  },
+  {
+   "id": "208n-p23-transition",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-208n-243n",
+   "group": "transition",
+   "situation": "Ребёнку, который получает паллиативную помощь, скоро исполнится 18",
+   "result_label": "Выписку во взрослую поликлинику и взрослую паллиативную службу должны направить не позже",
+   "from_event": "turns-18",
+   "from_event_label": "Дата, когда исполнится 18",
+   "who": "в пункте не сказано, кто направляет; спросите медицинскую организацию, которая наблюдает ребёнка",
+   "value": 90,
+   "unit": "working_days",
+   "direction": "backward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 5,
+   "norm_ids": [
+    "208n-243n"
+   ],
+   "quote_ids": [
+    "208n-243n-p23"
+   ],
+   "ambiguous": true,
+   "ambiguity_note": "В пункте не сказано прямо, какая организация направляет выписку",
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "208n-p10-first-visit",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-208n-243n",
+   "group": "care",
+   "situation": "Получили медицинское заключение о паллиативной помощи или обратились за ней",
+   "result_label": "Первичный осмотр должны провести не позже",
+   "from_event": "conclusion-or-request",
+   "from_event_label": "Когда обратились или получили заключение",
+   "who": "поликлиника или фельдшерский пункт, которые оказывают первичную паллиативную помощь",
+   "value": 2,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "208n-243n"
+   ],
+   "quote_ids": [
+    "208n-243n-p10"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "208n-p20-after-discharge",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-208n-243n",
+   "group": "care",
+   "situation": "Выписали из стационара, где оказывали паллиативную помощь",
+   "result_label": "Первичный осмотр должны организовать не позже",
+   "from_event": "discharged",
+   "from_event_label": "День выписки",
+   "who": "медицинская организация, которая получила сведения о пациенте",
+   "value": 2,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "208n-243n"
+   ],
+   "quote_ids": [
+    "208n-243n-p20"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "208n-a38-social-visit",
+   "verified": true,
+   "verified_at": "2026-10-12",
+   "source_ref": "pravo-208n-243n",
+   "group": "care",
+   "situation": "Медицинская организация передала в соцзащиту обращение о социальном обслуживании человека, который не может себя обслуживать",
+   "result_label": "Должны прийти к человеку и рассказать, как получить социальное обслуживание, не позже",
+   "from_event": "social-request-received",
+   "from_event_label": "Когда соцзащита получила обращение медицинской организации",
+   "who": "уполномоченный орган или уполномоченная организация в сфере социального обслуживания",
+   "value": 2,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "208n-243n"
+   ],
+   "quote_ids": [
+    "208n-243n-a38-p9"
+   ],
+   "ambiguous": true,
+   "ambiguity_note": "Срок считают с того дня, когда соцзащита получила обращение, а не с того, когда его отправили. Эту дату можно узнать в медицинской организации или в соцзащите",
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "208n-a38-social-decision",
+   "verified": true,
+   "verified_at": "2026-10-12",
+   "source_ref": "pravo-208n-243n",
+   "group": "care",
+   "situation": "Подали заявление и документы, чтобы человека признали нуждающимся в социальном обслуживании",
+   "result_label": "Решение о социальном обслуживании должны принять не позже",
+   "from_event": "social-application-filed",
+   "from_event_label": "Когда подали заявление и документы",
+   "who": "в пункте не сказано, кто принимает решение; спросите там, куда подали заявление",
+   "value": 2,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "208n-243n"
+   ],
+   "quote_ids": [
+    "208n-243n-a38-p10"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "505n-vk-decision",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-505n",
+   "group": "devices",
+   "situation": "Врач выявил показания к медицинскому изделию для дома, документы передали на врачебную комиссию",
+   "result_label": "Врачебная комиссия должна решить не позже",
+   "from_event": "documents-received",
+   "from_event_label": "Когда в медицинскую организацию поступили заключение врача и согласие на медицинское вмешательство, а если передают аппарат ИВЛ или медицинскую кровать, ещё и анкета о домашних условиях",
+   "who": "врачебная комиссия медицинской организации",
+   "value": 3,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "505n"
+   ],
+   "quote_ids": [
+    "505n-p4",
+    "505n-p3"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "505n-transfer",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-505n",
+   "group": "devices",
+   "situation": "Врачебная комиссия решила передать медицинское изделие для дома",
+   "result_label": "Изделие должны передать не позже",
+   "from_event": "vk-decision",
+   "from_event_label": "Дата решения врачебной комиссии",
+   "who": "медицинская организация",
+   "value": 5,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "505n"
+   ],
+   "quote_ids": [
+    "505n-p5"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "180n-protocol-extract",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-180n",
+   "group": "records",
+   "situation": "Попросили выписку из протокола врачебной комиссии",
+   "result_label": "Выписку должны выдать не позже",
+   "from_event": "request-received",
+   "from_event_label": "Когда запрос поступил в медицинскую организацию",
+   "who": "медицинская организация",
+   "value": 3,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "180n"
+   ],
+   "quote_ids": [
+    "180n-p16"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "789n-incomplete-request",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-789n",
+   "group": "records",
+   "situation": "Запросили медицинские документы, а в запросе чего-то не хватает",
+   "result_label": "Должны сообщить, чего не хватает, не позже",
+   "from_event": "request-registered",
+   "from_event_label": "Когда запрос зарегистрировали",
+   "who": "медицинская организация",
+   "value": 14,
+   "unit": "calendar_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "unknown",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "789n"
+   ],
+   "quote_ids": [
+    "789n-p5"
+   ],
+   "ambiguous": true,
+   "ambiguity_note": "В норме не сказано, переносится ли срок, если последний день выпал на выходной или праздник",
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "789n-copies",
+   "verified": false,
+   "verified_at": null,
+   "source_ref": "pravo-789n",
+   "group": "records",
+   "situation": "Запросили копии медицинских документов или выписку из них",
+   "result_label": "Документы должны выдать не позже",
+   "from_event": "request-registered",
+   "from_event_label": "Когда запрос зарегистрировали",
+   "who": "медицинская организация",
+   "value": 30,
+   "unit": "calendar_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "unknown",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "789n",
+    "59-fz"
+   ],
+   "quote_ids": [
+    "789n-p8",
+    "59-fz-s12-1"
+   ],
+   "ambiguous": true,
+   "ambiguity_note": "Пункт 8 отсылает к срокам закона о рассмотрении обращений граждан. Текст закона не сверен с официальной публикацией. В норме не сказано, переносится ли срок, если последний день выпал на выходной или праздник",
+   "escalation_ids": [
+    "esc-no-answer"
+   ],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "789n-inpatient",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-789n",
+   "group": "records",
+   "situation": "Человек в стационаре или дневном стационаре, попросили выписку или копии документов",
+   "result_label": "Должны выдать не позже",
+   "from_event": "requested",
+   "from_event_label": "Когда попросили",
+   "who": "медицинская организация",
+   "value": 1,
+   "unit": "within_24h",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "789n"
+   ],
+   "quote_ids": [
+    "789n-p8-a2"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "pp588-vk-referral",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-pp-588",
+   "group": "mse",
+   "situation": "Врачебная комиссия решила готовить направление на медико-социальную экспертизу",
+   "result_label": "Решение о направлении и обследования должны быть не позже",
+   "from_event": "vk-prepare-decision",
+   "from_event_label": "Дата решения врачебной комиссии о подготовке направления",
+   "who": "медицинская организация",
+   "value": 30,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "pp-588"
+   ],
+   "quote_ids": [
+    "pp-588-p17-2"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "208n-a38-mse-consent",
+   "verified": true,
+   "verified_at": "2026-10-12",
+   "source_ref": "pravo-208n-243n",
+   "group": "mse",
+   "situation": "Врачебная комиссия решила направить человека, которому нужна паллиативная помощь, на медико-социальную экспертизу",
+   "result_label": "Лечащий врач должен сообщить о решении и оформить согласие на экспертизу не позже",
+   "from_event": "vk-mse-decision",
+   "from_event_label": "Дата решения врачебной комиссии о направлении на экспертизу",
+   "who": "лечащий врач",
+   "value": 1,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "208n-243n"
+   ],
+   "quote_ids": [
+    "208n-243n-a38-p28"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "pp588-referral",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-pp-588",
+   "group": "mse",
+   "situation": "Человека признали нуждающимся в паллиативной помощи, нужно направление на медико-социальную экспертизу",
+   "result_label": "Направить на экспертизу должны не позже",
+   "from_event": "exam-results",
+   "from_event_label": "Когда получили результаты обследований для экспертизы",
+   "who": "медицинская организация по решению врачебной комиссии",
+   "value": 1,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "pp-588"
+   ],
+   "quote_ids": [
+    "pp-588-p17"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "pp588-mse",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-pp-588",
+   "group": "mse",
+   "situation": "Направление на медико-социальную экспертизу поступило в бюро",
+   "result_label": "Экспертизу должны провести не позже",
+   "from_event": "referral-received",
+   "from_event_label": "Когда направление поступило в бюро",
+   "who": "бюро медико-социальной экспертизы",
+   "value": 3,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "pp-588"
+   ],
+   "quote_ids": [
+    "pp-588-p37"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "pp588-appeal-main",
+   "verified": true,
+   "verified_at": "2026-10-12",
+   "source_ref": "pravo-pp-588",
+   "group": "mse",
+   "situation": "Не согласны с решением бюро медико-социальной экспертизы и подали заявление об обжаловании",
+   "result_label": "Главное бюро должно провести экспертизу и вынести решение не позже",
+   "from_event": "appeal-received",
+   "from_event_label": "Когда заявление об обжаловании поступило в главное бюро",
+   "who": "главное бюро медико-социальной экспертизы",
+   "value": 30,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "pp-588"
+   ],
+   "quote_ids": [
+    "pp-588-p56"
+   ],
+   "ambiguous": true,
+   "ambiguity_note": "Срок считают с того дня, когда заявление поступило в главное бюро. Если заявление подали через бюро, которое проводило экспертизу, в пункте не сказано, когда оно поступит в главное бюро. Обжаловать решение можно в месячный срок со дня его получения (п. 55 Правил), этот срок калькулятор пока не считает",
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "100n-deferred",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-100n",
+   "group": "pharmacy",
+   "situation": "В аптеке нет лекарства, выписанного по рецепту",
+   "result_label": "Лекарство должны выдать не позже",
+   "from_event": "pharmacy-request",
+   "from_event_label": "Когда обратились в аптеку",
+   "who": "аптека",
+   "value": 10,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "100n"
+   ],
+   "quote_ids": [
+    "100n-a1-p12"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "100n-deferred-cito",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-100n",
+   "group": "pharmacy",
+   "situation": "В аптеке нет лекарства, а на рецепте пометка «cito» (срочно)",
+   "result_label": "Лекарство должны выдать не позже",
+   "from_event": "pharmacy-request",
+   "from_event_label": "Когда обратились в аптеку",
+   "who": "аптека",
+   "value": 3,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "100n"
+   ],
+   "quote_ids": [
+    "100n-a1-p12"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  },
+  {
+   "id": "100n-deferred-purchase",
+   "verified": true,
+   "verified_at": "2026-10-11",
+   "source_ref": "pravo-100n",
+   "group": "pharmacy",
+   "situation": "В аптеке нет лекарства, и его нужно закупить",
+   "result_label": "Лекарство должны выдать не позже",
+   "from_event": "pharmacy-request",
+   "from_event_label": "Когда обратились в аптеку",
+   "who": "аптека",
+   "value": 30,
+   "unit": "working_days",
+   "direction": "forward",
+   "pre": null,
+   "extension": null,
+   "shift_if_nonworking": "no",
+   "margin_working_days": 0,
+   "norm_ids": [
+    "100n"
+   ],
+   "quote_ids": [
+    "100n-a1-p12"
+   ],
+   "ambiguous": false,
+   "ambiguity_note": null,
+   "escalation_ids": [],
+   "audience": [
+    "family",
+    "org"
+   ],
+   "legal_review": {
+    "status": "none",
+    "role": null,
+    "reviewed_at": null,
+    "expires_at": null,
+    "ref": null
+   }
+  }
+ ]
+}

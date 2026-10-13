@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openpalliative.github.io/pal-devices-data/data/v1/quotes.schema.json",
+  "title": "Дословные цитаты из официальных публикаций",
+  "type": "object",
+  "required": [
+    "dataset",
+    "items"
+  ],
+  "properties": {
+    "dataset": {
+      "const": "quotes"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "eoNumber",
+          "id",
+          "lint_allow",
+          "point",
+          "scan_page",
+          "source_ref",
+          "text_verbatim",
+          "url",
+          "verified",
+          "verified_at"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "verified_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "x-message-ru": "дата в виде ГГГГ-ММ-ДД или пусто"
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "text_verbatim": {
+            "type": "string"
+          },
+          "eoNumber": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\d{16}$"
+          },
+          "point": {
+            "type": "string",
+            "minLength": 1
+          },
+          "scan_page": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "lint_allow": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "url": {
+            "type": "string"
+          },
+          "moved_to": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+:[a-z0-9-]+$",
+            "description": "репо и id, где живёт цитата"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "verified": {
+                  "const": false
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "x-schema-version": "1.1.0"
+}

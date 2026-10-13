@@ -1,0 +1,233 @@
+.op-rows {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  border-top: 1px solid var(--op-border);
+  max-width: var(--op-col);
+}
+
+.op-rows > li {
+  margin: 0;
+  max-width: none;
+  border-bottom: 1px solid var(--op-border);
+}
+
+.op-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 56px;
+  padding: 12px 4px;
+  color: var(--op-text);
+  text-decoration: none;
+}
+
+a.op-row:hover {
+  color: var(--op-text);
+  background: var(--op-surface);
+}
+
+a.op-row:hover .op-row__title {
+  text-decoration-thickness: 3px;
+}
+
+.op-row__icon {
+  width: 1.5em;
+  height: 1.5em;
+  color: var(--op-primary);
+}
+
+.op-row__text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.op-row__title {
+  font-weight: 600;
+  line-height: 1.35;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--op-border);
+  text-underline-offset: 0.18em;
+}
+
+.op-row__hint {
+  color: var(--op-muted);
+  font-size: var(--op-size-small);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.op-row__chev {
+  color: var(--op-muted);
+}
+
+.op-row--soon .op-row__title {
+  text-decoration: none;
+  color: var(--op-muted);
+}
+
+.op-row--soon .op-row__icon {
+  color: var(--op-muted);
+}
+
+.op-now {
+  margin: 0 0 32px;
+  padding: 18px 20px 16px;
+  background: var(--op-highlight);
+  border-left: 6px solid var(--op-primary);
+  border-radius: 0 var(--op-radius) var(--op-radius) 0;
+  max-width: var(--op-col);
+}
+
+.op-now__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--op-size-h3);
+  line-height: 1.35;
+  margin: 0 0 10px;
+}
+
+.op-now__title .op-icon {
+  color: var(--op-primary);
+}
+
+.op-now__topic {
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.op-now__tels {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 28em;
+}
+
+.op-now__tels li {
+  margin: 0;
+  max-width: none;
+}
+
+.op-now__tels a.op-now__tel {
+  white-space: normal;
+}
+
+.op-now__tel {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 56px;
+  height: 100%;
+  padding: 6px 14px 8px;
+  background: var(--op-surface);
+  border: 2px solid var(--op-text);
+  border-radius: var(--op-radius);
+  color: var(--op-text);
+  text-decoration: none;
+}
+
+.op-now__tel:hover {
+  color: var(--op-text);
+  background: var(--op-bg);
+}
+
+.op-now__num {
+  font-weight: 700;
+  font-size: var(--op-size-tel);
+  line-height: 1.15;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.15em;
+}
+
+.op-now__label {
+  font-size: var(--op-size-small);
+  line-height: 1.3;
+  color: var(--op-muted);
+}
+
+.op-now__notes {
+  margin: -4px 0 14px;
+  padding-left: 1.1em;
+  font-size: var(--op-size-small);
+}
+
+.op-now__other {
+  margin: 0 0 12px;
+  font-size: var(--op-size-small);
+}
+
+.op-now__topic-inline {
+  font-weight: 600;
+}
+
+.op-now__other a[href^="tel:"] {
+  font-weight: 700;
+  font-size: var(--op-size-h3);
+  color: var(--op-text);
+}
+
+.op-now--compact .op-now__state {
+  display: block;
+}
+
+.op-now__other-label {
+  display: block;
+  color: var(--op-text);
+}
+
+.op-now__checked {
+  margin: 0;
+  font-size: var(--op-size-small);
+  color: var(--op-text);
+}
+
+.op-now__src-title {
+  font-size: var(--op-size-body);
+  margin: 20px 0 8px;
+}
+
+.op-now__sources {
+  margin: 0;
+  font-size: var(--op-size-small);
+}
+
+.op-now--compact {
+  padding: 10px 12px 4px;
+  border-left-width: 5px;
+  margin-bottom: 24px;
+}
+
+.op-now--compact .op-now__tels {
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.op-now--compact .op-now__tel {
+  min-height: 48px;
+  padding: 4px 12px 5px;
+}
+
+.op-now--compact .op-now__label {
+  line-height: 1.2;
+}
+
+.op-now--compact .op-now__other {
+  margin: 0 0 2px;
+  line-height: 1.45;
+}
+
+.op-now--compact .op-now__other a[href^="tel:"] {
+  font-size: var(--op-size-body);
+}
+
+.op-now--compact .op-now__checked {
+  line-height: 1.4;
+}

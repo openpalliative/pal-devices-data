@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+HUB="${OP_HUB:-../openpalliative.github.io}"
+test -f "$HUB/opsite/VERSION" || { echo "Не найден хаб: $HUB"; exit 1; }
+rsync -a --delete --exclude '__pycache__' --exclude '*.pyc' --exclude '.DS_Store' "$HUB/opsite/" ./opsite/
+( cd opsite && shasum -a 256 -c MANIFEST.sha256 --quiet )
+echo "opsite $(cat opsite/VERSION)"

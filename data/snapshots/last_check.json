@@ -1,9 +1,9 @@
 {
- "checked_at": "2026-10-13",
+ "checked_at": "2026-11-02",
  "consecutive_failures": 0,
  "error": "",
  "missing_398n": [],
- "nkmi_version": "20261001",
+ "nkmi_version": "20261101",
  "ok": true,
  "present_398n": 170
 }
